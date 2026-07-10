@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DesignThemeSelect } from "@/components/DesignThemeSelect";
 import { navigation, siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -22,15 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('ltca-design-theme')||'heritage';var a=['heritage','festival','night','global','crisis','mosaic','map','ledger','quilt','market'];document.documentElement.dataset.theme=a.indexOf(t)>-1?t:'heritage'}catch(e){document.documentElement.dataset.theme='heritage'}",
-          }}
-        />
-      </head>
+    <html lang="en">
       <body>
         <header className="siteHeader">
           <div className="navWrap">
@@ -43,7 +34,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {item.label}
                 </Link>
               ))}
-              <DesignThemeSelect />
             </nav>
           </div>
         </header>

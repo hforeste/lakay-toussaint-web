@@ -16,8 +16,16 @@ export default function LeadershipPage() {
         the Founding Executive Director story, and board leadership as approved
         details become available.
       </PageHeader>
-      <section className="section">
-        <article className="card">
+      <section className="section splitSection">
+        <div className="sectionTitle">
+          <p className="eyebrow">Origin</p>
+          <h2>Leadership credibility starts with a clear story.</h2>
+          <p className="lead">
+            Funders and partners should quickly understand why LTCA exists, who
+            is stewarding it, and how board details will be shared as approved.
+          </p>
+        </div>
+        <article className="card storyCard">
           <h2>Founding Executive Director Story</h2>
           <p>
             LTCA was founded to answer a clear community need: a Haitian-led
@@ -32,6 +40,10 @@ export default function LeadershipPage() {
         </article>
       </section>
       <section className="section">
+        <div className="sectionTitle">
+          <p className="eyebrow">People</p>
+          <h2>Board and leadership</h2>
+        </div>
         <div className="grid">
           {leadership.map((person) => (
             <article className="card" key={person.id}>

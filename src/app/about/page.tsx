@@ -17,20 +17,24 @@ export default function AboutPage() {
       </PageHeader>
       <section className="section">
         <div className="grid two">
-          <article className="card">
+          <article className="card storyCard">
             <h2>Mission</h2>
             <p>{organizationCopy.mission}</p>
           </article>
-          <article className="card">
+          <article className="card storyCard">
             <h2>Vision</h2>
             <p>{organizationCopy.vision}</p>
           </article>
         </div>
       </section>
-      <section className="section">
+      <section className="section splitSection">
         <div className="sectionTitle">
           <p className="eyebrow">Name & Heritage</p>
           <h2>Why Lakay Toussaint</h2>
+          <p className="lead">
+            The name holds the promise of home, the legacy of liberation, and
+            the discipline of building together.
+          </p>
         </div>
         <div className="grid">
           <article className="card">
@@ -47,7 +51,7 @@ export default function AboutPage() {
           </article>
         </div>
       </section>
-      <section className="section">
+      <section className="section featureSection">
         <div className="sectionTitle">
           <p className="eyebrow">Values</p>
           <h2>Rooted in service and belonging</h2>

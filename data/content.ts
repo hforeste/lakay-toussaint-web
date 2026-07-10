@@ -36,7 +36,7 @@ export const values = [
     sourceStatus: "source-backed",
   },
   {
-    id: "heritage",
+    id: "heritage-dignity",
     title: "Heritage and dignity",
     summary:
       "We preserve Haitian history, culture, language, and traditions with pride and care.",

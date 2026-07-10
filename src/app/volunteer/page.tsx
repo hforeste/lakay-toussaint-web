@@ -16,7 +16,15 @@ export default function VolunteerPage() {
         Volunteers help LTCA welcome families, support events, translate,
         outreach, and set up the community infrastructure our people need.
       </PageHeader>
-      <section className="section">
+      <section className="section splitSection">
+        <div className="sectionTitle">
+          <p className="eyebrow">Volunteer engine</p>
+          <h2>Small roles make the community feel cared for.</h2>
+          <p className="lead">
+            Event day help, outreach, translation, and setup are the practical
+            work that makes a gathering feel like Lakay.
+          </p>
+        </div>
         <div className="grid two">
           <article className="card">
             <h2>Why now</h2>
@@ -39,6 +47,7 @@ export default function VolunteerPage() {
       </section>
       <section className="section">
         <div className="sectionTitle">
+          <p className="eyebrow">Get involved</p>
           <h2>Sign up to volunteer</h2>
         </div>
         <VolunteerForm />

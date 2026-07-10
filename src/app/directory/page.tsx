@@ -16,6 +16,17 @@ export default function DirectoryPage() {
         A critical Phase 1 community resource for Haitian-owned businesses,
         Haitian-serving services, churches, and mutual-aid resources.
       </PageHeader>
+      <section className="section directoryCallout">
+        <div>
+          <p className="eyebrow">Community Infrastructure</p>
+          <h2>A practical hub for Haitian-owned and Haitian-serving resources.</h2>
+          <p>
+            Listings are reviewed before publishing so the directory can become
+            trusted, current, and useful for families, partners, and local
+            businesses.
+          </p>
+        </div>
+      </section>
       <section className="section">
         {directoryResources.length ? (
           <div className="grid">
@@ -47,7 +58,7 @@ export default function DirectoryPage() {
           </article>
         )}
       </section>
-      <section className="section">
+      <section className="section splitSection">
         <div className="sectionTitle">
           <p className="eyebrow">Submit Your Business</p>
           <h2>Request a directory listing</h2>

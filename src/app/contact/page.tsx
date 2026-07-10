@@ -16,7 +16,15 @@ export default function ContactPage() {
         Community members, volunteers, partners, funders, and media can contact
         LTCA here.
       </PageHeader>
-      <section className="section">
+      <section className="section splitSection">
+        <div className="sectionTitle">
+          <p className="eyebrow">Start here</p>
+          <h2>One clear path for community, partners, funders, and media.</h2>
+          <p className="lead">
+            The contact page should make LTCA feel reachable and organized, not
+            like a form floating on an empty page.
+          </p>
+        </div>
         <div className="grid two">
           <article className="card">
             <h2>Contact information</h2>

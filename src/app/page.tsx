@@ -12,6 +12,14 @@ export default async function HomePage() {
   return (
     <div className="homePage">
       <section className="hero homeHero">
+        <Image
+          className="heroImage heroMedia"
+          src="/images/ltca-community-gathering.png"
+          alt="Haitian community members gathering at an outdoor Seattle cultural event"
+          width={1792}
+          height={1024}
+          priority
+        />
         <div className="heroCopy">
           <p className="eyebrow">{organizationCopy.missionStatement}</p>
           <h1>{organizationCopy.name}</h1>
@@ -38,17 +46,24 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-        <Image
-          className="heroImage heroMedia"
-          src="/images/community-hero.png"
-          alt="Haitian community members gathering at a warm outdoor cultural event"
-          width={1200}
-          height={900}
-          priority
-        />
       </section>
 
-      <section className="section missionSection">
+      <section className="impactStrip" aria-label="LTCA launch priorities">
+        <div>
+          <strong>Seattle&apos;s Haitian diaspora</strong>
+          <span>served through culture, service, justice, and opportunity</span>
+        </div>
+        <div>
+          <strong>Phase 1 focus</strong>
+          <span>events, donations, contact, leadership, and directory</span>
+        </div>
+        <div>
+          <strong>Fiscal sponsor</strong>
+          <span>donations routed through Byrd Barr Place</span>
+        </div>
+      </section>
+
+      <section className="section missionSection featureSection">
         <div className="sectionTitle">
           <p className="eyebrow">Mission</p>
           <h2>{organizationCopy.mission}</h2>
@@ -64,10 +79,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section programsSection">
+      <section className="section programsSection splitSection">
         <div className="sectionTitle">
           <p className="eyebrow">Featured Programs</p>
           <h2>Service over self. Community over gain.</h2>
+          <p className="lead">
+            LTCA&apos;s program model connects immediate needs with long-term
+            power: education, work, advocacy, culture, and rebuilding.
+          </p>
         </div>
         <div className="grid two">
           {programs.slice(0, 4).map((program) => (
@@ -80,14 +99,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section eventsSection">
+      <section className="section eventsSection eventFeatureSection">
         <div className="sectionTitle">
           <p className="eyebrow">Upcoming Events</p>
           <h2>Gather with the community</h2>
+          <p className="lead">
+            Events are the front door: celebration, resource-sharing, volunteer
+            momentum, and a visible Haitian presence in the region.
+          </p>
         </div>
         <div className="grid two">
           {events.map((event) => (
-            <article className="card" key={event.id}>
+            <article className="card eventCard" key={event.id}>
               <h3>{event.title}</h3>
               <p>{event.summary}</p>
               <p className="meta">
@@ -102,6 +125,21 @@ export default async function HomePage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section directoryCallout">
+        <div>
+          <p className="eyebrow">Community Hub</p>
+          <h2>Make the site useful after launch day.</h2>
+          <p>
+            The Haitian Business Directory gives community members a practical
+            reason to return: businesses, services, churches, and mutual-aid
+            resources in one trusted place.
+          </p>
+        </div>
+        <Link className="button primary" href="/directory">
+          Explore the directory
+        </Link>
       </section>
 
       <section className="section actionSection">

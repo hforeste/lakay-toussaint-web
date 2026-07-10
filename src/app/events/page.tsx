@@ -20,11 +20,20 @@ export default async function EventsPage() {
         Events are LTCA&apos;s biggest engine right now. Dates, locations, and
         RSVP links are powered by Firebase event records.
       </PageHeader>
-      <section className="section">
+      <section className="section eventFeatureSection">
+        <div className="sectionTitle">
+          <p className="eyebrow">What to expect</p>
+          <h2>Food, culture, organizing, and a visible Haitian presence.</h2>
+          <p className="lead">
+            These gatherings are not side projects. They are LTCA&apos;s
+            strongest engine for trust, fundraising, volunteers, and community
+            momentum.
+          </p>
+        </div>
         {events.length ? (
           <div className="grid two">
             {events.map((event) => (
-              <article className="card" key={event.id}>
+              <article className="card eventCard" key={event.id}>
                 <h2>{event.title}</h2>
                 <p>{event.summary}</p>
                 <p className="meta">

@@ -17,9 +17,9 @@ export default function DonatePage() {
       <PageHeader eyebrow="Donate" title={donationCopy.headline}>
         {donationCopy.body}
       </PageHeader>
-      <section className="section">
+      <section className="section actionSection">
         <div className="grid two">
-          <article className="card">
+          <article className="card donateCard">
             <h2>Give through our fiscal sponsor</h2>
             <p>{donationCopy.fiscalSponsorDisclosure}</p>
             <a className="button donate" href={donationHref}>
@@ -42,7 +42,15 @@ export default function DonatePage() {
           </article>
         </div>
       </section>
-      <section className="section">
+      <section className="section featureSection">
+        <div className="sectionTitle">
+          <p className="eyebrow">Where support goes</p>
+          <h2>Fund community strength across five pillars.</h2>
+          <p className="lead">
+            Donations should feel concrete: people welcomed, resources shared,
+            youth supported, and community infrastructure built.
+          </p>
+        </div>
         <div className="grid">
           {pillars.map((pillar) => (
             <article className="card" key={pillar.id}>
