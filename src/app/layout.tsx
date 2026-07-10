@@ -35,6 +35,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
               ))}
             </nav>
+            <details className="mobileMenu">
+              <summary aria-label="Open navigation menu">
+                <span className="hamburgerIcon" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <span>Menu</span>
+              </summary>
+              <nav className="mobileMenuPanel" aria-label="Mobile navigation">
+                {navigation.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </details>
           </div>
         </header>
         <main>{children}</main>

@@ -136,6 +136,76 @@ img {
   background: var(--red-deep);
 }
 
+.mobileMenu {
+  display: none;
+}
+
+.mobileMenu summary {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+  color: #fff;
+  background: var(--blue-deep);
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  font-weight: 900;
+  list-style: none;
+}
+
+.mobileMenu summary::-webkit-details-marker {
+  display: none;
+}
+
+.hamburgerIcon {
+  width: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.hamburgerIcon span {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  border-radius: 99px;
+}
+
+.mobileMenuPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(320px, calc(100vw - 32px));
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.mobileMenuPanel a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 12px;
+  color: var(--blue-deep);
+  border-radius: 6px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.mobileMenuPanel a:hover,
+.mobileMenuPanel a:focus-visible {
+  background: var(--cream);
+}
+
+.mobileMenuPanel a[href="/donate"] {
+  color: #fff;
+  background: var(--red);
+}
+
 .homeHero {
   min-height: calc(100vh - 76px);
   position: relative;
@@ -1022,6 +1092,24 @@ fieldset {
   }
 }
 
+@media (max-width: 760px) {
+  .navWrap {
+    min-height: 76px;
+    align-items: center;
+    flex-direction: row;
+    padding: 12px 0;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .mobileMenu {
+    position: relative;
+    display: block;
+  }
+}
+
 @media (max-width: 620px) {
   :root {
     --section-gap: 56px;
@@ -1055,28 +1143,6 @@ fieldset {
 
   .button {
     justify-content: center;
-  }
-
-  .nav {
-    width: 100%;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 8px 12px;
-    padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-
-  .nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav a {
-    flex: 0 0 auto;
-    font-size: 0.86rem;
-  }
-
-  .nav a[href="/donate"] {
-    min-height: 34px;
   }
 
   .impactStrip {
