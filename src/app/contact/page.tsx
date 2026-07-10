@@ -16,7 +16,7 @@ export default function ContactPage() {
         Community members, volunteers, partners, funders, and media can contact
         LTCA here.
       </PageHeader>
-      <section className="section splitSection">
+      <section className="section splitSection contactSection">
         <div className="sectionTitle">
           <p className="eyebrow">Start here</p>
           <h2>One clear path for community, partners, funders, and media.</h2>
@@ -25,8 +25,8 @@ export default function ContactPage() {
             like a form floating on an empty page.
           </p>
         </div>
-        <div className="grid two">
-          <article className="card">
+        <div className="contactGrid">
+          <article className="card contactInfoCard">
             <h2>Contact information</h2>
             <p>
               Email: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
@@ -38,7 +38,7 @@ export default function ContactPage() {
               </a>
             </p>
           </article>
-          <article className="card">
+          <article className="card contactFormCard">
             <h2>Send a message</h2>
             <ContactForm />
           </article>
