@@ -1,0 +1,14 @@
+.next
+node_modules
+out
+dist
+.env
+.env*.local
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+coverage
+tsconfig.tsbuildinfo
+.playwright
+.playwright-cli
+.firebase-local

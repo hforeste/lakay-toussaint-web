@@ -1,0 +1,36 @@
+{
+  "name": "lakay-toussaint-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "emulators": "node scripts/start-emulators.mjs",
+    "validate": "npm run typecheck && npm run build",
+    "validate:firebase": "node scripts/validate-firestore-emulator.mjs",
+    "validate:browser:install": "playwright-cli install-browser chromium",
+    "admin:create-user": "node scripts/create-auth-emulator-user.mjs",
+    "validate:admin": "node scripts/validate-admin-flow.mjs",
+    "validate:admin-ui": "node scripts/validate-admin-ui.mjs"
+  },
+  "dependencies": {
+    "firebase": "^11.10.0",
+    "next": "^15.3.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@playwright/cli": "^0.1.15",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.30.1",
+    "eslint-config-next": "^15.3.5",
+    "firebase-admin": "^14.1.0",
+    "firebase-tools": "^13.35.1",
+    "typescript": "^5.8.3"
+  }
+}
