@@ -54,8 +54,8 @@ export default async function HomePage() {
           <span>served through culture, service, justice, and opportunity</span>
         </div>
         <div>
-          <strong>Phase 1 focus</strong>
-          <span>events, donations, contact, leadership, and directory</span>
+          <strong>Community priorities</strong>
+          <span>events, giving, resources, leadership, and connection</span>
         </div>
         <div>
           <strong>Fiscal sponsor</strong>
@@ -130,7 +130,7 @@ export default async function HomePage() {
       <section className="section directoryCallout">
         <div>
           <p className="eyebrow">Community Hub</p>
-          <h2>Make the site useful after launch day.</h2>
+          <h2>Find Haitian-owned and Haitian-serving resources.</h2>
           <p>
             The Haitian Business Directory gives community members a practical
             reason to return: businesses, services, churches, and mutual-aid
