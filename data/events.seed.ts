@@ -20,7 +20,7 @@ export const eventSeedRecords: EventSeedRecord[] = [
       "A family-friendly outdoor celebration of Haitian food, culture, music, vendors, and community connection.",
     description:
       "A Taste of Haiti brings Seattle's Haitian diaspora and neighbors together for an afternoon of food, music, culture, small-business visibility, and community care. Come ready to eat, dance, meet local Haitian-owned vendors, connect with LTCA volunteers, and invite someone who needs to know this community exists.",
-    heroImageUrl: "/images/ltca-community-gathering.png",
+    heroImageUrl: "/images/events/taste-of-haiti-hero.png",
     ticketUrl: "https://tickets.example.com/a-taste-of-haiti-2026",
     rsvpUrl: "https://tickets.example.com/a-taste-of-haiti-2026",
     ticketCtaLabel: "Get picnic tickets",
@@ -118,7 +118,7 @@ export const eventSeedRecords: EventSeedRecord[] = [
       "A Haitian Independence Day celebration honoring history, culture, and community.",
     description:
       "The 1804 Celebration honors Haitian Independence Day with an evening of history, culture, intergenerational pride, food, music, and a renewed commitment to building community here while staying connected to Haiti. This gathering is designed for families, elders, students, artists, partners, and anyone who wants to understand why 1804 still matters.",
-    heroImageUrl: "/images/community-hero.png",
+    heroImageUrl: "/images/events/1804-celebration-hero.png",
     ticketUrl: "https://tickets.example.com/1804-celebration-2027",
     rsvpUrl: "https://tickets.example.com/1804-celebration-2027",
     ticketCtaLabel: "Reserve your seat",
