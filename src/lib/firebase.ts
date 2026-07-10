@@ -17,6 +17,7 @@ import {
   type Firestore,
 } from "firebase/firestore";
 import { eventSeedRecords } from "../../data";
+import type { EventFaqItem, EventHighlight, EventScheduleItem } from "../../data";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -83,13 +84,31 @@ export interface PublicEvent {
   id: string;
   slug: string;
   title: string;
+  subtitle?: string;
   startsAt: string;
+  endsAt?: string;
   locationName: string;
   locationAddress: string;
+  neighborhood?: string;
+  googleMapsUrl?: string;
+  googleMapsEmbedUrl?: string;
   summary: string;
   description: string;
+  heroImageUrl?: string;
+  ticketUrl?: string;
   rsvpUrl: string;
+  ticketCtaLabel?: string;
+  isFree?: boolean;
+  expectedAttendeeCount?: number;
+  attendeeCountLabel?: string;
+  whatsappShareText?: string;
+  instagramCaption?: string;
+  tiktokCaption?: string;
+  highlights?: EventHighlight[];
+  scheduleItems?: EventScheduleItem[];
+  faqItems?: EventFaqItem[];
   status: "draft" | "published" | "archived";
+  isFeatured?: boolean;
   order: number;
 }
 

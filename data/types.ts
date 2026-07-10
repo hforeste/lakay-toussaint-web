@@ -75,15 +75,48 @@ export interface EventSeedRecord {
   id: string;
   slug: string;
   title: string;
+  subtitle?: string;
   startsAt: string;
   endsAt?: string;
   locationName: string;
   locationAddress: string;
+  neighborhood?: string;
+  googleMapsUrl?: string;
+  googleMapsEmbedUrl?: string;
   summary: string;
   description: string;
+  heroImageUrl?: string;
+  ticketUrl?: string;
   rsvpUrl: string;
+  ticketCtaLabel?: string;
+  isFree?: boolean;
+  expectedAttendeeCount?: number;
+  attendeeCountLabel?: string;
+  whatsappShareText?: string;
+  instagramCaption?: string;
+  tiktokCaption?: string;
+  highlights?: EventHighlight[];
+  scheduleItems?: EventScheduleItem[];
+  faqItems?: EventFaqItem[];
   status: "draft" | "published" | "archived";
+  isFeatured?: boolean;
   order: number;
   pillarIds: PillarId[];
   sourceStatus: "sample";
+}
+
+export interface EventHighlight {
+  title: string;
+  description: string;
+}
+
+export interface EventScheduleItem {
+  time: string;
+  title: string;
+  description?: string;
+}
+
+export interface EventFaqItem {
+  question: string;
+  answer: string;
 }
