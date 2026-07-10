@@ -248,6 +248,19 @@ img {
   border-color: var(--red);
 }
 
+.donateCard .button.donate {
+  color: var(--red-deep);
+  background: #fffaf0;
+  border-color: #fffaf0;
+}
+
+.donateCard .button.donate:hover,
+.donateCard .button.donate:focus-visible {
+  color: var(--blue-deep);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
 .impactStrip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
