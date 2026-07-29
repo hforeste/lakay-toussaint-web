@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blueprint Officer"
+  short_description: "Verify Lakay Toussaint website work against the blueprint."
+  default_prompt: "Use the Blueprint Officer skill to review the current UI or content changes against the Lakay Toussaint website blueprint and report Pass, Pass with notes, or Needs revision."
