@@ -1,62 +1,109 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHeader } from "@/components/PageHeader";
-import { getEvents } from "@/lib/firebase";
-
-export const dynamic = "force-dynamic";
+import { DesignImage } from "@/components/DesignImage";
+import { imagery } from "@/lib/design-content";
 
 export const metadata: Metadata = {
   title: "Events",
-  description:
-    "Upcoming Lakay Toussaint Community Alliance events and RSVP links.",
+  description: "Community events from Lakay Toussaint Community Alliance.",
 };
 
-export default async function EventsPage() {
-  const events = await getEvents();
+const events = [
+  {
+    label: "1804 x Haitian Independence",
+    title: "1804: A Haitian Independence Day Celebration",
+    date: "Every New Year",
+    image: imagery.independence,
+    summary:
+      "On January 1, 1804, Haiti declared itself the first free Black republic in the world. Every New Year, we gather to honor that legacy the Haitian way, with soup joumou, music, history, and celebration.",
+  },
+  {
+    label: "Jou Drapo Ayisyen x Haitian Flag Day",
+    title: "Jou Drapo Ayisyen x Haitian Flag Day",
+    date: "Every May 18",
+    summary:
+      "In 1803 at Arcahaie, Catherine Flon sewed the blue and red together and the Haitian flag was born. Every May 18, we celebrate the flag and the story behind it, with our young people leading the way.",
+  },
+  {
+    label: "Goute Ayiti x Taste of Haiti",
+    title: "A Taste of Haiti",
+    date: "Every Labor Day",
+    image: imagery.taste,
+    summary:
+      "The picnic that started it all. Every Labor Day, the community gathers for Haitian food, live music, family activities, and joy, free and open to everyone.",
+  },
+  {
+    label: "Jounen Resous Kominote x Community Resource Fair",
+    title: "Jounen Resous Kominote x Community Resource Fair",
+    date: "Every November",
+    summary:
+      "One afternoon, every resource, all in Kreyol. Partner organizations gather under one roof for immigration legal help, healthcare enrollment, housing, schools, and job training.",
+    primary: true,
+  },
+];
 
+export default function EventsPage() {
   return (
     <>
-      <PageHeader eyebrow="Events" title="Community gatherings">
-        Events are LTCA&apos;s biggest engine right now. Dates, locations, and
-        RSVP links are powered by Firebase event records.
-      </PageHeader>
-      <section className="section eventFeatureSection">
-        <div className="sectionTitle">
-          <p className="eyebrow">What to expect</p>
-          <h2>Food, culture, organizing, and a visible Haitian presence.</h2>
-          <p className="lead">
-            These gatherings are not side projects. They are LTCA&apos;s
-            strongest engine for trust, fundraising, volunteers, and community
-            momentum.
+      <section className="section primary">
+        <div className="sectionInner" style={{ textAlign: "center" }}>
+          <span className="label">Sa k ap vini x Our Events</span>
+          <h1>
+            Lakay nou ouvri pou tout moun.
+            <br />
+            <span className="goldText">Our doors are open to all.</span>
+          </h1>
+          <p className="lead" style={{ marginInline: "auto" }}>
+            Four times a year, the lakay opens its doors wide. Come for the
+            food, stay for the family.
           </p>
         </div>
-        {events.length ? (
-          <div className="grid two">
-            {events.map((event) => (
-              <article className="card eventCard" key={event.id}>
-                <h2>{event.title}</h2>
+      </section>
+
+      <section className="section white">
+        <div className="sectionInner grid two">
+          {events.map((event) => (
+            <article className={`card ${event.primary ? "primaryCard" : ""}`} key={event.title}>
+              {event.image ? (
+                <div className="cardImage">
+                  <DesignImage src={event.image} alt="" />
+                </div>
+              ) : (
+                <div className="cardImage" style={{ display: "grid", placeItems: "center", background: event.primary ? "#fff" : "#001e37" }}>
+                  <span className="material-symbols-outlined icon" aria-hidden="true">diversity_3</span>
+                </div>
+              )}
+              <div className="cardBody">
+                <span className="flagBadge">{event.date}</span>
+                <span className="label">{event.label}</span>
+                <h3>{event.title}</h3>
                 <p>{event.summary}</p>
-                <p className="meta">
-                  {new Intl.DateTimeFormat("en-US", {
-                    dateStyle: "full",
-                    timeStyle: "short",
-                  }).format(new Date(event.startsAt))}
-                </p>
-                <p className="meta">
-                  {event.locationName}, {event.locationAddress}
-                </p>
-                <Link className="button primary" href={`/events/${event.slug}`}>
-                  View event
+                <Link className={event.primary ? "button lightAction" : "button secondaryAction"} href="/contact">
+                  Aprann plis x Learn More
                 </Link>
-              </article>
-            ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section low">
+        <div className="sectionInner split">
+          <div>
+            <h2>Rete konekte x Stay Connected</h2>
+            <p className="lead">
+              Join our mailing list to receive updates on upcoming events,
+              community news, and ways to get involved in the alliance.
+            </p>
           </div>
-        ) : (
-          <article className="card">
-            <h2>No public events yet</h2>
-            <p>Check back soon for upcoming LTCA gatherings.</p>
-          </article>
-        )}
+          <form className="footerSubscribe" style={{ alignItems: "end" }}>
+            <label className="field" style={{ flex: 1 }}>
+              <span>Email Address</span>
+              <input type="email" placeholder="you@example.com" />
+            </label>
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
       </section>
     </>
   );

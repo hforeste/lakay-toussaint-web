@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/PageHeader";
+import Link from "next/link";
 import { siteConfig } from "@/lib/site";
-import { donationCopy, pillars } from "../../../data";
 
 export const metadata: Metadata = {
-  title: "Donate",
-  description:
-    "Support Lakay Toussaint Community Alliance through its fiscal sponsor Byrd Barr Place.",
+  title: "Support Us",
+  description: "Support Lakay Toussaint Community Alliance.",
 };
 
 export default function DonatePage() {
@@ -14,50 +12,36 @@ export default function DonatePage() {
 
   return (
     <>
-      <PageHeader eyebrow="Donate" title={donationCopy.headline}>
-        {donationCopy.body}
-      </PageHeader>
-      <section className="section actionSection">
-        <div className="grid two">
-          <article className="card donateCard">
-            <h2>Give through our fiscal sponsor</h2>
-            <p>{donationCopy.fiscalSponsorDisclosure}</p>
-            <a className="button donate" href={donationHref}>
-              Donate now
-            </a>
-            {!siteConfig.donationUrl ? (
-              <p className="sourceNote">
-                Donation URL needed: set NEXT_PUBLIC_DONATION_URL once the Byrd
-                Barr Place-approved donation route is available.
-              </p>
-            ) : null}
-          </article>
-          <article className="card">
-            <h2>Your donation supports</h2>
-            <ul>
-              {donationCopy.useCases.map((useCase) => (
-                <li key={useCase}>{useCase}</li>
-              ))}
-            </ul>
-          </article>
-        </div>
-      </section>
-      <section className="section featureSection">
-        <div className="sectionTitle">
-          <p className="eyebrow">Where support goes</p>
-          <h2>Fund community strength across five pillars.</h2>
-          <p className="lead">
-            Donations should feel concrete: people welcomed, resources shared,
-            youth supported, and community infrastructure built.
+      <section className="section primary">
+        <div className="sectionInner" style={{ textAlign: "center" }}>
+          <span className="label">Fe yon don x Support Us</span>
+          <h1>Support a community worth building.</h1>
+          <p className="lead" style={{ marginInline: "auto" }}>
+            Your contribution supports immigration advocacy, youth mentorship,
+            cultural events, and rapid-response community care.
           </p>
         </div>
-        <div className="grid">
-          {pillars.map((pillar) => (
-            <article className="card" key={pillar.id}>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.summary}</p>
-            </article>
-          ))}
+      </section>
+      <section className="section white">
+        <div className="sectionInner grid two">
+          <article className="card pad goldBorder">
+            <h2>Give through our fiscal sponsor</h2>
+            <p>
+              Lakay Toussaint Community Alliance is fiscally sponsored by Byrd
+              Barr Place. Contributions are tax-deductible to the extent allowed by
+              law.
+            </p>
+            <Link className="button donate" href={donationHref}>Support Us</Link>
+          </article>
+          <article className="card pad">
+            <h2>Your gift supports</h2>
+            <ul>
+              <li>Immigration resource navigation and referrals</li>
+              <li>Youth academic and leadership programming</li>
+              <li>Workforce and economic mobility support</li>
+              <li>Community events that preserve Haitian culture</li>
+            </ul>
+          </article>
         </div>
       </section>
     </>

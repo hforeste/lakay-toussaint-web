@@ -1,171 +1,116 @@
-import Image from "next/image";
 import Link from "next/link";
-import { NewsletterForm } from "@/components/NewsletterForm";
-import { getEvents } from "@/lib/firebase";
-import { donationCopy, organizationCopy, pillars, programs } from "../../data";
+import { DesignImage } from "@/components/DesignImage";
+import { imagery, programCards, upcomingEvents } from "@/lib/design-content";
 
-export const dynamic = "force-dynamic";
-
-export default async function HomePage() {
-  const events = (await getEvents()).slice(0, 2);
-
+export default function HomePage() {
   return (
-    <div className="homePage">
-      <section className="hero homeHero">
-        <Image
-          className="heroImage heroMedia"
-          src="/images/ltca-community-gathering.png"
-          alt="Haitian community members gathering at an outdoor Seattle cultural event"
-          width={1792}
-          height={1024}
+    <>
+      <section className="hero">
+        <DesignImage
+          className="heroImage"
+          src={imagery.homeHero}
+          alt="Vibrant Haitian community gathering"
           priority
+          sizes="100vw"
         />
         <div className="heroCopy">
-          <p className="eyebrow">{organizationCopy.missionStatement}</p>
-          <h1>{organizationCopy.name}</h1>
-          <p className="heroMission">
-            <span>{organizationCopy.tagline}</span>{" "}
-            We serve Seattle&apos;s Haitian diaspora and the broader Pacific
-            Northwest Haitian community through{" "}
-            <strong>culture</strong>, <strong>service</strong>,{" "}
-            <strong>justice</strong>, <strong>opportunity</strong>, and{" "}
-            <strong>Haiti rebuilding</strong>.
+          <span className="label fill">Byenveni lakay ou</span>
+          <h1>Welcome home.</h1>
+          <p className="lead">
+            Seattle&apos;s home for Haitian culture, community, and connection.
+            Together, we ensure that No Haitian is Left Behind in the Pacific
+            Northwest.
           </p>
           <div className="actions">
-            <Link className="button donate" href="/donate">
-              Donate
-            </Link>
-            <Link className="button primary" href="/events">
-              See events
-            </Link>
-            <Link className="button secondary" href="/volunteer">
-              Volunteer
-            </Link>
-            <Link className="button secondary" href="/directory">
-              Find resources
-            </Link>
+            <Link className="button primaryAction" href="/events">See what&apos;s happening</Link>
+            <Link className="button lightAction" href="/join-us">Vin manm x Become a member</Link>
           </div>
         </div>
       </section>
 
-      <section className="impactStrip" aria-label="LTCA launch priorities">
-        <div>
-          <strong>Seattle&apos;s Haitian diaspora</strong>
-          <span>served through culture, service, justice, and opportunity</span>
-        </div>
-        <div>
-          <strong>Community priorities</strong>
-          <span>events, giving, resources, leadership, and connection</span>
-        </div>
-        <div>
-          <strong>Fiscal sponsor</strong>
-          <span>donations routed through Byrd Barr Place</span>
-        </div>
-      </section>
-
-      <section className="section missionSection featureSection">
-        <div className="sectionTitle">
-          <p className="eyebrow">Mission</p>
-          <h2>{organizationCopy.mission}</h2>
-          <p className="lead">{organizationCopy.vision}</p>
-        </div>
-        <div className="grid">
-          {pillars.map((pillar) => (
-            <article className="card" key={pillar.id}>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.summary}</p>
-            </article>
-          ))}
+      <section className="section white">
+        <div className="sectionInner">
+          <div className="sectionHeader">
+            <span className="label">Sa k ap vini</span>
+            <h2>Upcoming Events</h2>
+            <div className="goldRule" />
+          </div>
+          <div className="grid three">
+            {upcomingEvents.map((event) => (
+              <article className="card pad" key={event.title}>
+                <div className="eventDate">{event.date}</div>
+                <h3>{event.title}</h3>
+                <p>{event.summary}</p>
+                <p><strong>{event.location}</strong></p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section programsSection splitSection">
-        <div className="sectionTitle">
-          <p className="eyebrow">Featured Programs</p>
-          <h2>Service over self. Community over gain.</h2>
-          <p className="lead">
-            LTCA&apos;s program model connects immediate needs with long-term
-            power: education, work, advocacy, culture, and rebuilding.
-          </p>
-        </div>
-        <div className="grid two">
-          {programs.slice(0, 4).map((program) => (
-            <article className="card" key={program.id}>
-              <h3>{program.title}</h3>
-              <p>{program.summary}</p>
-              <p className="meta">Audience: {program.audience.join(", ")}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section eventsSection eventFeatureSection">
-        <div className="sectionTitle">
-          <p className="eyebrow">Upcoming Events</p>
-          <h2>Gather with the community</h2>
-          <p className="lead">
-            Events are the front door: celebration, resource-sharing, volunteer
-            momentum, and a visible Haitian presence in the region.
-          </p>
-        </div>
-        <div className="grid two">
-          {events.map((event) => (
-            <article className="card eventCard" key={event.id}>
-              <h3>{event.title}</h3>
-              <p>{event.summary}</p>
-              <p className="meta">
-                {new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "long",
-                  timeStyle: "short",
-                }).format(new Date(event.startsAt))}
-              </p>
-              <Link className="button secondary" href={`/events/${event.slug}`}>
-                Event details
-              </Link>
-            </article>
-          ))}
+      <section className="section low">
+        <div className="sectionInner">
+          <div className="sectionHeader center">
+            <span className="label">Pwogram nou yo</span>
+            <h2>Our Programs</h2>
+            <div className="goldRule" />
+          </div>
+          <div className="grid three">
+            {programCards.map((program, index) => (
+              <article className="card" key={program.title}>
+                <div className="cardImage">
+                  <DesignImage src={program.image} alt="" />
+                </div>
+                <div className="cardBody">
+                  {index === 0 ? <span className="flagBadge">Priyorite ane sa a</span> : null}
+                  <h3>{program.title}</h3>
+                  <p>{program.summary}</p>
+                  <Link className="button secondaryAction" href="/programs">Learn More</Link>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section directoryCallout">
-        <div>
-          <p className="eyebrow">Community Hub</p>
-          <h2>Find Haitian-owned and Haitian-serving resources.</h2>
-          <p>
-            The Haitian Business Directory gives community members a practical
-            reason to return: businesses, services, churches, and mutual-aid
-            resources in one trusted place.
-          </p>
-        </div>
-        <Link className="button primary" href="/directory">
-          Explore the directory
-        </Link>
-      </section>
-
-      <section className="section actionSection">
-        <div className="grid two">
-          <article className="card donateCard">
-            <p className="eyebrow">Donate</p>
-            <h2>{donationCopy.headline}</h2>
-            <p>{donationCopy.body}</p>
-            <Link className="button donate" href="/donate">
-              Give through our fiscal sponsor
-            </Link>
-            <Link className="button secondary" href="/volunteer">
-              Volunteer with LTCA
-            </Link>
-          </article>
-          <article className="card newsletterCard">
-            <p className="eyebrow">Stay Connected</p>
-            <h2>Subscribe to the LTCA newsletter</h2>
-            <p>
-              Get event updates, volunteer opportunities, and community news in
-              your inbox.
+      <section className="section primary">
+        <div className="sectionInner split">
+          <div>
+            <h2>From 1804 to Seattle: our story.</h2>
+            <div className="goldRule" />
+            <p className="lead">
+              The spirit of 1804 travels with us wherever we go. In the Pacific
+              Northwest, Lakay Toussaint Community Alliance stands as a testament
+              to resilience, dignity, and unity.
             </p>
-            <NewsletterForm />
+            <p className="lead">
+              Rooted in Seattle and connected to Haiti, we weave Caribbean
+              traditions into local community life so our children grow with
+              pride in their roots and wings for their future.
+            </p>
+            <Link className="button lightAction" href="/about">Read our story</Link>
+          </div>
+          <div className="imageFrame">
+            <DesignImage src={imagery.elder} alt="Haitian elder portrait with a Seattle backdrop" />
+          </div>
+        </div>
+      </section>
+
+      <section className="section white">
+        <div className="sectionInner">
+          <article className="card pad goldBorder" style={{ maxWidth: "900px", marginInline: "auto", textAlign: "center" }}>
+            <span className="material-symbols-outlined icon" aria-hidden="true">volunteer_activism</span>
+            <h2>Haitian culture is a story worth telling, and a community worth building.</h2>
+            <p>
+              Your contribution supports immigration advocacy, youth mentorship,
+              and cultural preservation in the Pacific Northwest.
+            </p>
+            <div className="actions" style={{ justifyContent: "center" }}>
+              <Link className="button donate" href="/donate">Support Us x Fe yon don</Link>
+            </div>
           </article>
         </div>
       </section>
-    </div>
+    </>
   );
 }
