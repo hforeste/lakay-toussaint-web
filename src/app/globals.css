@@ -45,7 +45,7 @@
   --headline-display: clamp(3rem, 7vw, 4rem);
   --headline-lg: clamp(2rem, 4vw, 2.7rem);
   --headline-md: clamp(1.35rem, 2vw, 1.6rem);
-  --body-lg: clamp(1.05rem, 1.5vw, 1.125rem);
+  --body-lg: clamp(1.18rem, 1.65vw, 1.28rem);
   --shadow: 0 20px 50px rgba(0, 30, 55, 0.12);
 }
 
@@ -61,11 +61,15 @@ body {
   margin: 0;
   color: var(--on-surface);
   background: var(--surface);
-  font-family: "League Spartan", Arial, Helvetica, sans-serif;
-  font-weight: 520;
+  font-family: "Garet", Arial, Helvetica, sans-serif;
+  font-size: 19px;
+  font-synthesis-weight: auto;
+  font-weight: 450;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-body,
 button,
 input,
 select,
@@ -88,8 +92,8 @@ button {
 }
 
 p {
-  font-weight: 540;
-  line-height: 1.6;
+  font-weight: 450;
+  line-height: 1.62;
 }
 
 .material-symbols-outlined {
@@ -145,7 +149,7 @@ p {
   align-items: center;
   gap: 0.85rem;
   color: var(--primary);
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -170,7 +174,7 @@ p {
 .donateButton,
 .mobileJoinButton,
 .button {
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-size: 0.94rem;
   font-weight: 800;
   line-height: 1;
@@ -252,7 +256,7 @@ p {
 
 .mobilePanel a {
   padding: 1rem;
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -348,7 +352,7 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   line-height: 1.1;
 }
 
@@ -375,7 +379,7 @@ h3 {
   max-width: 720px;
   color: var(--on-surface-variant);
   font-size: var(--body-lg);
-  font-weight: 580;
+  font-weight: 460;
 }
 
 .primary .lead,
@@ -540,12 +544,12 @@ h3 {
 
 .card p {
   color: var(--on-surface-variant);
-  font-weight: 560;
+  font-weight: 450;
 }
 
 .primaryCard p {
   color: rgba(255, 255, 255, 0.78);
-  font-weight: 560;
+  font-weight: 450;
 }
 
 .cardImage {
@@ -588,7 +592,7 @@ h3 {
 
 .eventDate {
   color: var(--secondary);
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-size: var(--headline-md);
   font-weight: 800;
   text-transform: uppercase;
@@ -610,7 +614,7 @@ h3 {
   padding: 0.25rem 0.75rem;
   color: #fff;
   background: var(--secondary);
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -722,7 +726,7 @@ textarea:focus {
 .footerGrid a,
 .footerBottom {
   color: rgba(255, 255, 255, 0.72);
-  font-weight: 560;
+  font-weight: 450;
 }
 
 .footerSubscribe {
@@ -739,7 +743,7 @@ textarea:focus {
   color: #fff;
   background: var(--secondary);
   border: 0;
-  font-family: "Garet", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -774,6 +778,10 @@ textarea:focus {
 }
 
 @media (max-width: 620px) {
+  body {
+    font-size: 18px;
+  }
+
   .brandMark span:last-child {
     display: none;
   }
