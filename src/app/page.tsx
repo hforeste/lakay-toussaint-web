@@ -15,7 +15,7 @@ export default function HomePage() {
         />
         <div className="heroCopy">
           <span className="label fill">Byenveni lakay ou</span>
-          <h1>Welcome home.</h1>
+          <h1>Welcome home</h1>
           <p className="lead">
             Seattle&apos;s home for Haitian culture, community, and connection.
             Together, we ensure that No Haitian is Left Behind in the Pacific
