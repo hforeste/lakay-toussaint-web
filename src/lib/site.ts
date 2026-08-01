@@ -14,10 +14,10 @@ export const siteConfig = {
 };
 
 export const navigation = [
-  { href: "/events", label: "Events" },
-  { href: "/programs", label: "Programs" },
-  { href: "/news", label: "News" },
   { href: "/about", label: "About" },
+  { href: "/programs", label: "Programs" },
+  { href: "/events", label: "Events" },
   { href: "/join-us", label: "Join Us" },
   { href: "/resources", label: "Resources" },
+  { href: "/news", label: "News" },
 ];
