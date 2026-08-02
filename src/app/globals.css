@@ -598,6 +598,125 @@ h3 {
   text-transform: uppercase;
 }
 
+.communityVideoLayout {
+  display: grid;
+  justify-items: center;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.communityVideoCopy {
+  max-width: 760px;
+  text-align: center;
+}
+
+.communityVideoCopy .goldRule {
+  margin-inline: auto;
+}
+
+.communityVideoCopy .lead {
+  margin-inline: auto;
+}
+
+.communityVideoCopy .actions {
+  justify-content: center;
+}
+
+.communityVideoButton {
+  position: relative;
+  display: block;
+  width: min(100%, 980px);
+  padding: 0;
+  overflow: hidden;
+  color: #fff;
+  background: var(--primary);
+  border: 2px solid var(--heritage-gold);
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 9;
+}
+
+.communityVideoButton:focus-visible,
+.iconButton:focus-visible,
+.videoModalBackdrop:focus-visible {
+  outline: 3px solid var(--heritage-gold);
+  outline-offset: 4px;
+}
+
+.communityVideo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.videoScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 30, 55, 0) 54%, rgba(0, 30, 55, 0.62)),
+    rgba(0, 30, 55, 0.08);
+}
+
+.videoModal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: var(--edge);
+}
+
+.videoModalBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 18, 32, 0.82);
+  border: 0;
+}
+
+.videoModalPanel {
+  position: relative;
+  width: min(1040px, 100%);
+  color: #fff;
+  background: var(--primary);
+  border: 2px solid var(--heritage-gold);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.videoModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 3vw, 1.5rem);
+  border-bottom: 1px solid rgba(239, 197, 119, 0.34);
+}
+
+.videoModalHeader h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+.iconButton {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+}
+
+.iconButton:hover {
+  color: var(--primary);
+  background: var(--heritage-gold);
+}
+
+.modalVideo {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
 .icon {
   color: var(--secondary);
   font-size: 2.7rem;
@@ -808,5 +927,13 @@ textarea:focus {
   .formGrid,
   .checkboxGrid {
     grid-template-columns: 1fr;
+  }
+
+  .videoModal {
+    padding: 0.75rem;
+  }
+
+  .videoModalHeader {
+    align-items: flex-start;
   }
 }

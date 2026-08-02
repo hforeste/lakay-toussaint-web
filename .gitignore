@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 .playwright
 .playwright-cli
 .firebase-local
+.vercel
+.next-dev*.log

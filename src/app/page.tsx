@@ -1,8 +1,22 @@
 import Link from "next/link";
+import { CommunityVideoMoment } from "@/components/CommunityVideoMoment";
 import { DesignImage } from "@/components/DesignImage";
-import { imagery, programCards, upcomingEvents } from "@/lib/design-content";
+import { imagery, programCards } from "@/lib/design-content";
 
 export default function HomePage() {
+  const communityPreviewWebm =
+    process.env.NEXT_PUBLIC_COMMUNITY_VIDEO_PREVIEW_WEBM_URL ||
+    "https://po7fftndziwoitbz.public.blob.vercel-storage.com/community/community-preview.webm";
+  const communityPreviewMp4 =
+    process.env.NEXT_PUBLIC_COMMUNITY_VIDEO_PREVIEW_MP4_URL ||
+    "https://po7fftndziwoitbz.public.blob.vercel-storage.com/community/community-preview.mp4";
+  const communityFullMp4 =
+    process.env.NEXT_PUBLIC_COMMUNITY_VIDEO_FULL_MP4_URL ||
+    "https://po7fftndziwoitbz.public.blob.vercel-storage.com/community/community-full.mp4";
+  const communityPoster =
+    process.env.NEXT_PUBLIC_COMMUNITY_VIDEO_POSTER_URL ||
+    "/images/video/community-video-poster.webp";
+
   return (
     <>
       <section className="hero">
@@ -30,21 +44,12 @@ export default function HomePage() {
 
       <section className="section white">
         <div className="sectionInner">
-          <div className="sectionHeader">
-            <span className="label">Sa k ap vini</span>
-            <h2>Upcoming Events</h2>
-            <div className="goldRule" />
-          </div>
-          <div className="grid three">
-            {upcomingEvents.map((event) => (
-              <article className="card pad" key={event.title}>
-                <div className="eventDate">{event.date}</div>
-                <h3>{event.title}</h3>
-                <p>{event.summary}</p>
-                <p><strong>{event.location}</strong></p>
-              </article>
-            ))}
-          </div>
+          <CommunityVideoMoment
+            fullMp4Src={communityFullMp4}
+            posterSrc={communityPoster}
+            previewMp4Src={communityPreviewMp4}
+            previewWebmSrc={communityPreviewWebm}
+          />
         </div>
       </section>
 
