@@ -61,7 +61,7 @@ export default async function EventsPage() {
                   {event.subtitle ? <p className="label">{event.subtitle}</p> : null}
                   <p>{event.summary}</p>
                   <Link className="button secondaryAction" href={`/events/${event.slug}`}>
-                    View details and register
+                    Aprann plis x Learn More
                   </Link>
                 </div>
               </article>
@@ -80,11 +80,45 @@ export default async function EventsPage() {
           <aside className="card pad" aria-labelledby="photo-media-release-title">
             <span className="label">Photo &amp; Media Notice</span>
             <h2 id="photo-media-release-title">Photo &amp; Media Release</h2>
-            <p>
+            <p className="lead">
               Photography, video, and audio recording may take place during Lakay Toussaint
-              Community Alliance events. If you do not wish to be photographed or recorded,
-              please notify an event organizer when you arrive.
+              Community Alliance events. By registering for or attending an event, you
+              acknowledge that you may appear in photographs, video recordings, audio
+              recordings, or other media created during the event.
             </p>
+            <details>
+              <summary>Read the full Photo &amp; Media Release</summary>
+              <div className="eventReleaseDetails">
+                <p>
+                  By registering for or attending an event hosted by Lakay Toussaint Community
+                  Alliance, you grant Lakay Toussaint Community Alliance and its authorized
+                  representatives, partners, licensees, and assigns permission to photograph,
+                  record, and otherwise capture your image, likeness, voice, and appearance in
+                  photographs, video, audio, or other media created in connection with the event.
+                </p>
+                <p>
+                  You authorize Lakay Toussaint Community Alliance to use, reproduce, publish,
+                  display, distribute, edit, and share such media for lawful organizational
+                  purposes, including community outreach, education, event documentation,
+                  fundraising, promotional materials, social media, websites, publications, and
+                  other communications, in print or digital formats.
+                </p>
+                <p>
+                  You understand that media may be edited, cropped, combined with other
+                  materials, or otherwise adapted for these purposes. You also understand that
+                  you will not receive payment or other compensation for the use of such media.
+                </p>
+                <p>
+                  If you do not wish to be photographed or recorded, please notify a Lakay
+                  Toussaint Community Alliance event organizer or staff member when you arrive so
+                  that reasonable efforts can be made to honor your request.
+                </p>
+                <p>
+                  For children and other minors, consent requirements may differ. A parent or
+                  legal guardian may be asked to provide permission when required.
+                </p>
+              </div>
+            </details>
           </aside>
         </div>
       </section>

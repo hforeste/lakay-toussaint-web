@@ -804,6 +804,15 @@ h3 {
   margin-block: 1rem;
 }
 
+.card details summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.eventReleaseDetails {
+  margin-top: 1rem;
+}
+
 .fieldError {
   color: #a11b1b;
   font-weight: 700;
