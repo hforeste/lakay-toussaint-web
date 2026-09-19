@@ -12,8 +12,8 @@
     "validate": "npm run typecheck && npm run build",
     "validate:firebase": "node scripts/validate-firestore-emulator.mjs",
     "validate:browser:install": "playwright-cli install-browser chromium",
-    "db:migrate": "node scripts/migrate-postgres.mjs",
-    "db:seed": "node scripts/seed-postgres.mjs",
+    "db:migrate": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/migrate-postgres.mjs",
+    "db:seed": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/seed-postgres.mjs",
     "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "dependencies": {
