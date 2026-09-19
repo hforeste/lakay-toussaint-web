@@ -748,6 +748,73 @@ h3 {
   border: 1px solid var(--outline-variant);
 }
 
+.eventDetailHero {
+  position: relative;
+  display: grid;
+  min-height: 520px;
+  overflow: hidden;
+  background: var(--primary);
+}
+
+.eventDetailHero::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(0, 30, 55, 0.92), rgba(0, 30, 55, 0.25));
+}
+
+.eventDetailHeroCopy {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  width: min(1180px, calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+  padding-block: var(--section);
+  color: #fff;
+}
+
+.eventDetailHeroCopy h1,
+.eventDetailHeroCopy p {
+  color: #fff;
+}
+
+.eventDetailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.eventFacts,
+.eventRegistrationForm {
+  display: grid;
+  gap: 1rem;
+}
+
+.eventRegistrationForm .button {
+  justify-self: start;
+}
+
+.formGridFull {
+  grid-column: 1 / -1;
+}
+
+.eventConsent {
+  align-items: flex-start;
+  margin-block: 1rem;
+}
+
+.fieldError {
+  color: #a11b1b;
+  font-weight: 700;
+}
+
+.formStatus {
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border-inline-start: 4px solid var(--secondary);
+}
+
 .formGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -891,6 +958,7 @@ textarea:focus {
   .grid.two,
   .grid.three,
   .split,
+  .eventDetailGrid,
   .footerGrid {
     grid-template-columns: 1fr;
   }

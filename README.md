@@ -6,8 +6,10 @@ Phase 1 public website for Lakay Toussaint Community Alliance, a Haitian-led non
 
 - Next.js App Router
 - TypeScript
-- Firebase Firestore
+- Neon PostgreSQL for events and registrations
+- Firebase Firestore for public contact, volunteer, and business submissions
 - Firebase Emulator Suite for local development
+- Resend for registration email
 - Kit for newsletter signup
 - Vercel-ready deployment
 
@@ -18,19 +20,44 @@ npm run dev
 npm run typecheck
 npm run build
 npm run validate
+npm run db:setup
 ```
 
 ## Environment Variables
 
 Copy `.env.example` to `.env.local` and fill in the values that are available.
 
-Firebase is required for live event reads and form submissions. Without Firebase configuration, the app displays seeded local events and form APIs return a clear configuration error.
+PostgreSQL is required for event pages and event registration. Firebase remains responsible for the existing public submission forms.
 
 Important launch values:
 
 - `NEXT_PUBLIC_DONATION_URL`: Byrd Barr Place-approved donation route.
 - `NEXT_PUBLIC_KIT_FORM_ACTION`: Kit form action URL.
 - `NEXT_PUBLIC_CONTACT_EMAIL`: public LTCA contact email.
+- `DATABASE_URL`: pooled Neon connection string in production or the Docker connection string locally.
+- `PII_ENCRYPTION_KEY`: base64-encoded 32-byte key used to encrypt registration PII.
+- `PII_LOOKUP_KEY`: random secret of at least 32 characters used for keyed lookup hashes.
+- `RESEND_API_KEY` and `REGISTRATION_EMAIL_FROM`: confirmation-email configuration.
+- `APP_URL`: canonical site origin used in cancellation links.
+- `CRON_SECRET`: protects the 90-day cleanup endpoint.
+
+Generate local secrets with Node:
+
+```bash
+node -e "const c=require('node:crypto'); console.log(c.randomBytes(32).toString('base64'))"
+node -e "const c=require('node:crypto'); console.log(c.randomBytes(32).toString('hex'))"
+```
+
+## Local PostgreSQL
+
+Start PostgreSQL, apply migrations, and load the sample events:
+
+```bash
+docker compose up -d postgres
+npm run db:setup
+```
+
+The default local connection string is already shown in `.env.example`. Production should use a pooled Neon connection string with TLS.
 
 ## Firebase Emulator
 
@@ -38,20 +65,19 @@ Important launch values:
 npx firebase-tools@13.35.1 emulators:start --only firestore --project demo-lakay-toussaint
 ```
 
-The MVP event model uses the `events` collection. Seed records are documented in [docs/firebase-seed-data.md](./docs/firebase-seed-data.md).
-
 ## Content Workflow
 
-Core messaging lives in [docs/content-source.md](./docs/content-source.md). Static MVP data lives under `data`. Public events are dynamic and should be managed through Firebase `events`, not hardcoded page data.
+Core messaging lives in [docs/content-source.md](./docs/content-source.md). Public events and registrations live in PostgreSQL. Database migrations and sample event data live under `db`.
 
 ## Deployment
 
-Deploy on Vercel with the same environment variables from `.env.example`. Add production Firebase values and Kit values in the Vercel project settings.
+Deploy on Vercel with the same environment variables from `.env.example`. Add production Neon, Resend, Firebase, and Kit values in the Vercel project settings. Vercel invokes `/api/cleanup/registeration` daily to delete registration PII 90 days after an event ends.
 
 ## Launch Validation
 
 - Home identifies LTCA, the mission statement, who LTCA serves, and key actions in the first viewport.
-- Events render from Firebase `events` records, with local seed records only as emulator/dev fallback.
+- Events render from PostgreSQL records and link to detailed registration pages.
+- Registration PII is application-encrypted, party size is limited to five, and cancellation links are tokenized.
 - Donate includes the approved fiscal sponsor disclosure.
 - Contact, volunteer, newsletter, and business submission forms validate inputs and show accessible success/error states.
 - Business submissions write to `businessSubmissions` and do not auto-publish to the directory.

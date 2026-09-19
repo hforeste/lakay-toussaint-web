@@ -3,16 +3,10 @@ import {
   addDoc,
   collection,
   connectFirestoreEmulator,
-  getDocs,
   getFirestore,
-  orderBy,
-  query,
   serverTimestamp,
-  where,
   type Firestore,
 } from "firebase/firestore";
-import { eventSeedRecords } from "../../data";
-import type { EventFaqItem, EventHighlight, EventScheduleItem } from "../../data";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -58,67 +52,11 @@ export function getDb(): Firestore {
   return db;
 }
 
-export interface PublicEvent {
-  id: string;
-  slug: string;
-  title: string;
-  subtitle?: string;
-  startsAt: string;
-  endsAt?: string;
-  locationName: string;
-  locationAddress: string;
-  neighborhood?: string;
-  googleMapsUrl?: string;
-  googleMapsEmbedUrl?: string;
-  summary: string;
-  description: string;
-  heroImageUrl?: string;
-  ticketUrl?: string;
-  rsvpUrl: string;
-  ticketCtaLabel?: string;
-  isFree?: boolean;
-  expectedAttendeeCount?: number;
-  attendeeCountLabel?: string;
-  whatsappShareText?: string;
-  instagramCaption?: string;
-  tiktokCaption?: string;
-  highlights?: EventHighlight[];
-  scheduleItems?: EventScheduleItem[];
-  faqItems?: EventFaqItem[];
-  status: "draft" | "published" | "archived";
-  isFeatured?: boolean;
-  order: number;
-}
-
-export async function getEvents(): Promise<PublicEvent[]> {
-  if (!hasFirebaseConfig()) {
-    return eventSeedRecords.map((event) => ({ ...event }));
-  }
-
-  const eventsQuery = query(
-    collection(getDb(), "events"),
-    where("status", "==", "published"),
-    orderBy("startsAt", "asc"),
-  );
-  const snapshot = await getDocs(eventsQuery);
-
-  return snapshot.docs.map((doc) => {
-    const data = doc.data() as Omit<PublicEvent, "id">;
-    return { id: doc.id, ...data };
-  });
-}
-
-export async function getEventBySlug(slug: string) {
-  const events = await getEvents();
-  return events.find((event) => event.slug === slug || event.id === slug);
-}
-
 export async function submitToCollection(
   collectionName:
     | "contactSubmissions"
     | "businessSubmissions"
-    | "volunteers"
-    | "eventRegistrations",
+    | "volunteers",
   payload: Record<string, unknown>,
 ) {
   if (!hasFirebaseConfig()) {
