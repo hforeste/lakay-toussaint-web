@@ -35,23 +35,10 @@ Important launch values:
 ## Firebase Emulator
 
 ```bash
-npx firebase-tools@13.35.1 emulators:start --only firestore,auth --project demo-lakay-toussaint
+npx firebase-tools@13.35.1 emulators:start --only firestore --project demo-lakay-toussaint
 ```
 
 The MVP event model uses the `events` collection. Seed records are documented in [docs/firebase-seed-data.md](./docs/firebase-seed-data.md).
-
-For local admin testing, create an editor account in the Auth emulator:
-
-```bash
-npm run admin:create-user
-```
-
-Default local credentials:
-
-- Email: `editor@example.com`
-- Password: `password123`
-
-The admin UI is available at `/admin/events`.
 
 ## Content Workflow
 
@@ -69,4 +56,3 @@ Deploy on Vercel with the same environment variables from `.env.example`. Add pr
 - Contact, volunteer, newsletter, and business submission forms validate inputs and show accessible success/error states.
 - Business submissions write to `businessSubmissions` and do not auto-publish to the directory.
 - `npm run typecheck` and `npm run build` pass before deployment.
-- `npm run validate:admin` passes against Firestore + Auth emulators.

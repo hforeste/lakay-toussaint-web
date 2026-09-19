@@ -17,7 +17,7 @@ const firebaseBin = process.platform === "win32"
 const args = [
   "emulators:start",
   "--only",
-  "firestore,auth",
+  "firestore",
   "--project",
   "demo-lakay-toussaint",
   ...process.argv.slice(2),

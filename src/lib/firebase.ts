@@ -1,10 +1,5 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
 import {
-  connectAuthEmulator,
-  getAuth,
-  type Auth,
-} from "firebase/auth";
-import {
   addDoc,
   collection,
   connectFirestoreEmulator,
@@ -29,7 +24,6 @@ const firebaseConfig = {
 };
 
 let emulatorConnected = false;
-let authEmulatorConnected = false;
 
 export function hasFirebaseConfig() {
   return Boolean(
@@ -62,22 +56,6 @@ export function getDb(): Firestore {
   }
 
   return db;
-}
-
-export function getClientAuth(): Auth {
-  const auth = getAuth(getFirebaseApp());
-
-  if (
-    process.env.NEXT_PUBLIC_FIREBASE_USE_EMULATOR === "true" &&
-    !authEmulatorConnected
-  ) {
-    connectAuthEmulator(auth, "http://127.0.0.1:9099", {
-      disableWarnings: true,
-    });
-    authEmulatorConnected = true;
-  }
-
-  return auth;
 }
 
 export interface PublicEvent {
