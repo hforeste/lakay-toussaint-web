@@ -56,7 +56,8 @@ export async function POST(
 
     let emailSent = true;
     try {
-      await sendRegistrationConfirmation(registration);
+      const emailResult = await sendRegistrationConfirmation(registration);
+      emailSent = !("skipped" in emailResult && emailResult.skipped);
     } catch (error) {
       emailSent = false;
       console.error("Registration confirmation email failed.", error);
@@ -69,6 +70,11 @@ export async function POST(
         message: emailSent
           ? "Your registration is confirmed. Check your email for the details."
           : "Your registration is confirmed, but we could not send the confirmation email.",
+        ...(process.env.NODE_ENV !== "production"
+          ? {
+              cancellationUrl: `/events/${encodeURIComponent(slug)}/registration/cancel?token=${encodeURIComponent(registration.cancellationToken)}`,
+            }
+          : {}),
       },
       { status: 201 },
     );

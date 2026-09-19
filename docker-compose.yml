@@ -13,7 +13,7 @@ services:
       timeout: 5s
       retries: 10
     volumes:
-      - lakay_postgres_data:/var/lib/postgresql/data
+      - lakay_event_registration_data:/var/lib/postgresql/data
 
 volumes:
-  lakay_postgres_data:
+  lakay_event_registration_data:

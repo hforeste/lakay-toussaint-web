@@ -1,4 +1,3 @@
-import type { TransactionSql } from "postgres";
 import { getDatabase } from "@/lib/database";
 import {
   cancellationTokenHash,
@@ -107,7 +106,7 @@ export async function getPublishedEventBySlug(slug: string) {
 }
 
 async function consumeRateLimit(
-  sql: TransactionSql,
+  sql: ReturnType<typeof getDatabase>,
   scope: string,
   key: string,
   limit: number,
@@ -149,6 +148,19 @@ export async function createEventRegistration({
   const emailHash = personalDataLookupHash(email);
   const rawCancellationToken = generateCancellationToken();
   const tokenHash = cancellationTokenHash(rawCancellationToken);
+  const eventIds = await sql<{ id: string }[]>`
+    SELECT id FROM events WHERE slug = ${slug} AND status = 'published' LIMIT 1
+  `;
+  const eventId = eventIds[0]?.id;
+
+  if (!eventId) {
+    throw new RegistrationClosedError();
+  }
+
+  // Keep abuse counters outside the registration transaction so rejected
+  // duplicate or capacity attempts cannot roll their increments back.
+  await consumeRateLimit(sql, `registration-ip:${eventId}`, ipAddress, 10);
+  await consumeRateLimit(sql, `registration-email:${eventId}`, email, 3);
 
   const result = await sql.begin(async (tx) => {
     const events = await tx<EventRow[]>`
@@ -169,9 +181,6 @@ export async function createEventRegistration({
     if (input.attendeeCount > event.max_party_size) {
       throw new RegistrationCapacityError();
     }
-
-    await consumeRateLimit(tx, `registration-ip:${event.id}`, ipAddress, 10);
-    await consumeRateLimit(tx, `registration-email:${event.id}`, email, 3);
 
     const duplicates = await tx<{ exists: boolean }[]>`
       SELECT EXISTS(
