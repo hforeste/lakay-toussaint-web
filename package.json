@@ -14,7 +14,7 @@
     "validate:browser:install": "playwright-cli install-browser chromium",
     "db:migrate": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/migrate-postgres.mjs",
     "db:seed": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/seed-postgres.mjs",
-    "db:setup": "npm run db:migrate && npm run db:seed"
+    "db:setup": "node scripts/prepare-local-env.mjs && npm run db:migrate && npm run db:seed"
   },
   "dependencies": {
     "firebase": "^11.10.0",

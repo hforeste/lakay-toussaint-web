@@ -61,28 +61,29 @@ export function EventRegistrationForm({
 
   return (
     <form className="formPanel eventRegistrationForm" onSubmit={submit} noValidate>
-      <h2>Register for this event</h2>
+      <span className="label">Enskri / Registration</span>
+      <h2>Enskri pou evènman sa a / Register for this event</h2>
       <p>
-        Registration details are used only to plan this event and communicate with you about it.
+        Detay enskripsyon yo sèvi sèlman pou planifye evènman sa a epi kominike avè w. / Registration details are used only to plan this event and communicate with you about it.
         They are deleted 90 days after the event.
       </p>
       <div className="formGrid">
         <label className="field">
-          <span>First name *</span>
+          <span>Prenon / First name *</span>
           <input name="firstName" autoComplete="given-name" required aria-invalid={Boolean(errors.firstName)} />
           {errors.firstName ? <small className="fieldError">{errors.firstName}</small> : null}
         </label>
         <label className="field">
-          <span>Last name</span>
+          <span>Siyati / Last name</span>
           <input name="lastName" autoComplete="family-name" />
         </label>
         <label className="field">
-          <span>Email *</span>
+          <span>Imèl / Email *</span>
           <input name="email" type="email" autoComplete="email" required aria-invalid={Boolean(errors.email)} />
           {errors.email ? <small className="fieldError">{errors.email}</small> : null}
         </label>
         <label className="field">
-          <span>Total attending, including you *</span>
+          <span>Total k ap patisipe / Total attending *</span>
           <input
             name="attendeeCount"
             type="number"
@@ -96,18 +97,18 @@ export function EventRegistrationForm({
           {errors.attendeeCount ? <small className="fieldError">{errors.attendeeCount}</small> : null}
         </label>
         <label className="field formGridFull">
-          <span>WhatsApp phone number</span>
+          <span>Nimewo WhatsApp / WhatsApp phone number</span>
           <input name="whatsappPhone" type="tel" autoComplete="tel" placeholder="+1 206 555 0100" aria-invalid={Boolean(errors.whatsappPhone)} />
           {errors.whatsappPhone ? <small className="fieldError">{errors.whatsappPhone}</small> : null}
         </label>
       </div>
       <label className="checkbox eventConsent">
         <input name="whatsappOptIn" type="checkbox" />
-        <span>I agree to receive WhatsApp messages about this event.</span>
+        <span>Mwen dakò resevwa mesaj WhatsApp sou evènman sa a. / I agree to receive WhatsApp messages about this event.</span>
       </label>
       {errors.whatsappOptIn ? <small className="fieldError">{errors.whatsappOptIn}</small> : null}
       <button className="button primaryAction" type="submit" disabled={submitting}>
-        {submitting ? "Registering..." : "Complete registration"}
+        {submitting ? "Enskripsyon an ap fèt..." : "Konplete enskripsyon / Complete registration"}
       </button>
       {message ? <p className="formStatus" role="status">{message}</p> : null}
     </form>

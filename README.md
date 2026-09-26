@@ -1,84 +1,81 @@
 # Lakay Toussaint Community Alliance Website
 
-Phase 1 public website for Lakay Toussaint Community Alliance, a Haitian-led nonprofit serving Seattle's Haitian diaspora and the broader Pacific Northwest Haitian community.
+Public website for Lakay Toussaint Community Alliance, a Haitian-led nonprofit serving Seattle's Haitian diaspora and the broader Pacific Northwest Haitian community.
 
-## Tech Stack
+## Local development
 
-- Next.js App Router
-- TypeScript
-- Neon PostgreSQL for events and registrations
-- Firebase Firestore for public contact, volunteer, and business submissions
-- Firebase Emulator Suite for local development
-- Resend for registration email
-- Kit for newsletter signup
-- Vercel-ready deployment
+### Prerequisites
 
-## Scripts
+- Node.js 22 LTS
+- npm
+- Docker Desktop
 
-```bash
-npm run dev
-npm run typecheck
-npm run build
-npm run validate
-npm run db:setup
+### 1. Install dependencies
+
+```powershell
+npm install
 ```
 
-## Environment Variables
+### 2. Start and initialize PostgreSQL
 
-Copy `.env.example` to `.env.local` and fill in the values that are available.
+Start Docker Desktop, then run:
 
-PostgreSQL is required for event pages and event registration. Firebase remains responsible for the existing public submission forms.
-
-Important launch values:
-
-- `NEXT_PUBLIC_DONATION_URL`: Byrd Barr Place-approved donation route.
-- `NEXT_PUBLIC_KIT_FORM_ACTION`: Kit form action URL.
-- `NEXT_PUBLIC_CONTACT_EMAIL`: public LTCA contact email.
-- `DATABASE_URL`: pooled Neon connection string in production or the Docker connection string locally.
-- `PII_ENCRYPTION_KEY`: base64-encoded 32-byte key used to encrypt registration PII.
-- `PII_LOOKUP_KEY`: random secret of at least 32 characters used for keyed lookup hashes.
-- `RESEND_API_KEY` and `REGISTRATION_EMAIL_FROM`: confirmation-email configuration.
-- `APP_URL`: canonical site origin used in cancellation links.
-- `CRON_SECRET`: protects the 90-day cleanup endpoint.
-
-Generate local secrets with Node:
-
-```bash
-node -e "const c=require('node:crypto'); console.log(c.randomBytes(32).toString('base64'))"
-node -e "const c=require('node:crypto'); console.log(c.randomBytes(32).toString('hex'))"
-```
-
-## Local PostgreSQL
-
-Start PostgreSQL, apply migrations, and load the sample events:
-
-```bash
+```powershell
 docker compose up -d postgres
 npm run db:setup
 ```
 
-The default local connection string is already shown in `.env.example`. Production should use a pooled Neon connection string with TLS.
+`db:setup` creates `.env` from `.env.example` if necessary, generates the required local privacy keys, applies database migrations, and loads the sample events. It can be run again safely and does not replace existing keys. Keep `.env` and `.env.local` out of source control; when both exist, `.env.local` takes precedence.
 
-## Firebase Emulator
+### 3. Start the application
 
-```bash
-npx firebase-tools@13.35.1 emulators:start --only firestore --project demo-lakay-toussaint
+```powershell
+npm run dev
 ```
 
-## Content Workflow
+Open [http://localhost:3000](http://localhost:3000).
 
-Core messaging lives in [docs/content-source.md](./docs/content-source.md). Public events and registrations live in PostgreSQL. Database migrations and sample event data live under `db`.
+For later runs, the usual startup commands are simply:
 
-## Deployment
+```powershell
+docker compose up -d postgres
+npm run dev
+```
 
-Deploy on Vercel with the same environment variables from `.env.example`. Add production Neon, Resend, Firebase, and Kit values in the Vercel project settings. Vercel invokes `/api/cleanup/registeration` daily to delete registration PII 90 days after an event ends.
+## Optional local integrations
 
-## Launch Validation
+Registration emails are skipped in development unless `RESEND_API_KEY` and `REGISTRATION_EMAIL_FROM` are configured.
 
-- Home identifies LTCA, the mission statement, who LTCA serves, and key actions in the first viewport.
-- Events render from PostgreSQL records and link to detailed registration pages.
-- Registration PII is application-encrypted, party size is limited to five, and cancellation links are tokenized.
-- Donate includes the approved fiscal sponsor disclosure.
-- Contact, volunteer, newsletter, and business submission forms validate inputs and show accessible success/error states.
-- Business submissions write to `businessSubmissions` and do not auto-publish to the directory.
-- `npm run typecheck` and `npm run build` pass before deployment.
+Contact, volunteer, and business-directory submissions still use Firebase Firestore. To exercise those forms locally, configure the `NEXT_PUBLIC_FIREBASE_*` variables in `.env`, set `NEXT_PUBLIC_FIREBASE_USE_EMULATOR=true`, and start the emulator in another terminal:
+
+```powershell
+npm run emulators
+```
+
+Newsletter, donation, contact, and community-video settings are also optional for basic local startup. Their variables are documented in `.env.example`.
+
+## Useful commands
+
+```powershell
+npm run dev          # Start the Next.js development server
+npm run db:setup     # Apply PostgreSQL migrations and seed events
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript checks
+npm run build        # Create a production build
+npm run validate     # Run typecheck and build
+```
+
+## Architecture
+
+- Next.js App Router and TypeScript
+- PostgreSQL locally and Neon PostgreSQL in production for events and registrations
+- Firebase Firestore for contact, volunteer, and business submissions
+- Resend for registration email
+- Kit for newsletter signup
+- Vercel for deployment and scheduled registration-data cleanup
+
+Event migrations and sample data live under `db`. Core site messaging lives in [docs/content-source.md](./docs/content-source.md).
+
+## Production
+
+Production requires Neon, Resend, Firebase, and the relevant public integration values from `.env.example` to be configured in Vercel. The scheduled `/api/cleanup/registeration` endpoint uses `CRON_SECRET` and removes registration data 90 days after an event ends.
