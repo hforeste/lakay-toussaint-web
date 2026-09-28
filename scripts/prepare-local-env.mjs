@@ -49,11 +49,12 @@ function setIfMissing(name, value) {
 
 setIfMissing("PII_ENCRYPTION_KEY", randomBytes(32).toString("base64"));
 setIfMissing("PII_LOOKUP_KEY", randomBytes(32).toString("hex"));
+setIfMissing("ADMIN_PASSWORD", randomBytes(18).toString("base64url"));
 
 if (generated.length) {
   await writeFile(targetPath, contents, { encoding: "utf8", mode: 0o600 });
   const targetName = targetPath.endsWith(".env.local") ? ".env.local" : ".env";
   console.log(`Generated ${generated.join(" and ")} in ${targetName}.`);
 } else {
-  console.log("Local privacy keys are already configured.");
+  console.log("Local privacy and admin secrets are already configured.");
 }

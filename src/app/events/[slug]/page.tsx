@@ -99,7 +99,7 @@ export default async function EventDetailPage({
           {event.heroImageUrl ? (
             <figure className="eventMediaFrame">
               <div className="eventMediaImage">
-                <DesignImage className="eventDetailImage" src={event.heroImageUrl} alt="" priority />
+                <DesignImage className="eventDetailImage" src={event.heroImageUrl} alt={`${event.title} event`} priority />
               </div>
             </figure>
           ) : null}

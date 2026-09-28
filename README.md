@@ -35,6 +35,18 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### 4. Start the event admin application
+
+In a second terminal, run:
+
+```powershell
+npm run dev:admin
+```
+
+Open [http://localhost:3001](http://localhost:3001) and sign in with the generated
+`ADMIN_PASSWORD` stored in `.env`. The admin is a separate Next.js application under
+`admin/`, but it reads the same `DATABASE_URL` as the public website.
+
 For later runs, the usual startup commands are simply:
 
 ```powershell
@@ -58,16 +70,19 @@ Newsletter, donation, contact, and community-video settings are also optional fo
 
 ```powershell
 npm run dev          # Start the Next.js development server
+npm run dev:admin    # Start the event admin on port 3001
 npm run db:setup     # Apply PostgreSQL migrations and seed events
 npm run lint         # Run ESLint
 npm run typecheck    # Run TypeScript checks
 npm run build        # Create a production build
+npm run build:admin  # Create an admin production build
 npm run validate     # Run typecheck and build
 ```
 
 ## Architecture
 
 - Next.js App Router and TypeScript
+- Separate Next.js event-admin application with password-protected CRUD APIs
 - PostgreSQL locally and Neon PostgreSQL in production for events and registrations
 - Firebase Firestore for contact, volunteer, and business submissions
 - Resend for registration email
@@ -79,3 +94,8 @@ Event migrations and sample data live under `db`. Core site messaging lives in [
 ## Production
 
 Production requires Neon, Resend, Firebase, and the relevant public integration values from `.env.example` to be configured in Vercel. The scheduled `/api/cleanup/registeration` endpoint uses `CRON_SECRET` and removes registration data 90 days after an event ends.
+
+Deploy the public site and event admin as separate web applications from this repository. For the
+admin deployment, use `admin` as the project root and configure `DATABASE_URL`, `ADMIN_PASSWORD`,
+and `PUBLIC_SITE_URL`. Give both deployments the same PostgreSQL `DATABASE_URL`; do not expose the
+admin deployment's password or database connection as public environment variables.

@@ -52,7 +52,7 @@ export default async function EventsPage() {
               <article className="card" key={event.id}>
                 {event.heroImageUrl ? (
                   <div className="cardImage">
-                    <DesignImage src={event.heroImageUrl} alt="" />
+                    <DesignImage src={event.heroImageUrl} alt={`${event.title} event`} />
                   </div>
                 ) : null}
                 <div className="cardBody">

@@ -89,6 +89,7 @@ export async function getPublishedEvents() {
     SELECT ${eventColumns}
     FROM events
     WHERE status = 'published'
+      AND starts_at >= now()
     ORDER BY starts_at ASC, display_order ASC
   `);
 

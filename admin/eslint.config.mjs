@@ -5,12 +5,5 @@ import nextTs from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([
-    ".firebase-local/**",
-    ".next/**",
-    ".playwright/**",
-    ".playwright-cli/**",
-    "admin/**",
-    "node_modules/**",
-  ]),
+  globalIgnores([".next/**", "node_modules/**", "next-env.d.ts"]),
 ]);

@@ -3,14 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   agentRules: false,
   devIndicators: false,
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-      },
-    ],
-  }
+  serverExternalPackages: ["postgres"],
+  turbopack: {
+    root: process.cwd(),
+  },
 };
 
 export default nextConfig;
