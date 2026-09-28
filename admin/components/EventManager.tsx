@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type FormEvent } from "react";
 import type { AdminEvent, EventStatus } from "@/lib/events";
+import { slugifyEventTitle } from "@/lib/slugify";
 
 type EventDraft = Omit<AdminEvent, "id" | "registeredAttendees">;
 
@@ -52,10 +53,6 @@ function payload(draft: EventDraft) {
     registrationOpensAt: iso(draft.registrationOpensAt),
     registrationClosesAt: iso(draft.registrationClosesAt),
   };
-}
-
-function slugify(value: string) {
-  return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: AdminEvent[]; publicSiteUrl: string }) {
@@ -158,8 +155,8 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           <fieldset disabled={busy}>
             <legend>Event identity</legend>
             <div className="formGrid">
-              <label className="wide">Title *<input value={draft.title} onChange={(e) => { update("title", e.target.value); if (!selectedId) update("slug", slugify(e.target.value)); }} required /></label>
-              <label>Slug *<input value={draft.slug} onChange={(e) => update("slug", e.target.value)} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required /></label>
+              <label className="wide">Title *<input value={draft.title} onChange={(e) => { update("title", e.target.value); if (!selectedId) update("slug", slugifyEventTitle(e.target.value)); }} required /></label>
+              <label>Event URL<input value={draft.slug} readOnly aria-describedby="event-url-help" /><small id="event-url-help">Generated automatically from the title.</small></label>
               <label>Status<select value={draft.status} onChange={(e) => update("status", e.target.value as EventStatus)}><option value="draft">Draft</option><option value="published">Published</option><option value="cancelled">Cancelled</option><option value="completed">Completed</option></select></label>
               <label className="wide">Subtitle<input value={draft.subtitle} onChange={(e) => update("subtitle", e.target.value)} /></label>
               <label className="wide">Summary *<textarea rows={2} value={draft.summary} onChange={(e) => update("summary", e.target.value)} required /></label>
