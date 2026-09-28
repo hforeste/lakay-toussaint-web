@@ -1,4 +1,7 @@
 import { getDatabase } from "./database";
+import { slugifyEventTitle } from "./slugify";
+
+export { slugifyEventTitle } from "./slugify";
 
 export const eventStatuses = ["draft", "published", "cancelled", "completed"] as const;
 export type EventStatus = (typeof eventStatuses)[number];
@@ -151,11 +154,11 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
   if (!value || typeof value !== "object") return { error: "Event data is required." };
   const raw = value as Record<string, unknown>;
   const text = (name: string) => (typeof raw[name] === "string" ? raw[name].trim() : "");
-  const required = ["slug", "title", "startsAt", "timeZone", "locationName", "summary", "description"];
+  const required = ["title", "startsAt", "timeZone", "locationName", "summary", "description"];
   for (const field of required) if (!text(field)) return { error: `${field} is required.` };
 
-  const slug = text("slug").toLowerCase();
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return { error: "Slug must contain lowercase letters, numbers, and single hyphens only." };
+  const slug = slugifyEventTitle(text("slug") || text("title"));
+  if (!slug) return { error: "The title must contain at least one letter or number." };
   const startsAt = new Date(text("startsAt"));
   const endsAt = text("endsAt") ? new Date(text("endsAt")) : null;
   const opensAt = text("registrationOpensAt") ? new Date(text("registrationOpensAt")) : null;
