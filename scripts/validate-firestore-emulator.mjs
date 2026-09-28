@@ -55,15 +55,6 @@ async function main() {
         interests: ["Event day help"],
       },
     },
-    {
-      collectionName: "eventRegistrations",
-      payload: {
-        name: "Runtime Attendee",
-        email: "runtime-attendee@example.com",
-        eventId: `${runId}-event`,
-        attendees: 2,
-      },
-    },
   ];
 
   for (const write of writes) {

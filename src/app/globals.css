@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
-
 @font-face {
   font-family: "League Spartan";
 
@@ -144,26 +142,24 @@ p {
 
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
-
   font-weight: normal;
-
   font-style: normal;
-
   line-height: 1;
-
   text-transform: none;
-
   letter-spacing: normal;
-
   white-space: nowrap;
-
   direction: ltr;
-
   font-feature-settings: "liga";
-
   -webkit-font-feature-settings: "liga";
-
   -webkit-font-smoothing: antialiased;
+}
+
+.uiIcon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: -0.16em;
 }
 
 .srOnly {
@@ -834,6 +830,152 @@ h3 {
   text-transform: uppercase;
 }
 
+.eventPageIntro {
+  text-align: center;
+}
+
+.eventPageIntro .lead {
+  margin-inline: auto;
+}
+
+.eventArchiveGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 620px));
+  gap: var(--gutter);
+}
+
+.eventArchiveCard {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(0, 1.15fr);
+  width: 100%;
+  max-width: 620px;
+  overflow: hidden;
+  background: var(--surface-white);
+  border: 1px solid var(--outline-variant);
+  border-top: 4px solid var(--heritage-gold);
+}
+
+.eventArchiveCard.past {
+  border-top-color: var(--outline-variant);
+}
+
+.eventArchiveImage {
+  position: relative;
+  min-width: 0;
+  min-height: 260px;
+  overflow: hidden;
+  background: var(--surface-mid);
+}
+
+.eventArchiveImage img {
+  object-fit: cover;
+}
+
+.eventArchiveBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.eventArchiveBody h3 {
+  color: var(--primary);
+}
+
+.eventArchiveBody > p {
+  margin: 0;
+}
+
+.eventArchiveBody .eventSubtitle {
+  margin: 0;
+}
+
+.eventArchiveBody .button {
+  margin-top: auto;
+  padding-inline: 1rem;
+}
+
+.eventArchiveDate {
+  color: var(--secondary) !important;
+  font-family: "League Spartan", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800 !important;
+}
+
+.eventEndedBadge {
+  padding: 0.28rem 0.55rem;
+  color: var(--on-surface-variant);
+  background: var(--surface-low);
+  border: 1px solid var(--outline-variant);
+  font-family: "League Spartan", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.past .eventArchiveImage img {
+  filter: saturate(0.72);
+}
+
+.eventEmptyState {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--surface-low);
+  border-inline-start: 5px solid var(--heritage-gold);
+}
+
+.eventEmptyState h3 {
+  color: var(--primary);
+}
+
+.eventEmptyState p {
+  margin-bottom: 0;
+}
+
+.eventYearFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.eventYearFilter a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.9rem;
+  color: var(--primary);
+  background: var(--surface-white);
+  border: 1px solid var(--outline-variant);
+  font-family: "League Spartan", sans-serif;
+  font-weight: 800;
+}
+
+.eventYearFilter a:hover,
+.eventYearFilter a:focus-visible {
+  color: #fff;
+  background: var(--primary);
+}
+
+.eventYearGroup + .eventYearGroup {
+  margin-top: 2.5rem;
+}
+
+.eventYearGroup > h3 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-size: var(--headline-md);
+}
+
+.eventArchiveVenue {
+  font-size: 0.9rem;
+}
+
+.eventArchiveCard:focus-within {
+  outline: 3px solid var(--heritage-gold);
+  outline-offset: 3px;
+}
+
 .communityVideoLayout {
   display: grid;
 
@@ -1045,6 +1187,82 @@ h3 {
   border: 1px solid var(--outline-variant);
 }
 
+.eventDetailHero {
+  position: relative;
+  display: grid;
+  min-height: 520px;
+  overflow: hidden;
+  background: var(--primary);
+}
+
+.eventDetailHero::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(0, 30, 55, 0.92), rgba(0, 30, 55, 0.25));
+}
+
+.eventDetailHeroCopy {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  width: min(1180px, calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+  padding-block: var(--section);
+  color: #fff;
+}
+
+.eventDetailHeroCopy h1,
+.eventDetailHeroCopy p {
+  color: #fff;
+}
+
+.eventDetailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.eventFacts,
+.eventRegistrationForm {
+  display: grid;
+  gap: 1rem;
+}
+
+.eventRegistrationForm .button {
+  justify-self: start;
+}
+
+.formGridFull {
+  grid-column: 1 / -1;
+}
+
+.eventConsent {
+  align-items: flex-start;
+  margin-block: 1rem;
+}
+
+.card details summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.eventReleaseDetails {
+  margin-top: 1rem;
+}
+
+.fieldError {
+  color: #a11b1b;
+  font-weight: 700;
+}
+
+.formStatus {
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border-inline-start: 4px solid var(--secondary);
+}
+
 .formGrid {
   display: grid;
 
@@ -1229,7 +1447,12 @@ textarea:focus {
   .grid.two,
   .grid.three,
   .split,
+  .eventDetailGrid,
   .footerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .eventArchiveGrid {
     grid-template-columns: 1fr;
   }
 }
@@ -1273,6 +1496,396 @@ textarea:focus {
 
   .videoModalHeader {
     align-items: flex-start;
+  }
+
+  .eventArchiveCard {
+    grid-template-columns: 1fr;
+  }
+
+  .eventArchiveImage {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+}
+
+.eventBreadcrumb {
+  background: var(--surface-white);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.eventBreadcrumb .sectionInner {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.eventBreadcrumb a,
+.eventStatus,
+.eventDirections {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--primary);
+  font-family: "League Spartan", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.eventBreadcrumb a:hover,
+.eventDirections:hover {
+  color: var(--secondary);
+}
+
+.eventStatus {
+  padding: 0.45rem 0.7rem;
+  color: var(--on-surface-variant);
+  background: var(--surface-low);
+  border: 1px solid var(--outline-variant);
+}
+
+.eventStatus span {
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--outline);
+  border-radius: 999px;
+}
+
+.eventStatus.open {
+  color: var(--green);
+  border-color: rgba(23, 89, 15, 0.38);
+}
+
+.eventStatus.open span {
+  background: var(--green);
+}
+
+.eventEditorialHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.eventHeroCopy {
+  display: grid;
+  align-content: center;
+}
+
+.eventHeroCopy h1 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.eventSubtitle {
+  margin: 0 0 1rem;
+  color: var(--green);
+  font-family: "League Spartan", sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.eventHeroCopy .lead,
+.eventDescription .lead {
+  margin: 0;
+}
+
+.eventInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: var(--surface-white);
+  border: 1px solid var(--outline-variant);
+  border-top: 4px solid var(--heritage-gold);
+}
+
+.eventInfoItem {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.eventInfoIcon {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--secondary);
+  background: rgba(205, 18, 35, 0.08);
+  border: 1px solid rgba(205, 18, 35, 0.24);
+}
+
+.eventInfoItem + .eventInfoItem .eventInfoIcon {
+  color: var(--primary);
+  background: rgba(0, 52, 89, 0.08);
+  border-color: rgba(0, 52, 89, 0.24);
+}
+
+.eventInfoItem div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.eventInfoItem span:not(.eventInfoIcon) {
+  color: var(--on-surface-variant);
+  font-family: "League Spartan", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eventInfoItem strong {
+  color: var(--primary);
+  font-family: "League Spartan", sans-serif;
+  line-height: 1.2;
+}
+
+.eventInfoItem small {
+  color: var(--on-surface-variant);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.eventHeroCopy .button {
+  gap: 0.5rem;
+}
+
+.eventMediaFrame {
+  position: relative;
+  margin: 0;
+  padding: 0.9rem;
+  background: var(--surface-white);
+  border: 1px solid var(--outline-variant);
+  border-bottom: 5px solid var(--heritage-gold);
+  box-shadow: var(--shadow);
+}
+
+.eventMediaImage {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--surface-mid);
+}
+
+.eventDetailImage {
+  object-fit: cover;
+}
+
+.eventMediaFrame figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.85rem 0.2rem 0;
+  color: var(--on-surface-variant);
+  font-size: 0.8rem;
+}
+
+.eventMediaFrame figcaption .uiIcon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: -0.16em;
+}
+
+.eventDescription .goldRule {
+  margin-block: 1.5rem;
+}
+
+.eventFacts {
+  border-top: 4px solid var(--heritage-gold);
+}
+
+.eventFacts h2 {
+  font-size: clamp(1.65rem, 3vw, 2rem);
+}
+
+.eventFacts p {
+  margin: 0;
+}
+
+.eventCapacity {
+  padding-top: 1rem;
+  color: var(--green) !important;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.eventCapacity strong {
+  color: var(--secondary);
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.8rem;
+}
+
+.eventDirections {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.eventRegistrationLayout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--surface-white);
+  border: 1px solid var(--outline-variant);
+  border-top: 5px solid var(--heritage-gold);
+  box-shadow: var(--shadow);
+}
+
+.eventRegistrationAside {
+  display: grid;
+  align-content: start;
+  gap: 1.25rem;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  color: #fff;
+  background: var(--primary);
+}
+
+.eventRegistrationAside h2 {
+  color: #fff;
+}
+
+.eventRegistrationAside p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.eventRegistrationAside .eventCapacity {
+  color: var(--heritage-gold) !important;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.eventRegistrationAside .eventCapacity strong {
+  color: #fff;
+}
+
+.eventRegistrationAside ul {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  list-style: none;
+}
+
+.eventRegistrationAside li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.eventRegistrationAside li .uiIcon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: -0.16em;
+}
+
+.eventRegistrationLayout .formPanel {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+}
+
+.eventRelease {
+  max-width: 900px;
+  margin-inline: auto;
+  border-top: 4px solid var(--green);
+}
+
+@media (max-width: 980px) {
+  .eventEditorialHero,
+  .eventRegistrationLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .eventBreadcrumb .sectionInner,
+  .eventInfoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .eventBreadcrumb .sectionInner {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 0.75rem;
+  }
+
+  .eventStatus {
+    font-size: 0.7rem;
+  }
+}
+
+/* Event detail refinements from browser review */
+.eventEditorialHero {
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.98fr);
+}
+
+.eventDescription h2 {
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+@media (max-width: 620px) {
+  .eventEditorialHero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .eventHeroCopy,
+  .eventMediaFrame {
+    width: 100%;
+  }
+
+  .eventEditorialHero,
+  .eventDetailGrid,
+  .eventRegistrationLayout,
+  .eventInfoGrid {
+    min-width: 0;
+  }
+
+  .eventInfoItem,
+  .eventInfoItem div,
+  .eventRegistrationAside,
+  .eventRegistrationLayout .formPanel {
+    min-width: 0;
+  }
+
+  .eventBreadcrumb a {
+    font-size: 0.72rem;
+    letter-spacing: 0.035em;
+  }
+
+  .eventHeroCopy .actions {
+    order: 2;
+    margin-top: 1.25rem;
+  }
+
+  .eventHeroCopy .eventInfoGrid {
+    order: 3;
+    margin-top: 1.25rem;
+  }
+
+  .eventHeroCopy h1 {
+    font-size: clamp(2.35rem, 12vw, 3rem);
+  }
+
+  .eventSubtitle {
+    font-size: 1rem;
   }
 }
 

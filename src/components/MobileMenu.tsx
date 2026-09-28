@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Icon } from "@/components/Icon";
 import { navigation } from "@/lib/site";
 
 const mobileLinks = [
@@ -49,9 +50,7 @@ export function MobileMenu() {
         onClick={() => setIsOpen((current) => !current)}
         type="button"
       >
-        <span className="material-symbols-outlined" aria-hidden="true">
-          {isOpen ? "close" : "menu"}
-        </span>
+        <Icon name={isOpen ? "close" : "menu"} />
       </button>
       <div className="mobilePanel" data-open={isOpen}>
         {mobileLinks.map((item) => (
