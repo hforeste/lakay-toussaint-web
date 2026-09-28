@@ -186,3 +186,5 @@ export default async function EventDetailPage({
     </>
   );
 }
+
+

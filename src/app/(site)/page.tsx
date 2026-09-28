@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CommunityVideoMoment } from "@/components/CommunityVideoMoment";
 import { DesignImage } from "@/components/DesignImage";
 import { imagery, programCards } from "@/lib/design-content";
+import { UpcomingEventTeaser } from "@/components/UpcominEventTeaser";
 
 export default function HomePage() {
   const communityPreviewWebm =
@@ -36,11 +37,17 @@ export default function HomePage() {
             Northwest.
           </p>
           <div className="actions">
-            <Link className="button primaryAction" href="/events">See what&apos;s happening</Link>
-            <Link className="button lightAction" href="/join-us">Vin manm x Become a member</Link>
+            <Link className="button primaryAction" href="/events">
+              See what&apos;s happening
+            </Link>
+            <Link className="button lightAction" href="/join-us">
+              Vin manm x Become a member
+            </Link>
           </div>
         </div>
       </section>
+
+      <UpcomingEventTeaser />
 
       <section className="section white">
         <div className="sectionInner">
@@ -67,10 +74,14 @@ export default function HomePage() {
                   <DesignImage src={program.image} alt="" />
                 </div>
                 <div className="cardBody">
-                  {index === 0 ? <span className="flagBadge">Priyorite ane sa a</span> : null}
+                  {index === 0 ? (
+                    <span className="flagBadge">Priyorite ane sa a</span>
+                  ) : null}
                   <h3>{program.title}</h3>
                   <p>{program.summary}</p>
-                  <Link className="button secondaryAction" href="/programs">Learn More</Link>
+                  <Link className="button secondaryAction" href="/programs">
+                    Learn More
+                  </Link>
                 </div>
               </article>
             ))}
@@ -85,33 +96,60 @@ export default function HomePage() {
             <div className="goldRule" />
             <p className="lead">
               The spirit of 1804 travels with us wherever we go. In the Pacific
-              Northwest, Lakay Toussaint Community Alliance stands as a testament
-              to resilience, dignity, and unity.
+              Northwest, Lakay Toussaint Community Alliance stands as a
+              testament to resilience, dignity, and unity.
             </p>
             <p className="lead">
               Rooted in Seattle and connected to Haiti, we weave Caribbean
               traditions into local community life so our children grow with
               pride in their roots and wings for their future.
             </p>
-            <Link className="button lightAction" href="/about">Read our story</Link>
+            <Link className="button lightAction" href="/about">
+              Read our story
+            </Link>
           </div>
           <div className="imageFrame">
-            <DesignImage src={imagery.elder} alt="Haitian elder portrait with a Seattle backdrop" />
+            <DesignImage
+              src={imagery.elder}
+              alt="Haitian elder portrait with a Seattle backdrop"
+            />
           </div>
         </div>
       </section>
 
       <section className="section white">
         <div className="sectionInner">
-          <article className="card pad goldBorder" style={{ maxWidth: "900px", marginInline: "auto", textAlign: "center" }}>
-            <span className="material-symbols-outlined icon" aria-hidden="true">volunteer_activism</span>
-            <h2>Haitian culture is a story worth telling, and a community worth building.</h2>
+          <article
+            className="card pad goldBorder"
+            style={{
+              maxWidth: "900px",
+              marginInline: "auto",
+              textAlign: "center",
+            }}
+          >
+            <span
+              className="material-symbols-outlined icon"
+              aria-hidden="true"
+              style={{
+                fontSize: "4rem",
+                lineHeight: 1,
+              }}
+            >
+              diversity_3
+            </span>
+
+            <h2>
+              Haitian culture is a story worth telling, and a community worth
+              building.
+            </h2>
             <p>
               Your contribution supports immigration advocacy, youth mentorship,
               and cultural preservation in the Pacific Northwest.
             </p>
             <div className="actions" style={{ justifyContent: "center" }}>
-              <Link className="button donate" href="/donate">Support Us x Fe yon don</Link>
+              <Link className="button donate" href="/donate">
+                Support Us x Fe yon don
+              </Link>
             </div>
           </article>
         </div>

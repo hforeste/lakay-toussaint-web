@@ -1,0 +1,665 @@
+.page {
+  --navy: #06223d;
+  --navy-dark: #031a30;
+  --red: #bd2328;
+  --gold: #ecc66e;
+  --text: #092039;
+  --muted: #4b5563;
+  --white: #ffffff;
+
+  background: #ffffff;
+  color: var(--text);
+}
+
+/* -------------------------
+   HERO
+------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 720px;
+  overflow: hidden;
+  border-bottom: 3px solid var(--gold);
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: linear-gradient(
+    90deg,
+    rgba(1, 23, 42, 0.94) 0%,
+    rgba(1, 23, 42, 0.84) 46%,
+    rgba(1, 23, 42, 0.52) 72%,
+    rgba(1, 23, 42, 0.55) 100%
+  );
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+
+  width: min(1450px, calc(100% - 6rem));
+  margin-inline: auto;
+
+  min-height: 720px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(390px, 0.75fr);
+  align-items: center;
+  gap: 4rem;
+
+  padding-block: 4rem;
+}
+
+.heroContent {
+  color: white;
+}
+
+.eyebrow,
+.topicsEyebrow,
+.registrationEyebrow {
+  display: block;
+
+  color: var(--gold);
+
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.title {
+  margin: 1.2rem 0 1.25rem;
+
+  color: white;
+
+  font-size: clamp(4.5rem, 7vw, 7.8rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.description {
+  max-width: 790px;
+
+  margin: 0 0 2rem;
+
+  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+/* -------------------------
+   EVENT DETAIL ROWS
+------------------------- */
+
+.desktopDetails {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.detailIcon {
+  color: var(--gold);
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.detail strong {
+  display: block;
+
+  font-size: 1.12rem;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.detail span:not(.detailIcon) {
+  display: block;
+
+  margin-top: 0.2rem;
+
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* -------------------------
+   HERO BUTTONS
+------------------------- */
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  margin-top: 1.4rem;
+}
+
+.registerButton,
+.shareButton,
+.mobileRegisterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 58px;
+  padding: 1rem 2rem;
+
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-weight: 800;
+}
+
+.registerButton {
+  color: white;
+  background: var(--red);
+  border: 2px solid var(--red);
+}
+
+.shareButton {
+  color: white;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+
+/* -------------------------
+   TOPICS CARD
+------------------------- */
+
+.topicsCard {
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--gold);
+  padding: 2.6rem;
+
+  align-self: center;
+}
+
+.topicsEyebrow {
+  color: var(--red);
+}
+
+.topicsCard h2 {
+  margin: 0.6rem 0 1.2rem;
+
+  font-size: clamp(2rem, 3vw, 3rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.topic {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 0.8rem;
+
+  padding: 1rem 0;
+
+  border-top: 1px solid rgba(193, 149, 57, 0.5);
+}
+
+.topic:last-child {
+  border-bottom: 1px solid rgba(193, 149, 57, 0.5);
+}
+
+.topicIcon {
+  color: var(--red);
+  font-size: 1.5rem;
+}
+
+.topic strong {
+  display: block;
+
+  font-size: 1.05rem;
+}
+
+.topic span:not(.topicIcon) {
+  display: block;
+
+  margin-top: 0.2rem;
+
+  color: #596576;
+  font-size: 0.86rem;
+}
+
+/* -------------------------
+   PARTNERSHIP BAR
+------------------------- */
+
+.desktopPartnerBar {
+  background: white;
+}
+
+.partnerInner {
+  width: min(1450px, calc(100% - 6rem));
+  margin-inline: auto;
+
+  min-height: 100px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 2rem;
+}
+
+.partnerGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.partnerLabel {
+  display: grid;
+
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  font-weight: 800;
+}
+
+.partnerDivider {
+  width: 1px;
+  height: 55px;
+  background: #d7c9a5;
+}
+
+.partnerLogo {
+  width: auto;
+  height: 52px;
+  object-fit: contain;
+}
+
+.lakayLogo {
+  width: auto;
+  height: 62px;
+  object-fit: contain;
+}
+
+.tagline {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.85rem;
+}
+
+/* Hidden on desktop */
+.mobilePartnerBar,
+.mobileDetails {
+  display: none;
+}
+
+/* -------------------------
+   REGISTRATION
+------------------------- */
+
+.registration {
+  background: #f6f6f4;
+
+  padding: clamp(4rem, 7vw, 7rem) 1.5rem;
+}
+
+.registrationInner {
+  width: min(1080px, 100%);
+  margin-inline: auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.registrationEyebrow {
+  color: var(--red);
+}
+
+.registrationIntro h2 {
+  margin: 0.7rem 0 1rem;
+
+  color: var(--navy);
+
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1;
+}
+
+.registrationIntro p {
+  max-width: 45ch;
+
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.registrationForm {
+  background: white;
+
+  padding: clamp(1.5rem, 4vw, 3rem);
+
+  border: 1px solid #dec47e;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.registrationForm label {
+  display: grid;
+  gap: 0.45rem;
+
+  font-weight: 700;
+}
+
+.registrationForm input,
+.registrationForm select,
+.registrationForm textarea {
+  width: 100%;
+  border: 1px solid #aab2bb;
+  background: white;
+  padding: 0.85rem 0.9rem;
+  color: var(--text);
+  font: inherit;
+}
+
+.registrationForm input,
+.registrationForm select {
+  min-height: 48px;
+}
+
+.registrationForm input:focus,
+.registrationForm textarea:focus {
+  outline: 3px solid rgba(189, 35, 40, 0.18);
+  border-color: var(--red);
+}
+
+.attendanceFieldset {
+  margin: 1.5rem 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.attendanceFieldset legend {
+  margin-bottom: 0.8rem;
+
+  font-weight: 800;
+}
+
+.attendanceFieldset label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  margin-bottom: 0.65rem;
+}
+
+.attendanceFieldset input,
+.consent input {
+  width: auto;
+  min-height: auto;
+}
+
+.fullField {
+  margin-top: 1rem;
+}
+
+.consent {
+  display: grid !important;
+  grid-template-columns: 20px 1fr;
+  align-items: start;
+
+  margin: 1.5rem 0;
+
+  font-size: 0.9rem;
+  font-weight: 500 !important;
+  line-height: 1.5;
+}
+
+.submitButton {
+  width: 100%;
+  min-height: 56px;
+
+  border: 0;
+  background: var(--red);
+  color: white;
+
+  cursor: pointer;
+
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+}
+
+.formNote {
+  margin-top: 1rem;
+
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1100px) {
+  .desktopPartnerBar {
+    display: none;
+  }
+
+  .mobilePartnerBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    min-height: 90px;
+    padding: 1rem 2rem;
+
+    background: white;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .mobilePartnerText {
+    display: grid;
+
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .heroInner {
+    width: 100%;
+    min-height: 560px;
+
+    grid-template-columns: 1fr;
+
+    padding: 4rem 3rem;
+  }
+
+  .heroContent {
+    max-width: 720px;
+  }
+
+  .topicsCard,
+  .desktopDetails {
+    display: none;
+  }
+
+  .title {
+    font-size: clamp(4rem, 10vw, 7rem);
+  }
+
+  .mobileDetails {
+    display: block;
+
+    padding: 2.5rem 3rem 3rem;
+
+    background: white;
+  }
+
+  .mobileDetailGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 3rem;
+  }
+
+  .mobileDetails .detailIcon {
+    color: var(--red);
+  }
+
+  .mobileTopics {
+    margin-top: 2rem;
+    padding-top: 1.4rem;
+
+    border-top: 1px solid #dec47e;
+  }
+
+  .mobileTopics > span {
+    color: var(--red);
+
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .mobileTopics p {
+    margin-top: 0.5rem;
+
+    font-weight: 700;
+  }
+
+  .mobileRegisterButton {
+    width: min(440px, 100%);
+
+    margin-top: 3rem;
+
+    color: white;
+    background: var(--red);
+  }
+
+  .mobileBottomPartners {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    margin-top: 2rem;
+  }
+
+  .registrationInner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 640px) {
+  .mobilePartnerBar {
+    justify-content: space-between;
+    gap: 1rem;
+
+    min-height: 76px;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .mobilePartnerBar .partnerLogo {
+    height: 42px;
+  }
+
+  .mobilePartnerBar .lakayLogo {
+    height: 48px;
+  }
+
+  .mobilePartnerText {
+    font-size: 0.57rem;
+  }
+
+  .heroInner {
+    min-height: 370px;
+
+    align-items: end;
+
+    padding: 2rem 2rem 2.5rem;
+  }
+
+  .heroOverlay {
+    background: linear-gradient(
+      180deg,
+      rgba(2, 24, 43, 0.3) 0%,
+      rgba(2, 24, 43, 0.75) 60%,
+      rgba(2, 24, 43, 0.92) 100%
+    );
+  }
+
+  .eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .title {
+    margin-top: 0.7rem;
+
+    font-size: clamp(3.4rem, 18vw, 5.5rem);
+  }
+
+  .description {
+    margin-bottom: 0;
+
+    font-size: 1rem;
+  }
+
+  .mobileDetails {
+    padding: 2rem;
+  }
+
+  .mobileDetailGrid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .mobileTopics p {
+    line-height: 1.7;
+  }
+
+  .mobileRegisterButton {
+    width: 100%;
+
+    margin-top: 2rem;
+  }
+
+  .mobileBottomPartners {
+    justify-content: space-between;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .registration {
+    padding-inline: 1rem;
+  }
+
+  .registrationForm {
+    padding: 1.5rem;
+  }
+}
