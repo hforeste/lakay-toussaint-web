@@ -13,38 +13,92 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 function formatDate(date: Date, timeZone: string) {
-  return new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone }).format(date);
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+    timeZone,
+  }).format(date);
 }
 
-function EventCard({ event, past = false }: { event: PublicEvent; past?: boolean }) {
+function EventCard({
+  event,
+  past = false,
+}: {
+  event: PublicEvent;
+  past?: boolean;
+}) {
   return (
     <article className={`eventArchiveCard${past ? " past" : ""}`}>
       {event.heroImageUrl ? (
         <div className="eventArchiveImage">
-          <DesignImage src={event.heroImageUrl} alt={`${event.title} event`} />
+          <DesignImage
+            src={event.heroImageUrl}
+            alt={`${event.title} event`}
+          />
         </div>
       ) : null}
+
       <div className="eventArchiveBody">
-        {past ? <span className="eventEndedBadge">EVENT ENDED</span> : null}
-        <p className="eventArchiveDate">{formatDate(event.startsAt, event.timeZone)}</p>
+        {past ? (
+          <span className="eventEndedBadge">
+            EVENT ENDED
+          </span>
+        ) : null}
+
+        <p className="eventArchiveDate">
+          {formatDate(event.startsAt, event.timeZone)}
+        </p>
+
         <h3>{event.title}</h3>
-        {event.subtitle ? <p className="eventSubtitle">{event.subtitle}</p> : null}
+
+        {event.subtitle ? (
+          <p className="eventSubtitle">
+            {event.subtitle}
+          </p>
+        ) : null}
+
         <p>{event.summary}</p>
-        <p className="eventArchiveVenue"><strong>Where / Kote:</strong> {event.locationName}</p>
-        <Link className="button secondaryAction" href={`/events/${event.slug}`}>
-          {past ? "GADE REZIME A / VIEW RECAP" : "Aprann plis / Learn more"}
+
+        <p className="eventArchiveVenue">
+          <strong>Where / Kote:</strong> {event.locationName}
+        </p>
+
+        <Link
+          className="button secondaryAction"
+          href={`/events/${event.slug}`}
+        >
+          {past
+            ? "GADE REZIME A / VIEW RECAP"
+            : "Aprann plis / Learn more"}
         </Link>
       </div>
     </article>
   );
 }
 
-function ArchiveYearFilter({ years }: { years: number[] }) {
-  if (years.length < 2) return null;
+function ArchiveYearFilter({
+  years,
+}: {
+  years: number[];
+}) {
+  if (years.length < 2) {
+    return null;
+  }
+
   return (
-    <nav className="eventYearFilter" aria-label="Filter past events by year">
+    <nav
+      className="eventYearFilter"
+      aria-label="Filter past events by year"
+    >
       <a href="#past-events">All years</a>
-      {years.map((year) => <a key={year} href={`#past-${year}`}>{year}</a>)}
+
+      {years.map((year) => (
+        <a
+          key={year}
+          href={`#past-${year}`}
+        >
+          {year}
+        </a>
+      ))}
     </nav>
   );
 }
@@ -52,187 +106,145 @@ function ArchiveYearFilter({ years }: { years: number[] }) {
 export default async function EventsPage() {
   let upcoming: PublicEvent[] = [];
   let past: PublicEvent[] = [];
+
   try {
     ({ upcoming, past } = await getPublishedEvents());
   } catch (error) {
-    if (!(error instanceof DatabaseConfigurationError)) throw error;
+    if (!(error instanceof DatabaseConfigurationError)) {
+      throw error;
+    }
   }
-  const years = [...new Set(past.map((event) => event.startsAt.getFullYear()))].sort((a, b) => b - a);
+
+  const years = [
+    ...new Set(
+      past.map((event) =>
+        event.startsAt.getFullYear(),
+      ),
+    ),
+  ].sort((a, b) => b - a);
 
   return (
     <>
       <section className="section primary">
         <div className="sectionInner eventPageIntro">
-          <span className="label">Sa k ap vini x Our Events</span>
-          <h1>Lakay nou ouvri pou tout moun.<br /><span className="goldText">Our doors are open to all.</span></h1>
-          <p className="lead">Come for the food, stay for the family.</p>
+          <span className="label">
+            Sa k ap vini x Our Events
+          </span>
+
+          <h1>
+            Lakay nou ouvri pou tout moun.
+            <br />
+            <span className="goldText">
+              Our doors are open to all.
+            </span>
+          </h1>
+
+          <p className="lead">
+            Come for the food, stay for the family.
+          </p>
         </div>
       </section>
 
-      <section className="section white" aria-labelledby="upcoming-events-title">
+      <section
+        className="section white"
+        aria-labelledby="upcoming-events-title"
+      >
         <div className="sectionInner">
-<<<<<<< HEAD:src/app/(site)/events/page.tsx
-          <div className="grid two">
-            {events.map((event) => (
-              <article
-                className={`card ${event.primary ? "primaryCard" : ""}`}
-                key={event.title}
-              >
-                {event.image ? (
-                  <div className="cardImage">
-                    <DesignImage src={event.image} alt="" />
-                  </div>
-                ) : (
-                  <div
-                    className="cardImage"
-                    style={{
-                      display: "grid",
-                      placeItems: "center",
-                      background: event.primary ? "#fff" : "#001e37",
-                    }}
-                  >
-                    <span
-                      className="material-symbols-outlined icon"
-                      aria-hidden="true"
-                    >
-                      diversity_3
-                    </span>
-                  </div>
-                )}
-
-                <div className="cardBody">
-                  <span className="flagBadge">{event.date}</span>
-                  <span className="label">{event.label}</span>
-
-                  <h3>{event.title}</h3>
-
-                  <p>{event.summary}</p>
-
-                  <Link
-                    className={
-                      event.primary
-                        ? "button lightAction"
-                        : "button secondaryAction"
-                    }
-                    href="/contact"
-                  >
-                    Aprann plis x Learn More
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          {/* Photo & Media Release */}
-          <aside
-            id="photo-media-release"
-            className="card"
-            aria-labelledby="photo-media-release-title"
-            style={{
-              marginTop: "3rem",
-              maxWidth: "900px",
-              marginInline: "auto",
-            }}
-          >
-            <div className="cardBody">
-              <span className="label">Photo & Media Notice</span>
-
-              <h2 id="photo-media-release-title">Photo &amp; Media Release</h2>
-
-              <p className="lead">
-                Photography, video, and audio recording may take place during
-                Lakay Toussaint Community Alliance events. By registering for or
-                attending an event, you acknowledge that you may appear in
-                photographs, video recordings, audio recordings, or other media
-                created during the event.
-              </p>
-
-              <details>
-                <summary
-                  style={{
-                    cursor: "pointer",
-                    fontWeight: 700,
-                  }}
-                >
-                  Read the full Photo &amp; Media Release
-                </summary>
-
-                <div style={{ marginTop: "1rem" }}>
-                  <p>
-                    By registering for or attending an event hosted by Lakay
-                    Toussaint Community Alliance, you grant Lakay Toussaint
-                    Community Alliance and its authorized representatives,
-                    partners, licensees, and assigns permission to photograph,
-                    record, and otherwise capture your image, likeness, voice,
-                    and appearance in photographs, video, audio, or other media
-                    created in connection with the event.
-                  </p>
-
-                  <p>
-                    You authorize Lakay Toussaint Community Alliance to use,
-                    reproduce, publish, display, distribute, edit, and share
-                    such media for lawful organizational purposes, including
-                    community outreach, education, event documentation,
-                    fundraising, promotional materials, social media, websites,
-                    publications, and other communications, in print or digital
-                    formats.
-                  </p>
-
-                  <p>
-                    You understand that media may be edited, cropped, combined
-                    with other materials, or otherwise adapted for these
-                    purposes. You also understand that you will not receive
-                    payment or other compensation for the use of such media.
-                  </p>
-
-                  <p>
-                    If you do not wish to be photographed or recorded, please
-                    notify a Lakay Toussaint Community Alliance event organizer
-                    or staff member when you arrive so that reasonable efforts
-                    can be made to honor your request.
-                  </p>
-
-                  <p>
-                    For children and other minors, consent requirements may
-                    differ. A parent or legal guardian may be asked to provide
-                    permission when required.
-                  </p>
-                </div>
-              </details>
-=======
           <header className="sectionHeader">
-            <span className="label">Ann reyini / Gather with us</span>
-            <h2 id="upcoming-events-title">Upcoming Events</h2>
+            <span className="label">
+              Ann reyini / Gather with us
+            </span>
+
+            <h2 id="upcoming-events-title">
+              Upcoming Events
+            </h2>
           </header>
+
           {upcoming.length ? (
-            <div className="eventArchiveGrid">{upcoming.map((event) => <EventCard key={event.id} event={event} />)}</div>
+            <div className="eventArchiveGrid">
+              {upcoming.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                />
+              ))}
+            </div>
           ) : (
             <div className="eventEmptyState">
-              <h3>Pa gen evènman k ap vini / No upcoming events</h3>
-              <p>N ap anonse pwochen rankont lan byento. / We’ll share our next gathering soon.</p>
->>>>>>> origin/main:src/app/events/page.tsx
+              <h3>
+                Pa gen evènman k ap vini / No upcoming events
+              </h3>
+
+              <p>
+                N ap anonse pwochen rankont lan byento. / We’ll share our
+                next gathering soon.
+              </p>
             </div>
           )}
         </div>
       </section>
 
-      <section className="section low" id="past-events" aria-labelledby="past-events-title">
+      <section
+        className="section low"
+        id="past-events"
+        aria-labelledby="past-events-title"
+      >
         <div className="sectionInner">
           <header className="sectionHeader">
-            <span className="label">Moman nou pataje / Moments we shared</span>
-            <h2 id="past-events-title">Past Events</h2>
-            <p className="lead">Revivez bèl moman kominote nou an. / Revisit moments from our community.</p>
+            <span className="label">
+              Moman nou pataje / Moments we shared
+            </span>
+
+            <h2 id="past-events-title">
+              Past Events
+            </h2>
+
+            <p className="lead">
+              Revivez bèl moman kominote nou an. / Revisit moments from our
+              community.
+            </p>
           </header>
+
           <ArchiveYearFilter years={years} />
-          {past.length ? years.map((year) => (
-            <section className="eventYearGroup" id={`past-${year}`} key={year} aria-labelledby={`past-year-${year}`}>
-              <h3 id={`past-year-${year}`}>{year}</h3>
-              <div className="eventArchiveGrid">{past.filter((event) => event.startsAt.getFullYear() === year).map((event) => <EventCard key={event.id} event={event} past />)}</div>
-            </section>
-          )) : (
+
+          {past.length ? (
+            years.map((year) => (
+              <section
+                className="eventYearGroup"
+                id={`past-${year}`}
+                key={year}
+                aria-labelledby={`past-year-${year}`}
+              >
+                <h3 id={`past-year-${year}`}>
+                  {year}
+                </h3>
+
+                <div className="eventArchiveGrid">
+                  {past
+                    .filter(
+                      (event) =>
+                        event.startsAt.getFullYear() === year,
+                    )
+                    .map((event) => (
+                      <EventCard
+                        key={event.id}
+                        event={event}
+                        past
+                      />
+                    ))}
+                </div>
+              </section>
+            ))
+          ) : (
             <div className="eventEmptyState">
-              <h3>Pa gen evènman pase ankò / No past events yet</h3>
-              <p>Istwa kominote a ap parèt isit la. / Community moments will appear here.</p>
+              <h3>
+                Pa gen evènman pase ankò / No past events yet
+              </h3>
+
+              <p>
+                Istwa kominote a ap parèt isit la. / Community moments will
+                appear here.
+              </p>
             </div>
           )}
         </div>
@@ -240,18 +252,71 @@ export default async function EventsPage() {
 
       <section className="section low">
         <div className="sectionInner">
-          <aside className="card pad" aria-labelledby="photo-media-release-title">
-            <span className="label">Photo &amp; Media Notice</span>
-            <h2 id="photo-media-release-title">Photo &amp; Media Release</h2>
-            <p className="lead">Photography, video, and audio recording may take place during Lakay Toussaint Community Alliance events. By registering for or attending an event, you acknowledge that you may appear in photographs, video recordings, audio recordings, or other media created during the event.</p>
+          <aside
+            className="card pad"
+            aria-labelledby="photo-media-release-title"
+          >
+            <span className="label">
+              Photo &amp; Media Notice
+            </span>
+
+            <h2 id="photo-media-release-title">
+              Photo &amp; Media Release
+            </h2>
+
+            <p className="lead">
+              Photography, video, and audio recording may take place during
+              Lakay Toussaint Community Alliance events. By registering for or
+              attending an event, you acknowledge that you may appear in
+              photographs, video recordings, audio recordings, or other media
+              created during the event.
+            </p>
+
             <details>
-              <summary>Read the full Photo &amp; Media Release</summary>
+              <summary>
+                Read the full Photo &amp; Media Release
+              </summary>
+
               <div className="eventReleaseDetails">
-                <p>By registering for or attending an event hosted by Lakay Toussaint Community Alliance, you grant Lakay Toussaint Community Alliance and its authorized representatives, partners, licensees, and assigns permission to photograph, record, and otherwise capture your image, likeness, voice, and appearance in photographs, video, audio, or other media created in connection with the event.</p>
-                <p>You authorize Lakay Toussaint Community Alliance to use, reproduce, publish, display, distribute, edit, and share such media for lawful organizational purposes, including community outreach, education, event documentation, fundraising, promotional materials, social media, websites, publications, and other communications, in print or digital formats.</p>
-                <p>You understand that media may be edited, cropped, combined with other materials, or otherwise adapted for these purposes. You also understand that you will not receive payment or other compensation for the use of such media.</p>
-                <p>If you do not wish to be photographed or recorded, please notify a Lakay Toussaint Community Alliance event organizer or staff member when you arrive so that reasonable efforts can be made to honor your request.</p>
-                <p>For children and other minors, consent requirements may differ. A parent or legal guardian may be asked to provide permission when required.</p>
+                <p>
+                  By registering for or attending an event hosted by Lakay
+                  Toussaint Community Alliance, you grant Lakay Toussaint
+                  Community Alliance and its authorized representatives,
+                  partners, licensees, and assigns permission to photograph,
+                  record, and otherwise capture your image, likeness, voice,
+                  and appearance in photographs, video, audio, or other media
+                  created in connection with the event.
+                </p>
+
+                <p>
+                  You authorize Lakay Toussaint Community Alliance to use,
+                  reproduce, publish, display, distribute, edit, and share
+                  such media for lawful organizational purposes, including
+                  community outreach, education, event documentation,
+                  fundraising, promotional materials, social media, websites,
+                  publications, and other communications, in print or digital
+                  formats.
+                </p>
+
+                <p>
+                  You understand that media may be edited, cropped, combined
+                  with other materials, or otherwise adapted for these
+                  purposes. You also understand that you will not receive
+                  payment or other compensation for the use of such media.
+                </p>
+
+                <p>
+                  If you do not wish to be photographed or recorded, please
+                  notify a Lakay Toussaint Community Alliance event organizer
+                  or staff member when you arrive so that reasonable efforts
+                  can be made to honor your request.
+                </p>
+
+                <p>
+                  For children and other minors, consent requirements may
+                  differ. A parent or legal guardian may be asked to provide
+                  permission when required.
+                </p>
               </div>
             </details>
           </aside>
