@@ -15,6 +15,8 @@ export function DesignImage({
   sizes = "(max-width: 980px) 100vw, 50vw",
   src,
 }: DesignImageProps) {
+  const isVercelBlobImage = src.startsWith("https://") && src.includes(".public.blob.vercel-storage.com/");
+
   return (
     <Image
       alt={alt}
@@ -23,6 +25,7 @@ export function DesignImage({
       priority={priority}
       sizes={sizes}
       src={src}
+      unoptimized={isVercelBlobImage}
     />
   );
 }

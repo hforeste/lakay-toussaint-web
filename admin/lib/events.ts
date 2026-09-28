@@ -159,6 +159,21 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
 
   const slug = slugifyEventTitle(text("slug") || text("title"));
   if (!slug) return { error: "The title must contain at least one letter or number." };
+  const heroImageUrl = text("heroImageUrl");
+  if (heroImageUrl) {
+    const isLocalImage = heroImageUrl.startsWith("/images/") && !heroImageUrl.includes("..");
+    let isPublicBlob = false;
+    try {
+      const parsedUrl = new URL(heroImageUrl);
+      isPublicBlob = parsedUrl.protocol === "https:"
+        && parsedUrl.hostname.endsWith(".public.blob.vercel-storage.com");
+    } catch {
+      // Relative URLs are handled by the local-image check above.
+    }
+    if (!isLocalImage && !isPublicBlob) {
+      return { error: "Hero images must use the configured public image store." };
+    }
+  }
   const startsAt = new Date(text("startsAt"));
   const endsAt = text("endsAt") ? new Date(text("endsAt")) : null;
   const opensAt = text("registrationOpensAt") ? new Date(text("registrationOpensAt")) : null;
@@ -188,7 +203,7 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
       locationAddress: text("locationAddress"),
       summary: text("summary"),
       description: text("description"),
-      heroImageUrl: text("heroImageUrl"),
+      heroImageUrl,
       capacity: capacityValue,
       registrationOpensAt: opensAt?.toISOString() || "",
       registrationClosesAt: closesAt?.toISOString() || "",
