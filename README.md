@@ -2,6 +2,10 @@
 
 Public website for Lakay Toussaint Community Alliance, a Haitian-led nonprofit serving Seattle's Haitian diaspora and the broader Pacific Northwest Haitian community.
 
+### Admin image uploads
+
+The admin dashboard uploads event hero images directly to the configured public Vercel Blob store. Set `BLOB_READ_WRITE_TOKEN` in the admin deployment environment; keep this server-only token out of browser code and `NEXT_PUBLIC_*` variables.
+
 ## Local development
 
 ### Prerequisites

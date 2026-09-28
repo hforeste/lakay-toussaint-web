@@ -3,6 +3,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 import type { AdminEvent, EventStatus } from "@/lib/events";
 import { slugifyEventTitle } from "@/lib/slugify";
+import { HeroImageUpload } from "@/components/HeroImageUpload";
 
 type EventDraft = Omit<AdminEvent, "id" | "registeredAttendees">;
 
@@ -44,6 +45,13 @@ function fromEvent(event: AdminEvent): EventDraft {
   };
 }
 
+function createDraftUploadId() {
+  const randomId = typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return randomId.replace(/[^a-zA-Z0-9_-]/g, "-");
+}
+
 function payload(draft: EventDraft) {
   const iso = (value: string) => (value ? new Date(value).toISOString() : "");
   return {
@@ -61,18 +69,21 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
   const [draft, setDraft] = useState<EventDraft>(initialEvents[0] ? fromEvent(initialEvents[0]) : emptyEvent);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [draftUploadId, setDraftUploadId] = useState(createDraftUploadId);
   const selected = useMemo(() => events.find((event) => event.id === selectedId) || null, [events, selectedId]);
 
   function choose(event: AdminEvent) {
     setSelectedId(event.id);
     setDraft(fromEvent(event));
     setMessage("");
+    setDraftUploadId(createDraftUploadId());
   }
 
   function startNew() {
     setSelectedId(null);
     setDraft(emptyEvent);
     setMessage("");
+    setDraftUploadId(createDraftUploadId());
   }
 
   function update<K extends keyof EventDraft>(key: K, value: EventDraft[K]) {
@@ -172,7 +183,15 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
               <label>Time zone *<input value={draft.timeZone} onChange={(e) => update("timeZone", e.target.value)} required /></label>
               <label>Location name *<input value={draft.locationName} onChange={(e) => update("locationName", e.target.value)} required /></label>
               <label className="wide">Location address<input value={draft.locationAddress} onChange={(e) => update("locationAddress", e.target.value)} /></label>
-              <label className="wide">Hero image URL<input value={draft.heroImageUrl} onChange={(e) => update("heroImageUrl", e.target.value)} placeholder="/images/events/example.png" /></label>
+              <div className="wide heroImageField">
+                <label>Hero image</label>
+                <HeroImageUpload
+                  value={draft.heroImageUrl}
+                  previewUrl={draft.heroImageUrl.startsWith("/") ? `${publicSiteUrl}${draft.heroImageUrl}` : draft.heroImageUrl}
+                  uploadPathPrefix={`events/${selectedId || `drafts/${draftUploadId}`}/hero`}
+                  onChange={(value) => update("heroImageUrl", value)}
+                />
+              </div>
             </div>
           </fieldset>
 

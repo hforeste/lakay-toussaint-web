@@ -152,6 +152,21 @@ label.wide { grid-column: 1 / -1; }
 input, select, textarea { width: 100%; min-width: 0; padding: 0.8rem 0.9rem; color: var(--ink); background: #fbfbfb; border: 1px solid #9ea8af; border-radius: 0; font-size: 0.95rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
 textarea { resize: vertical; line-height: 1.5; }
 input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible { outline: 3px solid rgba(239,197,119,.65); outline-offset: 2px; border-color: var(--navy); }
+.heroImageField > label { margin-bottom: 0.42rem; }
+.heroImageUpload { display: grid; gap: 0.75rem; }
+.heroImagePreview { position: relative; min-height: 190px; display: grid; place-items: center; overflow: hidden; color: var(--muted); background: #f1f4f5; border: 1px dashed #9ea8af; }
+.heroImagePreview[data-empty="false"] { border-style: solid; }
+.heroImagePreview img { width: 100%; height: 250px; display: block; object-fit: cover; }
+.heroImageUploading { position: absolute; inset: auto 0 0; padding: 0.6rem; color: #fff; background: rgba(0,52,89,.86); text-align: center; font-weight: 800; }
+.heroImageControls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.heroImageControls small { flex-basis: 100%; color: var(--muted); font-size: 0.78rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.secondaryButton, .textButton { min-height: 40px; padding: 0 0.9rem; font-family: "League Spartan", sans-serif; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+.secondaryButton { color: var(--navy); background: #fff; border: 2px solid var(--navy); }
+.secondaryButton:hover { color: #fff; background: var(--navy); }
+.textButton { color: var(--red); background: transparent; border: 0; }
+.textButton:hover { text-decoration: underline; }
+.uploadError { margin: 0; padding: 0.65rem 0.8rem; color: #8b0018; background: #fff1f3; border-left: 4px solid var(--red); font-size: 0.85rem; font-weight: 700; }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .checkboxLabel { display: flex; align-items: center; gap: 0.7rem; align-self: end; min-height: 46px; }
 .checkboxLabel input { width: 20px; height: 20px; }
 .registrationCount { margin: 1.25rem 0 0; color: var(--muted); }
