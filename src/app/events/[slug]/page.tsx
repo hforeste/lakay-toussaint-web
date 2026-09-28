@@ -29,6 +29,7 @@ export default async function EventDetailPage({
   const { slug } = await params;
   const event = await getPublishedEventBySlug(slug);
   if (!event) notFound();
+  const eventHasEnded = event.hasEnded;
 
   const spacesRemaining =
     event.capacity === null ? null : Math.max(0, event.capacity - event.registeredAttendees);
@@ -44,7 +45,9 @@ export default async function EventDetailPage({
           </Link>
           <span className={event.registrationAvailable ? "eventStatus open" : "eventStatus"}>
             <span aria-hidden="true" />
-            {event.registrationAvailable
+            {eventHasEnded
+              ? "Evènman an fini / Event ended"
+              : event.registrationAvailable
               ? "Enskripsyon ouvè / Registration open"
               : "Enskripsyon fèmen / Registration unavailable"}
           </span>
@@ -136,7 +139,7 @@ export default async function EventDetailPage({
 
       <section className="section low" id="register">
         <div className="sectionInner">
-          {event.registrationAvailable ? (
+          {event.registrationAvailable && !eventHasEnded ? (
             <div className="eventRegistrationLayout">
               <aside className="eventRegistrationAside">
                 <span className="label fill">Enskripsyon ouvè / Open</span>
@@ -158,8 +161,8 @@ export default async function EventDetailPage({
             </div>
           ) : (
             <article className="card pad">
-              <h2>Enskripsyon pa disponib / Registration unavailable.</h2>
-              <p>The event may be full, registration may not have opened, or the deadline may have passed.</p>
+              <h2>{eventHasEnded ? "Evènman sa a fini / This event has ended." : "Enskripsyon pa disponib / Registration unavailable."}</h2>
+              <p>{eventHasEnded ? "Mèsi paske w te pataje moman sa a avèk nou. / Thank you for sharing this moment with us." : "The event may be full, registration may not have opened, or the deadline may have passed."}</p>
             </article>
           )}
         </div>

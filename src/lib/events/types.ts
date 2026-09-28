@@ -19,6 +19,7 @@ export interface PublicEvent {
   registrationClosesAt: Date | null;
   maxPartySize: number;
   registrationAvailable: boolean;
+  hasEnded: boolean;
 }
 
 export interface RegistrationInput {

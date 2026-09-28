@@ -1,51 +1,37 @@
+DELETE FROM events
+WHERE slug IN ('a-taste-of-haiti-2026', '1804-celebration-2027');
+
 INSERT INTO events (
-  slug, title, subtitle, starts_at, ends_at, location_name, location_address,
-  summary, description, hero_image_url, capacity, registration_opens_at,
-  registration_closes_at, max_party_size, status, is_featured, display_order
-) VALUES
-  (
-    'a-taste-of-haiti-2026',
-    'A Taste of Haiti',
-    'Food, music, vendors, and community connection in the park.',
-    '2026-09-07T13:00:00-07:00',
-    '2026-09-07T18:00:00-07:00',
-    'Jefferson Park Picnic Shelter 3',
-    '3801 Beacon Ave S, Seattle, WA 98108',
-    'A family-friendly outdoor celebration of Haitian food, culture, music, vendors, and community connection.',
-    'A Taste of Haiti brings Seattle''s Haitian diaspora and neighbors together for an afternoon of food, music, culture, small-business visibility, and community care.',
-    '/images/events/taste-of-haiti-hero.png',
-    240,
-    '2026-06-01T00:00:00-07:00',
-    '2026-09-07T12:00:00-07:00',
-    5,
-    'published',
-    true,
-    1
-  ),
-  (
-    '1804-celebration-2027',
-    '1804 Celebration',
-    'Haitian Independence Day with culture, history, and community pride.',
-    '2027-01-01T17:30:00-08:00',
-    '2027-01-01T21:30:00-08:00',
-    'Langston Hughes Performing Arts Institute',
-    '104 17th Ave S, Seattle, WA 98144',
-    'A Haitian Independence Day celebration honoring history, culture, and community.',
-    'The 1804 Celebration honors Haitian Independence Day with an evening of history, culture, intergenerational pride, food, music, and a renewed commitment to building community here while staying connected to Haiti.',
-    '/images/events/1804-celebration-hero.png',
-    180,
-    '2026-09-01T00:00:00-07:00',
-    '2027-01-01T16:30:00-08:00',
-    5,
-    'published',
-    true,
-    2
-  )
+  slug, title, subtitle, starts_at, ends_at, time_zone,
+  location_name, location_address, summary, description, hero_image_url,
+  capacity, registration_opens_at, registration_closes_at,
+  max_party_size, status, is_featured, display_order
+) VALUES (
+  '2026-ltca-labor-day-picnic',
+  '2026 LTCA Labor Day Picnic',
+  'Bringing Lakou to the PNW',
+  '2026-09-07T11:00:00-07:00',
+  '2026-09-07T17:00:00-07:00',
+  'America/Los_Angeles',
+  'Seahurst Park',
+  '7800 Seahurst Park Dr, Burien, WA 98166',
+  'A welcoming gathering where family, friends, and neighbors come together to eat, laugh, play games, enjoy music, share stories, and strengthen community connections.',
+  E'Bringing Lakou to the PNW—a welcoming gathering place where family, friends, and neighbors come together to eat, laugh, play games, enjoy music, share stories, and strengthen community connections.\n\nNap pote "Lakou" a nan PNW an—yon espas akeyan kote fanmi, zanmi ak vwazen reyini ansanm pou manje, ri, jwe jwèt, jwe mizik, pataje istwa epi ranfòse lyen nan kominote a.',
+  '/images/events/taste-of-haiti-hero.png',
+  NULL,
+  NULL,
+  '2026-09-07T11:00:00-07:00',
+  5,
+  'published',
+  true,
+  1
+)
 ON CONFLICT (slug) DO UPDATE SET
   title = EXCLUDED.title,
   subtitle = EXCLUDED.subtitle,
   starts_at = EXCLUDED.starts_at,
   ends_at = EXCLUDED.ends_at,
+  time_zone = EXCLUDED.time_zone,
   location_name = EXCLUDED.location_name,
   location_address = EXCLUDED.location_address,
   summary = EXCLUDED.summary,

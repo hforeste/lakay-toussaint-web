@@ -52,6 +52,7 @@ function mapEvent(row: EventRow): PublicEvent {
   const closesAt = row.registration_closes_at?.getTime() ?? row.starts_at.getTime();
   const hasCapacity =
     row.capacity === null || row.registered_attendees < row.capacity;
+  const hasEnded = (row.ends_at ?? row.starts_at).getTime() < now;
 
   return {
     id: row.id,
@@ -72,7 +73,8 @@ function mapEvent(row: EventRow): PublicEvent {
     registrationClosesAt: row.registration_closes_at,
     maxPartySize: row.max_party_size,
     registrationAvailable:
-      row.status === "published" && now >= opensAt && now <= closesAt && hasCapacity,
+      row.status === "published" && !hasEnded && now >= opensAt && now <= closesAt && hasCapacity,
+    hasEnded,
   };
 }
 
@@ -89,11 +91,16 @@ export async function getPublishedEvents() {
     SELECT ${eventColumns}
     FROM events
     WHERE status = 'published'
-      AND starts_at >= now()
-    ORDER BY starts_at ASC, display_order ASC
+    ORDER BY starts_at DESC, display_order ASC
   `);
 
-  return rows.map(mapEvent);
+  const events = rows.map(mapEvent);
+  const now = Date.now();
+  return {
+    upcoming: events.filter((event) => (event.endsAt ?? event.startsAt).getTime() >= now)
+      .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime()),
+    past: events.filter((event) => (event.endsAt ?? event.startsAt).getTime() < now),
+  };
 }
 
 export async function getPublishedEventBySlug(slug: string) {
