@@ -1,58 +1,101 @@
 # Lakay Toussaint Community Alliance Website
 
-Phase 1 public website for Lakay Toussaint Community Alliance, a Haitian-led nonprofit serving Seattle's Haitian diaspora and the broader Pacific Northwest Haitian community.
+Public website for Lakay Toussaint Community Alliance, a Haitian-led nonprofit serving Seattle's Haitian diaspora and the broader Pacific Northwest Haitian community.
 
-## Tech Stack
+## Local development
 
-- Next.js App Router
-- TypeScript
-- Firebase Firestore
-- Firebase Emulator Suite for local development
-- Kit for newsletter signup
-- Vercel-ready deployment
+### Prerequisites
 
-## Scripts
+- Node.js 22 LTS
+- npm
+- Docker Desktop
 
-```bash
+### 1. Install dependencies
+
+```powershell
+npm install
+```
+
+### 2. Start and initialize PostgreSQL
+
+Start Docker Desktop, then run:
+
+```powershell
+docker compose up -d postgres
+npm run db:setup
+```
+
+`db:setup` creates `.env` from `.env.example` if necessary, generates the required local privacy keys, applies database migrations, and loads the sample events. It can be run again safely and does not replace existing keys. Keep `.env` and `.env.local` out of source control; when both exist, `.env.local` takes precedence.
+
+### 3. Start the application
+
+```powershell
 npm run dev
-npm run typecheck
-npm run build
-npm run validate
 ```
 
-## Environment Variables
+Open [http://localhost:3000](http://localhost:3000).
 
-Copy `.env.example` to `.env.local` and fill in the values that are available.
+### 4. Start the event admin application
 
-Firebase is required for live event reads and form submissions. Without Firebase configuration, the app displays seeded local events and form APIs return a clear configuration error.
+In a second terminal, run:
 
-Important launch values:
-
-- `NEXT_PUBLIC_DONATION_URL`: Byrd Barr Place-approved donation route.
-- `NEXT_PUBLIC_KIT_FORM_ACTION`: Kit form action URL.
-- `NEXT_PUBLIC_CONTACT_EMAIL`: public LTCA contact email.
-
-## Firebase Emulator
-
-```bash
-npx firebase-tools@13.35.1 emulators:start --only firestore --project demo-lakay-toussaint
+```powershell
+npm run dev:admin
 ```
 
-The MVP event model uses the `events` collection. Seed records are documented in [docs/firebase-seed-data.md](./docs/firebase-seed-data.md).
+Open [http://localhost:3001](http://localhost:3001) and sign in with the generated
+`ADMIN_PASSWORD` stored in `.env`. The admin is a separate Next.js application under
+`admin/`, but it reads the same `DATABASE_URL` as the public website.
 
-## Content Workflow
+For later runs, the usual startup commands are simply:
 
-Core messaging lives in [docs/content-source.md](./docs/content-source.md). Static MVP data lives under `data`. Public events are dynamic and should be managed through Firebase `events`, not hardcoded page data.
+```powershell
+docker compose up -d postgres
+npm run dev
+```
 
-## Deployment
+## Optional local integrations
 
-Deploy on Vercel with the same environment variables from `.env.example`. Add production Firebase values and Kit values in the Vercel project settings.
+Registration emails are skipped in development unless `RESEND_API_KEY` and `REGISTRATION_EMAIL_FROM` are configured.
 
-## Launch Validation
+Contact, volunteer, and business-directory submissions still use Firebase Firestore. To exercise those forms locally, configure the `NEXT_PUBLIC_FIREBASE_*` variables in `.env`, set `NEXT_PUBLIC_FIREBASE_USE_EMULATOR=true`, and start the emulator in another terminal:
 
-- Home identifies LTCA, the mission statement, who LTCA serves, and key actions in the first viewport.
-- Events render from Firebase `events` records, with local seed records only as emulator/dev fallback.
-- Donate includes the approved fiscal sponsor disclosure.
-- Contact, volunteer, newsletter, and business submission forms validate inputs and show accessible success/error states.
-- Business submissions write to `businessSubmissions` and do not auto-publish to the directory.
-- `npm run typecheck` and `npm run build` pass before deployment.
+```powershell
+npm run emulators
+```
+
+Newsletter, donation, contact, and community-video settings are also optional for basic local startup. Their variables are documented in `.env.example`.
+
+## Useful commands
+
+```powershell
+npm run dev          # Start the Next.js development server
+npm run dev:admin    # Start the event admin on port 3001
+npm run db:setup     # Apply PostgreSQL migrations and seed events
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript checks
+npm run build        # Create a production build
+npm run build:admin  # Create an admin production build
+npm run validate     # Run typecheck and build
+```
+
+## Architecture
+
+- Next.js App Router and TypeScript
+- Separate Next.js event-admin application with password-protected CRUD APIs
+- PostgreSQL locally and Neon PostgreSQL in production for events and registrations
+- Firebase Firestore for contact, volunteer, and business submissions
+- Resend for registration email
+- Kit for newsletter signup
+- Vercel for deployment and scheduled registration-data cleanup
+
+Event migrations and sample data live under `db`. Core site messaging lives in [docs/content-source.md](./docs/content-source.md).
+
+## Production
+
+Production requires Neon, Resend, Firebase, and the relevant public integration values from `.env.example` to be configured in Vercel. The scheduled `/api/cleanup/registeration` endpoint uses `CRON_SECRET` and removes registration data 90 days after an event ends.
+
+Deploy the public site and event admin as separate web applications from this repository. For the
+admin deployment, use `admin` as the project root and configure `DATABASE_URL`, `ADMIN_PASSWORD`,
+and `PUBLIC_SITE_URL`. Give both deployments the same PostgreSQL `DATABASE_URL`; do not expose the
+admin deployment's password or database connection as public environment variables.
