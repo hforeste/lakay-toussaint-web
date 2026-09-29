@@ -62,15 +62,6 @@ export default function KnowYourRightsPage() {
 
       {/* Main event hero */}
       <section className={styles.hero}>
-        <Image
-          src="/images/community-hero.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={styles.heroImage}
-        />
-
         <div className={styles.heroOverlay} />
 
         <div className={styles.heroInner}>

@@ -22,12 +22,6 @@
   border-bottom: 3px solid var(--gold);
 }
 
-.heroImage {
-  object-fit: cover;
-  object-position: center;
-  z-index: 0;
-}
-
 .heroOverlay {
   position: absolute;
   inset: 0;
