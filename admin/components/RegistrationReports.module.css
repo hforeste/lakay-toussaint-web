@@ -1,0 +1,24 @@
+.reports { display: grid; gap: 1rem; }
+.header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.header h2 { margin: 0; color: var(--navy); font: 800 clamp(1.7rem, 3vw, 2.5rem) "League Spartan", sans-serif; }
+.subtitle { margin: .25rem 0 0; color: var(--muted); }
+.range { display: flex; flex-wrap: wrap; align-items: end; gap: .7rem; padding: 1rem; background: #fff; border: 1px solid var(--line); }
+.range label { min-width: 150px; color: var(--muted); font-size: .75rem; font-weight: 700; }
+.range input { display: block; width: 100%; margin-top: .25rem; }
+.cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .7rem; }
+.card { display: grid; gap: .25rem; padding: 1rem; background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--gold); }
+.card span { color: var(--muted); font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.card strong { color: var(--navy); font: 800 1.7rem "League Spartan", sans-serif; }
+.panel { padding: 1rem; background: #fff; border: 1px solid var(--line); }
+.panel h3 { margin: 0 0 .8rem; color: var(--navy); font: 800 1.25rem "League Spartan", sans-serif; }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.table { width: 100%; border-collapse: collapse; text-align: left; }
+.table th { color: var(--muted); background: #f4f6f7; font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; }
+.table th, .table td { padding: .6rem .7rem; border-bottom: 1px solid var(--line); }
+.barRow { display: grid; grid-template-columns: 7rem 1fr 3rem; align-items: center; gap: .6rem; margin: .6rem 0; font-size: .85rem; }
+.barTrack { height: .7rem; overflow: hidden; background: #edf0f1; }
+.bar { height: 100%; background: var(--red); }
+.muted { color: var(--muted); }
+.message { margin: 0; color: #8b0018; }
+@media (max-width: 900px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 650px) { .header { align-items: start; flex-direction: column; } .cards, .columns { grid-template-columns: 1fr 1fr; } .barRow { grid-template-columns: 6rem 1fr 2.5rem; } }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
 import { CapacityError, createAdminRegistration, DuplicateRegistrationError, EventNotFoundError, RegistrationValidationError } from "@/lib/registrations-mutations";
+import { recordAudit } from "@/lib/audit";
 
 const json = (body: unknown, status = 200) => NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
@@ -8,6 +9,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!(await isAuthenticated())) return json({ error: "Unauthorized" }, 401);
   try {
     const registration = await createAdminRegistration((await params).id, await request.json());
+    await recordAudit("registration.create", { eventId: (await params).id, registrationId: registration.id }, { attendeeCount: registration.attendeeCount });
     return json({ registration }, 201);
   } catch (error) {
     if (error instanceof RegistrationValidationError) return json({ error: error.message }, 400);
