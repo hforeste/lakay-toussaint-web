@@ -40,7 +40,9 @@ export async function POST(
       );
     }
 
-    const validation = validateRegistration(payload, event.maxPartySize);
+    const validation = validateRegistration(payload, event.maxPartySize, {
+      requireKnowYourRightsFields: slug === "know-your-rights",
+    });
     if (!validation.data) {
       return Response.json(
         { ok: false, message: "Please correct the highlighted fields.", errors: validation.errors },
@@ -67,9 +69,7 @@ export async function POST(
       {
         ok: true,
         emailSent,
-        message: emailSent
-          ? "Your registration is confirmed. Check your email for the details."
-          : "Your registration is confirmed, but we could not send the confirmation email.",
+        message: "Your registration is confirmed.",
         ...(process.env.NODE_ENV !== "production"
           ? {
               cancellationUrl: `/events/${encodeURIComponent(slug)}/registration/cancel?token=${encodeURIComponent(registration.cancellationToken)}`,

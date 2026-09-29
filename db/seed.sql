@@ -45,3 +45,51 @@ ON CONFLICT (slug) DO UPDATE SET
   is_featured = EXCLUDED.is_featured,
   display_order = EXCLUDED.display_order,
   updated_at = now();
+
+-- Keep the campaign event in the shared events database as well.  The
+-- campaign route remains a special public presentation, while this row makes
+-- the event available to the public event repository and admin dashboard.
+INSERT INTO events (
+  slug, title, subtitle, starts_at, ends_at, time_zone,
+  location_name, location_address, summary, description, hero_image_url,
+  capacity, registration_opens_at, registration_closes_at,
+  max_party_size, status, is_featured, display_order
+) VALUES (
+  'know-your-rights',
+  'Know Your Rights',
+  'Konnen dwa ou x Know Your Rights',
+  '2026-10-17T11:00:00-07:00',
+  '2026-10-17T14:00:00-07:00',
+  'America/Los_Angeles',
+  'Walk Your Plans',
+  '3300 1st Ave S, Seattle, WA',
+  'A community presentation on detention, TPS updates, and how to get legal help from the Northwest Immigrant Rights Project. Join us in person or on Zoom.',
+  E'A community presentation on detention, TPS updates, and how to get legal help from the Northwest Immigrant Rights Project. Join us in person or on Zoom.\n\nHaitian Creole interpreters on site. Slides in English and Kreyòl.',
+  NULL,
+  NULL,
+  NULL,
+  '2026-10-17T11:00:00-07:00',
+  5,
+  'published',
+  true,
+  0
+)
+ON CONFLICT (slug) DO UPDATE SET
+  title = EXCLUDED.title,
+  subtitle = EXCLUDED.subtitle,
+  starts_at = EXCLUDED.starts_at,
+  ends_at = EXCLUDED.ends_at,
+  time_zone = EXCLUDED.time_zone,
+  location_name = EXCLUDED.location_name,
+  location_address = EXCLUDED.location_address,
+  summary = EXCLUDED.summary,
+  description = EXCLUDED.description,
+  hero_image_url = EXCLUDED.hero_image_url,
+  capacity = EXCLUDED.capacity,
+  registration_opens_at = EXCLUDED.registration_opens_at,
+  registration_closes_at = EXCLUDED.registration_closes_at,
+  max_party_size = EXCLUDED.max_party_size,
+  status = EXCLUDED.status,
+  is_featured = EXCLUDED.is_featured,
+  display_order = EXCLUDED.display_order,
+  updated_at = now();
