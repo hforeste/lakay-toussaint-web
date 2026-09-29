@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, ReactNode, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./know-your-rights.module.css";
 
 type FormValues = {
@@ -28,6 +29,13 @@ const initialValues: FormValues = {
   mediaAcknowledgement: false,
 };
 
+function maskEmail(email: string) {
+  const [local, domain] = email.trim().toLowerCase().split("@");
+  if (!local || !domain) return "";
+  const visible = local.length <= 2 ? local.slice(0, 1) : local.slice(0, 2);
+  return `${visible}${"•".repeat(Math.max(1, local.length - visible.length))}@${domain}`;
+}
+
 function Field({ label, error, id, required = true, children }: { label: string; error?: string; id: string; required?: boolean; children: ReactNode }) {
   return (
     <label>
@@ -39,11 +47,11 @@ function Field({ label, error, id, required = true, children }: { label: string;
 }
 
 export function RegistrationForm() {
+  const router = useRouter();
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   function error(field: keyof FormValues) { return errors[field]; }
 
@@ -77,7 +85,6 @@ export function RegistrationForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("");
-    setSubmitted(false);
     if (!validateForm()) return;
     setSubmitting(true);
     try {
@@ -101,10 +108,18 @@ export function RegistrationForm() {
         setStatus(`Enskripsyon an pa fini / Registration could not be completed.${result.message ? ` ${result.message}` : ""}`);
         return;
       }
-      setStatus("Enskripsyon konfime / Registration confirmed.");
-      setSubmitted(true);
+      try {
+        window.sessionStorage.setItem("ltca:kyr-registration", JSON.stringify({
+          email: maskEmail(values.email),
+          attendeeCount: Number(values.attendeeCount),
+          attendance: values.attendance,
+        }));
+      } catch {
+        // The confirmation page has generic fallback copy if storage is unavailable.
+      }
       setValues(initialValues);
       setErrors({});
+      router.push("/events/know-your-rights/confirmation");
     } catch {
       setStatus("Enskripsyon an pa fini. Eseye ankò / Registration could not be completed. Please try again.");
     } finally { setSubmitting(false); }
@@ -283,7 +298,7 @@ export function RegistrationForm() {
       <button className={styles.submitButton} type="submit" disabled={submitting}>
         {submitting ? "Enskripsyon an ap fèt / Registration in progress" : "Konplete enskripsyon / Complete registration"}
       </button>
-      {status && <p className={styles.formStatus} role={submitted ? "status" : "alert"}>{status}</p>}
+      {status && <p className={styles.formStatus} role="alert">{status}</p>}
       <p className={styles.requiredNote}><span aria-hidden="true">*</span> Obligatwa / Required</p>
     </form>
   );
