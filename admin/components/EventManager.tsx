@@ -5,6 +5,9 @@ import type { AdminEvent, EventStatus } from "@/lib/events";
 import { slugifyEventTitle } from "@/lib/slugify";
 import { HeroImageUpload } from "@/components/HeroImageUpload";
 import { RegistrationManager } from "@/components/RegistrationManager";
+import { RegistrationCommunications } from "@/components/RegistrationCommunications";
+import { RegistrationReports } from "@/components/RegistrationReports";
+import { AuditHistory } from "@/components/AuditHistory";
 
 type EventDraft = Omit<AdminEvent, "id" | "registeredAttendees">;
 
@@ -71,7 +74,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [draftUploadId, setDraftUploadId] = useState(createDraftUploadId);
-  const [view, setView] = useState<"event" | "registrations">("event");
+  const [view, setView] = useState<"event" | "registrations" | "communications" | "reports" | "audit">("event");
   const selected = useMemo(() => events.find((event) => event.id === selectedId) || null, [events, selectedId]);
   const syncAttendance = useCallback((registeredAttendees: number) => {
     if (!selectedId) return;
@@ -169,11 +172,21 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           <div><p className="eyebrow">{selected ? "Edit event" : "Create event"}</p><h2>{selected ? selected.title : "New community event"}</h2></div>
           <div className="editorHeadingActions">
             {selected?.status === "published" ? <a href={`${publicSiteUrl}/events/${selected.slug}`} target="_blank" rel="noreferrer">Open public page ↗</a> : null}
-            {selected ? <div className="viewTabs" aria-label="Event workspace"><button type="button" className="textButton" data-active={view === "event"} onClick={() => setView("event")}>Edit event</button><button type="button" className="textButton" data-active={view === "registrations"} onClick={() => setView("registrations")}>Registrations</button></div> : null}
+            {selected ? <div className="viewTabs" aria-label="Event workspace">
+              <button type="button" className="textButton" aria-pressed={view === "event"} data-active={view === "event"} onClick={() => setView("event")}>Edit event</button>
+              <button type="button" className="textButton" aria-pressed={view === "registrations"} data-active={view === "registrations"} onClick={() => setView("registrations")}>Registrations</button>
+              <button type="button" className="textButton" aria-pressed={view === "communications"} data-active={view === "communications"} onClick={() => setView("communications")}>Communications</button>
+              <button type="button" className="textButton" aria-pressed={view === "reports"} data-active={view === "reports"} onClick={() => setView("reports")}>Reports</button>
+              <button type="button" className="textButton" aria-pressed={view === "audit"} data-active={view === "audit"} onClick={() => setView("audit")}>Audit</button>
+            </div> : null}
           </div>
         </div>
 
-        {selected && view === "registrations" ? <RegistrationManager eventId={selected.id} eventTitle={selected.title} maxPartySize={selected.maxPartySize} onEventAttendanceChange={syncAttendance} /> : <form className="eventForm" onSubmit={save}>
+        {selected && view === "registrations" ? <RegistrationManager eventId={selected.id} eventTitle={selected.title} maxPartySize={selected.maxPartySize} onEventAttendanceChange={syncAttendance} />
+          : selected && view === "communications" ? <RegistrationCommunications eventId={selected.id} eventTitle={selected.title} />
+          : selected && view === "reports" ? <RegistrationReports eventId={selected.id} eventTitle={selected.title} />
+          : selected && view === "audit" ? <AuditHistory eventId={selected.id} eventTitle={selected.title} />
+          : <form className="eventForm" onSubmit={save}>
           <fieldset disabled={busy}>
             <legend>Event identity</legend>
             <div className="formGrid">

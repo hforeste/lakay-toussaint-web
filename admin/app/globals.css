@@ -192,7 +192,7 @@ button:disabled { opacity: 0.55; cursor: wait; }
 .formMessage { margin: 0; padding: 0.7rem 1rem; color: var(--navy); background: rgba(239,197,119,.28); border-left: 4px solid var(--gold); }
 
 .editorHeadingActions { display: grid; justify-items: end; gap: .7rem; }
-.viewTabs { display: flex; gap: .35rem; padding: .2rem; background: #fff; border: 1px solid var(--line); }
+.viewTabs { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .35rem; padding: .2rem; background: #fff; border: 1px solid var(--line); }
 .viewTabs .textButton { min-height: 34px; color: var(--navy); }
 .viewTabs .textButton[data-active="true"] { color: #fff; background: var(--navy); text-decoration: none; }
 .registrationManager { max-width: 1180px; margin: 0 auto; display: grid; gap: 1rem; }
@@ -257,8 +257,9 @@ button:disabled { opacity: 0.55; cursor: wait; }
   .editorHeading { margin-bottom: 1.25rem; }
   .formActions, .formActions button { width: 100%; }
   .editorHeadingActions, .registrationHeader { width: 100%; justify-items: stretch; align-items: start; }
-  .viewTabs { width: 100%; }
-  .viewTabs .textButton { flex: 1; }
+  .editorHeading > *, .editorHeadingActions { min-width: 0; }
+  .viewTabs { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .viewTabs .textButton { min-width: 0; white-space: normal; }
   .registrationActions { width: 100%; }
   .registrationActions button { flex: 1; }
   .capacityGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

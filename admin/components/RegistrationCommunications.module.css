@@ -1,0 +1,12 @@
+.card { border: 1px solid #d8d2c8; border-radius: 12px; padding: 1.25rem; background: #fff; display: grid; gap: .8rem; max-width: 48rem; }
+.card h2 { margin: 0; color: #183d3d; }
+.hint { margin: 0; color: #5f625f; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+.card label { display: grid; gap: .3rem; font-weight: 600; color: #243434; }
+.card input, .card select, .card textarea { border: 1px solid #aaa69d; border-radius: 6px; padding: .65rem; font: inherit; font-weight: 400; color: #1b2929; }
+.actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+.card button { border: 0; border-radius: 6px; padding: .65rem 1rem; background: #1d6661; color: white; font: inherit; cursor: pointer; }
+.card button:disabled { opacity: .55; cursor: not-allowed; }
+.card .secondary { background: #e6efeb; color: #183d3d; }
+.message { margin: 0; color: #183d3d; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }

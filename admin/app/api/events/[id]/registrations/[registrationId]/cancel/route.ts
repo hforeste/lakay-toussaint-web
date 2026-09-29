@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
 import { cancelAdminRegistration, EventNotFoundError, RegistrationNotFoundError } from "@/lib/registrations-mutations";
+import { recordAudit } from "@/lib/audit";
 
 const json = (body: unknown, status = 200) => NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
@@ -9,6 +10,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   const values = await params;
   try {
     const registration = await cancelAdminRegistration(values.id, values.registrationId);
+    await recordAudit("registration.cancel", { eventId: values.id, registrationId: values.registrationId });
     return json({ registration });
   } catch (error) {
     if (error instanceof EventNotFoundError || error instanceof RegistrationNotFoundError) return json({ error: "Registration not found." }, 404);
