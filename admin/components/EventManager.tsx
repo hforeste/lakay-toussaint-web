@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useCallback, useMemo, useState, type FormEvent } from "react";
 import type { AdminEvent, EventStatus } from "@/lib/events";
 import { slugifyEventTitle } from "@/lib/slugify";
 import { HeroImageUpload } from "@/components/HeroImageUpload";
+import { RegistrationManager } from "@/components/RegistrationManager";
 
 type EventDraft = Omit<AdminEvent, "id" | "registeredAttendees">;
 
@@ -70,12 +71,18 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [draftUploadId, setDraftUploadId] = useState(createDraftUploadId);
+  const [view, setView] = useState<"event" | "registrations">("event");
   const selected = useMemo(() => events.find((event) => event.id === selectedId) || null, [events, selectedId]);
+  const syncAttendance = useCallback((registeredAttendees: number) => {
+    if (!selectedId) return;
+    setEvents((current) => current.map((event) => event.id === selectedId ? { ...event, registeredAttendees } : event));
+  }, [selectedId]);
 
   function choose(event: AdminEvent) {
     setSelectedId(event.id);
     setDraft(fromEvent(event));
     setMessage("");
+    setView("event");
     setDraftUploadId(createDraftUploadId());
   }
 
@@ -83,6 +90,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
     setSelectedId(null);
     setDraft(emptyEvent);
     setMessage("");
+    setView("event");
     setDraftUploadId(createDraftUploadId());
   }
 
@@ -159,10 +167,13 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
       <section className="editorPanel">
         <div className="editorHeading">
           <div><p className="eyebrow">{selected ? "Edit event" : "Create event"}</p><h2>{selected ? selected.title : "New community event"}</h2></div>
-          {selected?.status === "published" ? <a href={`${publicSiteUrl}/events/${selected.slug}`} target="_blank" rel="noreferrer">Open public page ↗</a> : null}
+          <div className="editorHeadingActions">
+            {selected?.status === "published" ? <a href={`${publicSiteUrl}/events/${selected.slug}`} target="_blank" rel="noreferrer">Open public page ↗</a> : null}
+            {selected ? <div className="viewTabs" aria-label="Event workspace"><button type="button" className="textButton" data-active={view === "event"} onClick={() => setView("event")}>Edit event</button><button type="button" className="textButton" data-active={view === "registrations"} onClick={() => setView("registrations")}>Registrations</button></div> : null}
+          </div>
         </div>
 
-        <form className="eventForm" onSubmit={save}>
+        {selected && view === "registrations" ? <RegistrationManager eventId={selected.id} eventTitle={selected.title} maxPartySize={selected.maxPartySize} onEventAttendanceChange={syncAttendance} /> : <form className="eventForm" onSubmit={save}>
           <fieldset disabled={busy}>
             <legend>Event identity</legend>
             <div className="formGrid">
@@ -213,7 +224,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
             {selected ? <button className="dangerButton" type="button" onClick={remove} disabled={busy}>Delete event</button> : null}
             {message ? <p className="formMessage" role="status">{message}</p> : null}
           </div>
-        </form>
+        </form>}
       </section>
     </div>
   );
