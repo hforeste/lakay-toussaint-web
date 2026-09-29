@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+
 import { RegistrationForm } from "./RegistrationForm";
 import styles from "./know-your-rights.module.css";
 
@@ -40,11 +41,9 @@ const topics = [
 export default function KnowYourRightsPage() {
   return (
     <main className={styles.page}>
-      {/* Tablet/mobile partnership header */}
+      {/* Mobile / tablet partnership header */}
       <div className={styles.mobilePartnerBar}>
-        <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
-          NWIRP
-        </span>
+        <NwirpLogo />
 
         <div className={styles.mobilePartnerText}>
           <span>An patenarya</span>
@@ -62,10 +61,18 @@ export default function KnowYourRightsPage() {
 
       {/* Main event hero */}
       <section className={styles.hero}>
+        <Image
+          src="/images/events/know-your-rights-hero.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className={styles.heroImage}
+        />
+
         <div className={styles.heroOverlay} />
 
         <div className={styles.heroInner}>
-          {/* Main event content */}
           <div className={styles.heroContent}>
             <span className={styles.eyebrow}>
               Konnen dwa ou x Know Your Rights
@@ -151,9 +158,7 @@ export default function KnowYourRightsPage() {
               <span>In partnership</span>
             </div>
 
-            <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
-              NWIRP
-            </span>
+            <NwirpLogo />
 
             <div className={styles.partnerDivider} />
 
@@ -165,12 +170,10 @@ export default function KnowYourRightsPage() {
               className={styles.lakayLogo}
             />
           </div>
-
-          {/*<span className={styles.tagline}>No Haitian Left Behind</span>*/}
         </div>
       </section>
 
-      {/* Tablet/mobile details */}
+      {/* Tablet / mobile details */}
       <section
         id="event-details"
         className={styles.mobileDetails}
@@ -215,16 +218,21 @@ export default function KnowYourRightsPage() {
           Enskri x Register
         </a>
 
+        {/* Bottom mobile partnership row */}
         <div className={styles.mobileBottomPartners}>
-          <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
-            NWIRP
-          </span>
+          <NwirpLogo />
+
+          <div className={styles.mobileBottomPartnerText}>
+            <span>An patenarya</span>
+            <span>In partnership</span>
+          </div>
 
           <Image
             src="/images/brand/ltca-logo-256.png"
             alt="Lakay Toussaint Community Alliance"
             width={64}
             height={64}
+            className={styles.bottomLakayLogo}
           />
         </div>
       </section>
@@ -253,6 +261,20 @@ export default function KnowYourRightsPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function NwirpLogo() {
+  return (
+    <div className={styles.nwirpLogoWrap}>
+      <Image
+        src="/images/partners/nwirp-logo.png"
+        alt="Northwest Immigrant Rights Project"
+        fill
+        sizes="(max-width: 640px) 115px, (max-width: 1100px) 145px, 190px"
+        className={styles.nwirpLogo}
+      />
+    </div>
   );
 }
 
