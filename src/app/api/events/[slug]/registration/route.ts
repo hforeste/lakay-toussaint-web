@@ -40,7 +40,9 @@ export async function POST(
       );
     }
 
-    const validation = validateRegistration(payload, event.maxPartySize);
+    const validation = validateRegistration(payload, event.maxPartySize, {
+      requireKnowYourRightsFields: slug === "know-your-rights",
+    });
     if (!validation.data) {
       return Response.json(
         { ok: false, message: "Please correct the highlighted fields.", errors: validation.errors },

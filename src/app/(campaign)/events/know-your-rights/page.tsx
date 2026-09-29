@@ -42,13 +42,9 @@ export default function KnowYourRightsPage() {
     <main className={styles.page}>
       {/* Tablet/mobile partnership header */}
       <div className={styles.mobilePartnerBar}>
-        <Image
-          src="/images/partners/nwirp-logo.png"
-          alt="Northwest Immigrant Rights Project"
-          width={180}
-          height={70}
-          className={styles.partnerLogo}
-        />
+        <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
+          NWIRP
+        </span>
 
         <div className={styles.mobilePartnerText}>
           <span>An patenarya</span>
@@ -67,7 +63,7 @@ export default function KnowYourRightsPage() {
       {/* Main event hero */}
       <section className={styles.hero}>
         <Image
-          src="/images/events/know-your-rights-hero.jpg"
+          src="/images/community-hero.png"
           alt=""
           fill
           priority
@@ -164,13 +160,9 @@ export default function KnowYourRightsPage() {
               <span>In partnership</span>
             </div>
 
-            <Image
-              src="/images/partners/nwirp-logo.png"
-              alt="Northwest Immigrant Rights Project"
-              width={190}
-              height={72}
-              className={styles.partnerLogo}
-            />
+            <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
+              NWIRP
+            </span>
 
             <div className={styles.partnerDivider} />
 
@@ -233,12 +225,9 @@ export default function KnowYourRightsPage() {
         </a>
 
         <div className={styles.mobileBottomPartners}>
-          <Image
-            src="/images/partners/nwirp-logo.png"
-            alt="Northwest Immigrant Rights Project"
-            width={160}
-            height={64}
-          />
+          <span className={styles.partnerLogo} role="img" aria-label="Northwest Immigrant Rights Project">
+            NWIRP
+          </span>
 
           <Image
             src="/images/brand/ltca-logo-256.png"
@@ -257,12 +246,15 @@ export default function KnowYourRightsPage() {
               Enskri x Register
             </span>
 
-            <h2>Reserve your place</h2>
+            <h2>Rezève plas ou / Reserve your place</h2>
 
             <p>
-              Register to attend the Know Your Rights presentation in person or
-              by Zoom. Please provide the information below so we can confirm
-              your registration and send event updates.
+              Enskri pou patisipe nan prezantasyon Konnen dwa ou a an pèsòn oswa
+              sou Zoom. / Register to attend the Know Your Rights presentation
+              in person or by Zoom. Tanpri bay enfòmasyon ki anba yo pou nou
+              konfime enskripsyon ou epi voye mizajou sou evènman an. / Please
+              provide the information below so we can confirm your registration
+              and send event updates.
             </p>
           </div>
 

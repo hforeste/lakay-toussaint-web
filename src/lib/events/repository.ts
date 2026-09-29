@@ -219,8 +219,10 @@ export async function createEventRegistration({
     const registrations = await tx<{ id: string }[]>`
       INSERT INTO event_registrations (
         event_id, first_name_encrypted, last_name_encrypted, email_encrypted,
-        email_lookup_hash, attendee_count, whatsapp_phone_encrypted,
-        whatsapp_opt_in, cancellation_token_hash
+        email_lookup_hash, attendee_count, phone_encrypted, whatsapp_phone_encrypted,
+        whatsapp_opt_in, cancellation_token_hash, date_of_birth_encrypted,
+        gender_encrypted, city_encrypted, county_encrypted, attendance_mode,
+        accommodations_encrypted, media_acknowledgement
       ) VALUES (
         ${event.id},
         ${encryptPersonalData(input.firstName)},
@@ -228,9 +230,17 @@ export async function createEventRegistration({
         ${encryptPersonalData(email)},
         ${emailHash},
         ${input.attendeeCount},
+        ${input.phone ? encryptPersonalData(input.phone) : null},
         ${input.whatsappPhone ? encryptPersonalData(input.whatsappPhone) : null},
         ${input.whatsappOptIn},
-        ${tokenHash}
+        ${tokenHash},
+        ${input.dateOfBirth ? encryptPersonalData(input.dateOfBirth) : null},
+        ${input.gender ? encryptPersonalData(input.gender) : null},
+        ${input.city ? encryptPersonalData(input.city) : null},
+        ${input.county ? encryptPersonalData(input.county) : null},
+        ${input.attendanceMode ?? null},
+        ${input.accommodations ? encryptPersonalData(input.accommodations) : null},
+        ${input.mediaAcknowledgement ?? null}
       )
       RETURNING id
     `;
