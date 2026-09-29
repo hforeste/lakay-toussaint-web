@@ -11,15 +11,22 @@
   color: var(--text);
 }
 
-/* -------------------------
+/* =========================================================
    HERO
-------------------------- */
+   ========================================================= */
 
 .hero {
   position: relative;
   min-height: 720px;
   overflow: hidden;
+  background: var(--navy);
   border-bottom: 3px solid var(--gold);
+}
+
+.heroImage {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .heroOverlay {
@@ -41,9 +48,8 @@
   z-index: 2;
 
   width: min(1450px, calc(100% - 6rem));
-  margin-inline: auto;
-
   min-height: 720px;
+  margin-inline: auto;
 
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(390px, 0.75fr);
@@ -82,17 +88,17 @@
 
 .description {
   max-width: 790px;
-
   margin: 0 0 2rem;
+
+  color: rgba(255, 255, 255, 0.94);
 
   font-size: clamp(1.2rem, 1.8vw, 1.75rem);
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.94);
 }
 
-/* -------------------------
+/* =========================================================
    EVENT DETAIL ROWS
-------------------------- */
+   ========================================================= */
 
 .desktopDetails {
   display: grid;
@@ -129,9 +135,9 @@
   line-height: 1.45;
 }
 
-/* -------------------------
+/* =========================================================
    HERO BUTTONS
-------------------------- */
+   ========================================================= */
 
 .heroActions {
   display: flex;
@@ -169,18 +175,18 @@
   border: 2px solid rgba(255, 255, 255, 0.85);
 }
 
-/* -------------------------
+/* =========================================================
    TOPICS CARD
-------------------------- */
+   ========================================================= */
 
 .topicsCard {
-  background: white;
-  color: var(--text);
+  align-self: center;
 
-  border: 2px solid var(--gold);
   padding: 2.6rem;
 
-  align-self: center;
+  color: var(--text);
+  background: white;
+  border: 2px solid var(--gold);
 }
 
 .topicsEyebrow {
@@ -191,8 +197,12 @@
   margin: 0.6rem 0 1.2rem;
 
   font-size: clamp(2rem, 3vw, 3rem);
-  text-transform: uppercase;
   line-height: 1;
+  text-transform: uppercase;
+}
+
+.topicList {
+  display: grid;
 }
 
 .topic {
@@ -229,88 +239,101 @@
   font-size: 0.86rem;
 }
 
-/* -------------------------
+/* =========================================================
    PARTNERSHIP BAR
-------------------------- */
+   ========================================================= */
 
 .desktopPartnerBar {
   background: white;
+  border-bottom: 1px solid #ebe4d3;
 }
 
 .partnerInner {
   width: min(1450px, calc(100% - 6rem));
+  min-height: 110px;
   margin-inline: auto;
 
-  min-height: 100px;
-
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
-  gap: 2rem;
 }
 
 .partnerGroup {
+  width: 100%;
+
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1.6rem;
 }
 
 .partnerLabel {
+  flex-shrink: 0;
+
   display: grid;
+  gap: 0.18rem;
+
+  color: var(--navy);
 
   font-size: 0.76rem;
+  line-height: 1.25;
   text-transform: uppercase;
   letter-spacing: 0.19em;
   font-weight: 800;
 }
 
 .partnerDivider {
+  flex-shrink: 0;
+
   width: 1px;
   height: 55px;
+
   background: #d7c9a5;
 }
 
-.partnerLogo {
-  min-width: 6.5rem;
-  height: 52px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--navy);
-  font-family: "League Spartan", sans-serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+/* NWIRP logo container */
+
+.nwirpLogoWrap {
+  position: relative;
+  flex: 0 0 auto;
+
+  width: 190px;
+  height: 64px;
 }
 
+.nwirpLogo {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Lakay logo */
+
 .lakayLogo {
+  flex: 0 0 auto;
+
   width: auto;
   height: 62px;
+
   object-fit: contain;
 }
 
-.tagline {
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.85rem;
-}
-
 /* Hidden on desktop */
+
 .mobilePartnerBar,
 .mobileDetails {
   display: none;
 }
 
-/* -------------------------
+.mobileBottomPartnerText {
+  display: none;
+}
+
+/* =========================================================
    REGISTRATION
-------------------------- */
+   ========================================================= */
 
 .registration {
-  background: #f6f6f4;
-
   padding: clamp(4rem, 7vw, 7rem) 1.5rem;
+
+  background: #f6f6f4;
 }
 
 .registrationInner {
@@ -343,10 +366,9 @@
 }
 
 .registrationForm {
-  background: white;
-
   padding: clamp(1.5rem, 4vw, 3rem);
 
+  background: white;
   border: 1px solid #dec47e;
 }
 
@@ -367,10 +389,13 @@
 .registrationForm select,
 .registrationForm textarea {
   width: 100%;
-  border: 1px solid #aab2bb;
-  background: white;
+
   padding: 0.85rem 0.9rem;
+
   color: var(--text);
+  background: white;
+  border: 1px solid #aab2bb;
+
   font: inherit;
 }
 
@@ -379,7 +404,12 @@
   min-height: 48px;
 }
 
+.registrationForm textarea {
+  resize: vertical;
+}
+
 .registrationForm input:focus,
+.registrationForm select:focus,
 .registrationForm textarea:focus {
   outline: 3px solid rgba(189, 35, 40, 0.18);
   border-color: var(--red);
@@ -418,8 +448,9 @@
 
 .consent {
   display: grid !important;
-  grid-template-columns: 20px 1fr;
+  grid-template-columns: 20px minmax(0, 1fr);
   align-items: start;
+  gap: 0.65rem;
 
   margin: 1.5rem 0;
 
@@ -432,9 +463,9 @@
   width: 100%;
   min-height: 56px;
 
-  border: 0;
-  background: var(--red);
   color: white;
+  background: var(--red);
+  border: 0;
 
   cursor: pointer;
 
@@ -443,9 +474,20 @@
   font-weight: 800;
 }
 
+.submitButton:hover {
+  background: #9f1e23;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .formStatus {
   margin: 1rem 0 0;
+
   color: var(--navy);
+
   line-height: 1.5;
 }
 
@@ -453,13 +495,20 @@
   margin-top: 1rem;
 
   color: var(--muted);
+
   font-size: 0.8rem;
   line-height: 1.5;
 }
 
-/* =========================
+.fieldError {
+  color: #a11b1b;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* =========================================================
    TABLET
-========================= */
+   ========================================================= */
 
 @media (max-width: 1100px) {
   .desktopPartnerBar {
@@ -467,26 +516,44 @@
   }
 
   .mobilePartnerBar {
+    width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: clamp(1rem, 4vw, 2rem);
 
-    min-height: 90px;
-    padding: 1rem 2rem;
+    padding: 14px 24px;
 
     background: white;
-    border-bottom: 2px solid var(--gold);
+    border-bottom: 1px solid #ebe4d3;
+  }
+
+  .mobilePartnerBar .nwirpLogoWrap {
+    width: 145px;
+    height: 54px;
   }
 
   .mobilePartnerText {
+    flex: 0 0 auto;
+
     display: grid;
+    gap: 0.15rem;
+
+    color: var(--navy);
 
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
+
     font-size: 0.7rem;
+    line-height: 1.25;
     font-weight: 800;
+  }
+
+  .mobilePartnerBar .lakayLogo {
+    width: auto;
+    height: 52px;
   }
 
   .hero {
@@ -545,6 +612,7 @@
 
     text-transform: uppercase;
     letter-spacing: 0.18em;
+
     font-size: 0.8rem;
     font-weight: 800;
   }
@@ -557,7 +625,6 @@
 
   .mobileRegisterButton {
     width: min(440px, 100%);
-
     margin-top: 3rem;
 
     color: white;
@@ -567,9 +634,40 @@
   .mobileBottomPartners {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.5rem;
 
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+
+    border-top: 1px solid #ebe4d3;
+  }
+
+  .mobileBottomPartners .nwirpLogoWrap {
+    width: 145px;
+    height: 54px;
+  }
+
+  .mobileBottomPartnerText {
+    display: grid;
+    gap: 0.15rem;
+
+    color: var(--navy);
+
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+
+    font-size: 0.62rem;
+    line-height: 1.25;
+    font-weight: 800;
+  }
+
+  .bottomLakayLogo {
+    width: auto;
+    height: 56px;
+
+    object-fit: contain;
   }
 
   .registrationInner {
@@ -577,46 +675,55 @@
   }
 }
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+   ========================================================= */
 
 @media (max-width: 640px) {
   .mobilePartnerBar {
     justify-content: space-between;
-    gap: 1rem;
+    gap: 10px;
 
-    min-height: 76px;
-    padding: 0.75rem 1.25rem;
+    padding: 10px 14px;
   }
 
-  .mobilePartnerBar .partnerLogo {
-    height: 42px;
-  }
-
-  .mobilePartnerBar .lakayLogo {
-    height: 48px;
+  .mobilePartnerBar .nwirpLogoWrap {
+    width: 105px;
+    height: 44px;
   }
 
   .mobilePartnerText {
-    font-size: 0.57rem;
+    min-width: 0;
+
+    font-size: 0.56rem;
+    line-height: 1.25;
+    letter-spacing: 0.075em;
+  }
+
+  .mobilePartnerBar .lakayLogo {
+    width: auto;
+    height: 42px;
   }
 
   .heroInner {
-    min-height: 370px;
+    min-height: 430px;
 
     align-items: end;
 
-    padding: 2rem 2rem 2.5rem;
+    padding: 2.25rem 2rem 2.75rem;
   }
 
   .heroOverlay {
     background: linear-gradient(
       180deg,
-      rgba(2, 24, 43, 0.3) 0%,
-      rgba(2, 24, 43, 0.75) 60%,
-      rgba(2, 24, 43, 0.92) 100%
+      rgba(2, 24, 43, 0.28) 0%,
+      rgba(2, 24, 43, 0.68) 55%,
+      rgba(2, 24, 43, 0.94) 100%
     );
+  }
+
+  .heroImage {
+    object-position: center;
   }
 
   .eyebrow {
@@ -650,12 +757,29 @@
 
   .mobileRegisterButton {
     width: 100%;
-
     margin-top: 2rem;
   }
 
   .mobileBottomPartners {
     justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mobileBottomPartners .nwirpLogoWrap {
+    width: 110px;
+    height: 46px;
+  }
+
+  .mobileBottomPartnerText {
+    flex: 1;
+
+    font-size: 0.54rem;
+    line-height: 1.25;
+    letter-spacing: 0.07em;
+  }
+
+  .bottomLakayLogo {
+    height: 48px;
   }
 
   .formGrid {
@@ -668,5 +792,56 @@
 
   .registrationForm {
     padding: 1.5rem;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .mobilePartnerBar {
+    gap: 7px;
+    padding-inline: 10px;
+  }
+
+  .mobilePartnerBar .nwirpLogoWrap {
+    width: 92px;
+    height: 40px;
+  }
+
+  .mobilePartnerText {
+    font-size: 0.5rem;
+    letter-spacing: 0.055em;
+  }
+
+  .mobilePartnerBar .lakayLogo {
+    height: 38px;
+  }
+
+  .heroInner {
+    padding-inline: 1.5rem;
+  }
+
+  .mobileDetails {
+    padding-inline: 1.5rem;
+  }
+
+  .mobileBottomPartners {
+    gap: 7px;
+  }
+
+  .mobileBottomPartners .nwirpLogoWrap {
+    width: 92px;
+    height: 40px;
+  }
+
+  .mobileBottomPartnerText {
+    font-size: 0.48rem;
+    letter-spacing: 0.045em;
+  }
+
+  .bottomLakayLogo {
+    height: 42px;
   }
 }
