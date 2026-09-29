@@ -101,7 +101,7 @@ export function RegistrationForm() {
         setStatus(`Enskripsyon an pa fini / Registration could not be completed.${result.message ? ` ${result.message}` : ""}`);
         return;
       }
-      setStatus(`Enskripsyon konfime / Registration confirmed.${result.message ? ` ${result.message}` : ""}`);
+      setStatus("Enskripsyon konfime / Registration confirmed.");
       setSubmitted(true);
       setValues(initialValues);
       setErrors({});

@@ -69,9 +69,7 @@ export async function POST(
       {
         ok: true,
         emailSent,
-        message: emailSent
-          ? "Your registration is confirmed. Check your email for the details."
-          : "Your registration is confirmed, but we could not send the confirmation email.",
+        message: "Your registration is confirmed.",
         ...(process.env.NODE_ENV !== "production"
           ? {
               cancellationUrl: `/events/${encodeURIComponent(slug)}/registration/cancel?token=${encodeURIComponent(registration.cancellationToken)}`,
