@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { EventRegistrationForm } from "@/components/EventRegistrationForm";
 import { Icon } from "@/components/Icon";
 import { getPublishedEventBySlug } from "@/lib/events/repository";
@@ -124,7 +126,9 @@ export default async function EventDetailPage({
             <span className="label">Konsènan evènman an / About this event</span>
             <h2>Ann reyini ansanm / Come together in community.</h2>
             <div className="goldRule" />
-            <p className="lead">{event.description}</p>
+            <div className="lead eventMarkdown">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{event.description}</ReactMarkdown>
+            </div>
           </article>
           <aside className="card pad eventFacts">
             <span className="label">Detay evènman an / Event details</span>

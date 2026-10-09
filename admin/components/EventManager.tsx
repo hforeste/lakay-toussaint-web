@@ -182,7 +182,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
               <label>Status<select value={draft.status} onChange={(e) => update("status", e.target.value as EventStatus)}><option value="draft">Draft</option><option value="published">Published</option><option value="cancelled">Cancelled</option><option value="completed">Completed</option></select></label>
               <label className="wide">Subtitle<input value={draft.subtitle} onChange={(e) => update("subtitle", e.target.value)} /></label>
               <label className="wide">Summary *<textarea rows={2} value={draft.summary} onChange={(e) => update("summary", e.target.value)} required /></label>
-              <label className="wide">Full description *<textarea rows={5} value={draft.description} onChange={(e) => update("description", e.target.value)} required /></label>
+              <label className="wide">Full description *<textarea rows={5} value={draft.description} onChange={(e) => update("description", e.target.value)} aria-describedby="event-description-help" required /><small id="event-description-help">Markdown supported: **bold**, *italic*, links, headings, and lists.</small></label>
             </div>
           </fieldset>
 
