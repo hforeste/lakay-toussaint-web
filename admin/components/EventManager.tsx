@@ -157,7 +157,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           {events.map((event) => (
             <button className="eventListItem" data-active={event.id === selectedId} key={event.id} onClick={() => choose(event)} type="button">
               <span className={`statusDot ${event.status}`} aria-hidden="true" />
-              <span><strong>{event.title}</strong><small>{new Date(event.startsAt).toLocaleDateString()} · {event.status}</small></span>
+              <span><strong>{event.title}</strong><small>{event.startsAt ? new Date(event.startsAt).toLocaleDateString() : "Date TBD"} · {event.status}</small></span>
             </button>
           ))}
           {!events.length ? <p className="emptyState">No events yet. Create the first one.</p> : null}
@@ -189,10 +189,10 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           <fieldset disabled={busy}>
             <legend>Schedule and location</legend>
             <div className="formGrid">
-              <label>Starts *<input type="datetime-local" value={draft.startsAt} onChange={(e) => update("startsAt", e.target.value)} required /></label>
+              <label>Starts<input type="datetime-local" value={draft.startsAt} onChange={(e) => update("startsAt", e.target.value)} /></label>
               <label>Ends<input type="datetime-local" value={draft.endsAt} onChange={(e) => update("endsAt", e.target.value)} /></label>
               <label>Time zone *<input value={draft.timeZone} onChange={(e) => update("timeZone", e.target.value)} required /></label>
-              <label>Location name *<input value={draft.locationName} onChange={(e) => update("locationName", e.target.value)} required /></label>
+              <label>Location name<input value={draft.locationName} onChange={(e) => update("locationName", e.target.value)} /></label>
               <label className="wide">Location address<input value={draft.locationAddress} onChange={(e) => update("locationAddress", e.target.value)} /></label>
               <div className="wide heroImageField">
                 <label>Hero image</label>

@@ -14,10 +14,10 @@ interface EventRow {
   slug: string;
   title: string;
   subtitle: string | null;
-  starts_at: Date;
+  starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
-  location_name: string;
+  location_name: string | null;
   location_address: string | null;
   summary: string;
   description: string;
@@ -37,7 +37,7 @@ interface RegistrationRow {
   attendee_count: number;
   event_title: string;
   event_slug: string;
-  event_starts_at: Date;
+  event_starts_at: Date | null;
   event_time_zone: string;
 }
 
@@ -49,10 +49,10 @@ export class RegistrationRateLimitError extends Error {}
 function mapEvent(row: EventRow): PublicEvent {
   const now = Date.now();
   const opensAt = row.registration_opens_at?.getTime() ?? Number.NEGATIVE_INFINITY;
-  const closesAt = row.registration_closes_at?.getTime() ?? row.starts_at.getTime();
+  const closesAt = row.registration_closes_at?.getTime() ?? row.starts_at?.getTime() ?? Number.NEGATIVE_INFINITY;
   const hasCapacity =
     row.capacity === null || row.registered_attendees < row.capacity;
-  const hasEnded = (row.ends_at ?? row.starts_at).getTime() < now;
+  const hasEnded = row.starts_at !== null && (row.ends_at ?? row.starts_at).getTime() < now;
 
   return {
     id: row.id,
@@ -73,7 +73,7 @@ function mapEvent(row: EventRow): PublicEvent {
     registrationClosesAt: row.registration_closes_at,
     maxPartySize: row.max_party_size,
     registrationAvailable:
-      row.status === "published" && !hasEnded && now >= opensAt && now <= closesAt && hasCapacity,
+      row.status === "published" && row.starts_at !== null && !hasEnded && now >= opensAt && now <= closesAt && hasCapacity,
     hasEnded,
   };
 }
@@ -97,9 +97,13 @@ export async function getPublishedEvents() {
   const events = rows.map(mapEvent);
   const now = Date.now();
   return {
-    upcoming: events.filter((event) => (event.endsAt ?? event.startsAt).getTime() >= now)
-      .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime()),
-    past: events.filter((event) => (event.endsAt ?? event.startsAt).getTime() < now),
+    upcoming: events.filter((event) => event.startsAt === null || (event.endsAt ?? event.startsAt).getTime() >= now)
+      .sort((a, b) => {
+        if (a.startsAt === null) return -1;
+        if (b.startsAt === null) return 1;
+        return a.startsAt.getTime() - b.startsAt.getTime();
+      }),
+    past: events.filter((event) => event.startsAt !== null && (event.endsAt ?? event.startsAt).getTime() < now),
   };
 }
 
@@ -266,7 +270,7 @@ export async function getCancellationDetails(slug: string, token: string) {
   const sql = getDatabase();
   const rows = await sql<{
     event_title: string;
-    event_starts_at: Date;
+    event_starts_at: Date | null;
     event_time_zone: string;
   }[]>`
     SELECT e.title AS event_title, e.starts_at AS event_starts_at,

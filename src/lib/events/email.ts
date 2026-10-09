@@ -79,7 +79,8 @@ export function sendRegistrationConfirmation({
 }) {
   const appUrl = process.env.APP_URL || "http://localhost:3000";
   const cancelUrl = `${appUrl}/events/${encodeURIComponent(event.slug)}/registration/cancel?token=${encodeURIComponent(cancellationToken)}`;
-  const date = eventDate(event.startsAt, event.timeZone);
+  const date = event.startsAt ? eventDate(event.startsAt, event.timeZone) : "Save the date";
+  const location = event.locationName || "Details coming soon";
   const safeName = escapeHtml(firstName);
   const safeTitle = escapeHtml(event.title);
 
@@ -87,8 +88,8 @@ export function sendRegistrationConfirmation({
     to: email,
     subject: `Registration confirmed: ${event.title}`,
     idempotencyKey: `registration-confirmed-${registrationId}`,
-    text: `Hi ${firstName}, your registration for ${event.title} is confirmed for ${attendeeCount} attendee(s). Date: ${date}. Location: ${event.locationName}. Cancel your registration: ${cancelUrl}`,
-    html: `<p>Hi ${safeName},</p><p>Your registration for <strong>${safeTitle}</strong> is confirmed for ${attendeeCount} attendee(s).</p><p><strong>Date:</strong> ${escapeHtml(date)}<br><strong>Location:</strong> ${escapeHtml(event.locationName)}</p><p><a href="${escapeHtml(cancelUrl)}">Review or cancel your registration</a></p>`,
+    text: `Hi ${firstName}, your registration for ${event.title} is confirmed for ${attendeeCount} attendee(s). Date: ${date}. Location: ${location}. Cancel your registration: ${cancelUrl}`,
+    html: `<p>Hi ${safeName},</p><p>Your registration for <strong>${safeTitle}</strong> is confirmed for ${attendeeCount} attendee(s).</p><p><strong>Date:</strong> ${escapeHtml(date)}<br><strong>Location:</strong> ${escapeHtml(location)}</p><p><a href="${escapeHtml(cancelUrl)}">Review or cancel your registration</a></p>`,
   });
 }
 

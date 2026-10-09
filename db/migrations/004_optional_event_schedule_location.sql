@@ -1,0 +1,3 @@
+ALTER TABLE events
+  ALTER COLUMN starts_at DROP NOT NULL,
+  ALTER COLUMN location_name DROP NOT NULL;

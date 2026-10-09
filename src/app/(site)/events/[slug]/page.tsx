@@ -67,8 +67,8 @@ export default async function EventDetailPage({
                 <Icon className="eventInfoIcon" name="calendar_month" />
                 <div>
                   <span>Dat ak lè / Date &amp; time</span>
-                  <strong>{formatDate(event.startsAt, event.timeZone)}</strong>
-                  {event.endsAt ? (
+                  <strong>{event.startsAt ? formatDate(event.startsAt, event.timeZone) : "Save the date"}</strong>
+                  {event.startsAt && event.endsAt ? (
                     <small>
                       {formatTime(event.startsAt, event.timeZone)} – {formatTime(event.endsAt, event.timeZone)}
                     </small>
@@ -79,7 +79,7 @@ export default async function EventDetailPage({
                 <Icon className="eventInfoIcon" name="location_on" />
                 <div>
                   <span>Kote li ye / Location</span>
-                  <strong>{event.locationName}</strong>
+                  <strong>{event.locationName || "Details coming soon"}</strong>
                   {event.locationAddress ? <small>{event.locationAddress}</small> : null}
                 </div>
               </div>
@@ -120,19 +120,21 @@ export default async function EventDetailPage({
           <aside className="card pad eventFacts">
             <span className="label">Detay evènman an / Event details</span>
             <h2>Prepare w / Plan your visit</h2>
-            <p><strong>Kote li ye / Location</strong><br />{event.locationName}</p>
+            <p><strong>Kote li ye / Location</strong><br />{event.locationName || "Details coming soon"}</p>
             {event.locationAddress ? <p>{event.locationAddress}</p> : null}
             {spacesRemaining !== null ? (
               <p className="eventCapacity"><strong>{spacesRemaining}</strong> plas ki rete / spaces remaining</p>
             ) : null}
-            <a
-              className="eventDirections"
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Jwenn direksyon / Get directions <Icon name="arrow_outward" />
-            </a>
+            {mapQuery ? (
+              <a
+                className="eventDirections"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Jwenn direksyon / Get directions <Icon name="arrow_outward" />
+              </a>
+            ) : null}
           </aside>
         </div>
       </section>

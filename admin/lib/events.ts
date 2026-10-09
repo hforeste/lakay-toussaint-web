@@ -34,10 +34,10 @@ interface EventRow {
   slug: string;
   title: string;
   subtitle: string | null;
-  starts_at: Date;
+  starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
-  location_name: string;
+  location_name: string | null;
   location_address: string | null;
   summary: string;
   description: string;
@@ -62,10 +62,10 @@ function serialize(row: EventRow): AdminEvent {
     slug: row.slug,
     title: row.title,
     subtitle: row.subtitle || "",
-    startsAt: row.starts_at.toISOString(),
+    startsAt: row.starts_at?.toISOString() || "",
     endsAt: row.ends_at?.toISOString() || "",
     timeZone: row.time_zone,
-    locationName: row.location_name,
+    locationName: row.location_name || "",
     locationAddress: row.location_address || "",
     summary: row.summary,
     description: row.description,
@@ -95,8 +95,8 @@ export async function createEvent(input: EventInput) {
       summary, description, hero_image_url, capacity, registration_opens_at,
       registration_closes_at, max_party_size, status, is_featured, display_order
     ) VALUES (
-      ${input.slug}, ${input.title}, ${input.subtitle || null}, ${input.startsAt}, ${input.endsAt || null},
-      ${input.timeZone}, ${input.locationName}, ${input.locationAddress || null}, ${input.summary},
+      ${input.slug}, ${input.title}, ${input.subtitle || null}, ${input.startsAt || null}, ${input.endsAt || null},
+      ${input.timeZone}, ${input.locationName || null}, ${input.locationAddress || null}, ${input.summary},
       ${input.description}, ${input.heroImageUrl || null}, ${input.capacity},
       ${input.registrationOpensAt || null}, ${input.registrationClosesAt || null},
       ${input.maxPartySize}, ${input.status}, ${input.isFeatured}, ${input.displayOrder}
@@ -110,8 +110,8 @@ export async function updateEvent(id: string, input: EventInput) {
   const rows = await sql<EventRow[]>`
     UPDATE events SET
       slug = ${input.slug}, title = ${input.title}, subtitle = ${input.subtitle || null},
-      starts_at = ${input.startsAt}, ends_at = ${input.endsAt || null}, time_zone = ${input.timeZone},
-      location_name = ${input.locationName}, location_address = ${input.locationAddress || null},
+      starts_at = ${input.startsAt || null}, ends_at = ${input.endsAt || null}, time_zone = ${input.timeZone},
+      location_name = ${input.locationName || null}, location_address = ${input.locationAddress || null},
       summary = ${input.summary}, description = ${input.description}, hero_image_url = ${input.heroImageUrl || null},
       capacity = ${input.capacity}, registration_opens_at = ${input.registrationOpensAt || null},
       registration_closes_at = ${input.registrationClosesAt || null}, max_party_size = ${input.maxPartySize},
@@ -154,7 +154,7 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
   if (!value || typeof value !== "object") return { error: "Event data is required." };
   const raw = value as Record<string, unknown>;
   const text = (name: string) => (typeof raw[name] === "string" ? raw[name].trim() : "");
-  const required = ["title", "startsAt", "timeZone", "locationName", "summary", "description"];
+  const required = ["title", "timeZone", "summary", "description"];
   for (const field of required) if (!text(field)) return { error: `${field} is required.` };
 
   const slug = slugifyEventTitle(text("slug") || text("title"));
@@ -174,13 +174,16 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
       return { error: "Hero images must use the configured public image store." };
     }
   }
-  const startsAt = new Date(text("startsAt"));
+  const startsAt = text("startsAt") ? new Date(text("startsAt")) : null;
   const endsAt = text("endsAt") ? new Date(text("endsAt")) : null;
   const opensAt = text("registrationOpensAt") ? new Date(text("registrationOpensAt")) : null;
   const closesAt = text("registrationClosesAt") ? new Date(text("registrationClosesAt")) : null;
-  if (Number.isNaN(startsAt.getTime())) return { error: "A valid start date is required." };
-  if (endsAt && (Number.isNaN(endsAt.getTime()) || endsAt <= startsAt)) return { error: "End time must be after the start time." };
-  if (closesAt && (Number.isNaN(closesAt.getTime()) || closesAt >= startsAt)) return { error: "Registration must close before the event starts." };
+  if (startsAt && Number.isNaN(startsAt.getTime())) return { error: "The start date is invalid." };
+  if (endsAt && Number.isNaN(endsAt.getTime())) return { error: "The end time is invalid." };
+  if (endsAt && !startsAt) return { error: "Add a start time before adding an end time." };
+  if (endsAt && startsAt && endsAt <= startsAt) return { error: "End time must be after the start time." };
+  if (closesAt && Number.isNaN(closesAt.getTime())) return { error: "Registration closing time is invalid." };
+  if (closesAt && startsAt && closesAt >= startsAt) return { error: "Registration must close before the event starts." };
   if (opensAt && Number.isNaN(opensAt.getTime())) return { error: "Registration opening time is invalid." };
   if (opensAt && closesAt && opensAt > closesAt) return { error: "Registration opening time must precede its closing time." };
 
@@ -196,7 +199,7 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
       slug,
       title: text("title"),
       subtitle: text("subtitle"),
-      startsAt: startsAt.toISOString(),
+      startsAt: startsAt?.toISOString() || "",
       endsAt: endsAt?.toISOString() || "",
       timeZone: text("timeZone"),
       locationName: text("locationName"),
