@@ -1700,12 +1700,13 @@ textarea:focus {
 .eventMediaImage {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
   background: var(--surface-mid);
 }
 
 .eventDetailImage {
-  object-fit: cover;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .eventMediaFrame figcaption {
