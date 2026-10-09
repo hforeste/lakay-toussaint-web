@@ -5,12 +5,16 @@ export { slugifyEventTitle } from "./slugify";
 
 export const eventStatuses = ["draft", "published", "cancelled", "completed"] as const;
 export type EventStatus = (typeof eventStatuses)[number];
+export const eventScheduleStatuses = ["scheduled", "date_only", "tbd"] as const;
+export type EventScheduleStatus = (typeof eventScheduleStatuses)[number];
 
 export interface AdminEvent {
   id: string;
   slug: string;
   title: string;
   subtitle: string;
+  scheduleStatus: EventScheduleStatus;
+  eventDate: string;
   startsAt: string;
   endsAt: string;
   timeZone: string;
@@ -34,6 +38,8 @@ interface EventRow {
   slug: string;
   title: string;
   subtitle: string | null;
+  schedule_status: EventScheduleStatus;
+  event_date: string | null;
   starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
@@ -52,7 +58,7 @@ interface EventRow {
   display_order: number;
 }
 
-const columns = `id, slug, title, subtitle, starts_at, ends_at, time_zone, location_name,
+const columns = `id, slug, title, subtitle, schedule_status, event_date, starts_at, ends_at, time_zone, location_name,
   location_address, summary, description, hero_image_url, capacity, registered_attendees,
   registration_opens_at, registration_closes_at, max_party_size, status, is_featured, display_order`;
 
@@ -62,6 +68,8 @@ function serialize(row: EventRow): AdminEvent {
     slug: row.slug,
     title: row.title,
     subtitle: row.subtitle || "",
+    scheduleStatus: row.schedule_status,
+    eventDate: row.event_date || "",
     startsAt: row.starts_at?.toISOString() || "",
     endsAt: row.ends_at?.toISOString() || "",
     timeZone: row.time_zone,
@@ -83,7 +91,7 @@ function serialize(row: EventRow): AdminEvent {
 
 export async function listEvents() {
   const sql = getDatabase();
-  const rows = await sql.unsafe<EventRow[]>(`SELECT ${columns} FROM events ORDER BY starts_at DESC, display_order ASC`);
+  const rows = await sql.unsafe<EventRow[]>(`SELECT ${columns} FROM events ORDER BY COALESCE(starts_at, event_date::timestamp) DESC NULLS FIRST, display_order ASC`);
   return rows.map(serialize);
 }
 
@@ -91,11 +99,11 @@ export async function createEvent(input: EventInput) {
   const sql = getDatabase();
   const rows = await sql<EventRow[]>`
     INSERT INTO events (
-      slug, title, subtitle, starts_at, ends_at, time_zone, location_name, location_address,
+      slug, title, subtitle, schedule_status, event_date, starts_at, ends_at, time_zone, location_name, location_address,
       summary, description, hero_image_url, capacity, registration_opens_at,
       registration_closes_at, max_party_size, status, is_featured, display_order
     ) VALUES (
-      ${input.slug}, ${input.title}, ${input.subtitle || null}, ${input.startsAt || null}, ${input.endsAt || null},
+      ${input.slug}, ${input.title}, ${input.subtitle || null}, ${input.scheduleStatus}, ${input.eventDate || null}, ${input.startsAt || null}, ${input.endsAt || null},
       ${input.timeZone}, ${input.locationName || null}, ${input.locationAddress || null}, ${input.summary},
       ${input.description}, ${input.heroImageUrl || null}, ${input.capacity},
       ${input.registrationOpensAt || null}, ${input.registrationClosesAt || null},
@@ -110,6 +118,7 @@ export async function updateEvent(id: string, input: EventInput) {
   const rows = await sql<EventRow[]>`
     UPDATE events SET
       slug = ${input.slug}, title = ${input.title}, subtitle = ${input.subtitle || null},
+      schedule_status = ${input.scheduleStatus}, event_date = ${input.eventDate || null},
       starts_at = ${input.startsAt || null}, ends_at = ${input.endsAt || null}, time_zone = ${input.timeZone},
       location_name = ${input.locationName || null}, location_address = ${input.locationAddress || null},
       summary = ${input.summary}, description = ${input.description}, hero_image_url = ${input.heroImageUrl || null},
@@ -133,6 +142,8 @@ export interface EventInput {
   slug: string;
   title: string;
   subtitle: string;
+  scheduleStatus: EventScheduleStatus;
+  eventDate: string;
   startsAt: string;
   endsAt: string;
   timeZone: string;
@@ -174,11 +185,19 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
       return { error: "Hero images must use the configured public image store." };
     }
   }
-  const startsAt = text("startsAt") ? new Date(text("startsAt")) : null;
-  const endsAt = text("endsAt") ? new Date(text("endsAt")) : null;
+  const scheduleStatus = (text("scheduleStatus") || (text("startsAt") ? "scheduled" : "tbd")) as EventScheduleStatus;
+  if (!eventScheduleStatuses.includes(scheduleStatus)) return { error: "Event schedule status is invalid." };
+  const eventDate = text("eventDate");
+  const parsedEventDate = eventDate ? new Date(`${eventDate}T00:00:00.000Z`) : null;
+  if (scheduleStatus === "date_only" && (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate) || Number.isNaN(parsedEventDate?.getTime()))) {
+    return { error: "A valid event date is required." };
+  }
+  const startsAt = scheduleStatus === "scheduled" && text("startsAt") ? new Date(text("startsAt")) : null;
+  const endsAt = scheduleStatus === "scheduled" && text("endsAt") ? new Date(text("endsAt")) : null;
   const opensAt = text("registrationOpensAt") ? new Date(text("registrationOpensAt")) : null;
   const closesAt = text("registrationClosesAt") ? new Date(text("registrationClosesAt")) : null;
   if (startsAt && Number.isNaN(startsAt.getTime())) return { error: "The start date is invalid." };
+  if (scheduleStatus === "scheduled" && !startsAt) return { error: "A start date and time are required for a scheduled event." };
   if (endsAt && Number.isNaN(endsAt.getTime())) return { error: "The end time is invalid." };
   if (endsAt && !startsAt) return { error: "Add a start time before adding an end time." };
   if (endsAt && startsAt && endsAt <= startsAt) return { error: "End time must be after the start time." };
@@ -199,6 +218,8 @@ export function parseEventInput(value: unknown): { data?: EventInput; error?: st
       slug,
       title: text("title"),
       subtitle: text("subtitle"),
+      scheduleStatus,
+      eventDate: scheduleStatus === "date_only" ? eventDate : "",
       startsAt: startsAt?.toISOString() || "",
       endsAt: endsAt?.toISOString() || "",
       timeZone: text("timeZone"),

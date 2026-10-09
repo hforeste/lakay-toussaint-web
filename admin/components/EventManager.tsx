@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState, type FormEvent } from "react";
-import type { AdminEvent, EventStatus } from "@/lib/events";
+import type { AdminEvent, EventScheduleStatus, EventStatus } from "@/lib/events";
 import { slugifyEventTitle } from "@/lib/slugify";
 import { HeroImageUpload } from "@/components/HeroImageUpload";
 import { RegistrationManager } from "@/components/RegistrationManager";
@@ -12,6 +12,8 @@ const emptyEvent: EventDraft = {
   slug: "",
   title: "",
   subtitle: "",
+  scheduleStatus: "tbd",
+  eventDate: "",
   startsAt: "",
   endsAt: "",
   timeZone: "America/Los_Angeles",
@@ -62,6 +64,13 @@ function payload(draft: EventDraft) {
     registrationOpensAt: iso(draft.registrationOpensAt),
     registrationClosesAt: iso(draft.registrationClosesAt),
   };
+}
+
+function scheduleLabel(event: AdminEvent) {
+  if (event.scheduleStatus === "date_only") {
+    return new Date(`${event.eventDate}T00:00:00`).toLocaleDateString();
+  }
+  return event.startsAt ? new Date(event.startsAt).toLocaleDateString() : "Date TBD";
 }
 
 export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: AdminEvent[]; publicSiteUrl: string }) {
@@ -115,7 +124,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
         const next = selectedId
           ? current.map((item) => item.id === result.event?.id ? result.event : item)
           : [result.event!, ...current];
-        return next.sort((a, b) => b.startsAt.localeCompare(a.startsAt));
+        return next.sort((a, b) => (b.startsAt || b.eventDate).localeCompare(a.startsAt || a.eventDate));
       });
       setSelectedId(result.event.id);
       setDraft(fromEvent(result.event));
@@ -157,7 +166,7 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           {events.map((event) => (
             <button className="eventListItem" data-active={event.id === selectedId} key={event.id} onClick={() => choose(event)} type="button">
               <span className={`statusDot ${event.status}`} aria-hidden="true" />
-              <span><strong>{event.title}</strong><small>{event.startsAt ? new Date(event.startsAt).toLocaleDateString() : "Date TBD"} · {event.status}</small></span>
+              <span><strong>{event.title}</strong><small>{scheduleLabel(event)} · {event.status}</small></span>
             </button>
           ))}
           {!events.length ? <p className="emptyState">No events yet. Create the first one.</p> : null}
@@ -189,9 +198,13 @@ export function EventManager({ initialEvents, publicSiteUrl }: { initialEvents: 
           <fieldset disabled={busy}>
             <legend>Schedule and location</legend>
             <div className="formGrid">
-              <label>Starts<input type="datetime-local" value={draft.startsAt} onChange={(e) => update("startsAt", e.target.value)} /></label>
-              <label>Ends<input type="datetime-local" value={draft.endsAt} onChange={(e) => update("endsAt", e.target.value)} /></label>
-              <label>Time zone *<input value={draft.timeZone} onChange={(e) => update("timeZone", e.target.value)} required /></label>
+              <label>Schedule<select value={draft.scheduleStatus} onChange={(e) => update("scheduleStatus", e.target.value as EventScheduleStatus)}><option value="scheduled">Date and time</option><option value="date_only">Date only — time TBD</option><option value="tbd">Schedule TBD</option></select></label>
+              {draft.scheduleStatus === "date_only" ? <label>Event date *<input type="date" value={draft.eventDate} onChange={(e) => update("eventDate", e.target.value)} required /></label> : null}
+              {draft.scheduleStatus === "scheduled" ? <>
+                <label>Starts *<input type="datetime-local" value={draft.startsAt} onChange={(e) => update("startsAt", e.target.value)} required /></label>
+                <label>Ends<input type="datetime-local" value={draft.endsAt} onChange={(e) => update("endsAt", e.target.value)} /></label>
+                <label>Time zone *<input value={draft.timeZone} onChange={(e) => update("timeZone", e.target.value)} required /></label>
+              </> : null}
               <label>Location name<input value={draft.locationName} onChange={(e) => update("locationName", e.target.value)} /></label>
               <label className="wide">Location address<input value={draft.locationAddress} onChange={(e) => update("locationAddress", e.target.value)} /></label>
               <div className="wide heroImageField">

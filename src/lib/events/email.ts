@@ -26,6 +26,11 @@ function eventDate(date: Date, timeZone: string) {
   }).format(date);
 }
 
+function eventDateOnly(date: string) {
+  return new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeZone: "UTC" })
+    .format(new Date(`${date}T00:00:00.000Z`));
+}
+
 async function sendEmail(message: EmailMessage) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.REGISTRATION_EMAIL_FROM;
@@ -79,7 +84,9 @@ export function sendRegistrationConfirmation({
 }) {
   const appUrl = process.env.APP_URL || "http://localhost:3000";
   const cancelUrl = `${appUrl}/events/${encodeURIComponent(event.slug)}/registration/cancel?token=${encodeURIComponent(cancellationToken)}`;
-  const date = event.startsAt ? eventDate(event.startsAt, event.timeZone) : "Save the date";
+  const date = event.scheduleStatus === "date_only" && event.eventDate
+    ? `${eventDateOnly(event.eventDate)} (time coming soon)`
+    : event.startsAt ? eventDate(event.startsAt, event.timeZone) : "Save the date";
   const location = event.locationName || "Details coming soon";
   const safeName = escapeHtml(firstName);
   const safeTitle = escapeHtml(event.title);

@@ -19,6 +19,11 @@ function formatDate(date: Date, timeZone: string) {
   }).format(date);
 }
 
+function formatDateOnly(date: string) {
+  return new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" })
+    .format(new Date(`${date}T00:00:00.000Z`));
+}
+
 function EventCard({
   event,
   past = false,
@@ -45,7 +50,11 @@ function EventCard({
         ) : null}
 
         <p className="eventArchiveDate">
-          {event.startsAt ? formatDate(event.startsAt, event.timeZone) : "Save the date — details coming soon"}
+          {event.scheduleStatus === "date_only" && event.eventDate
+            ? `${formatDateOnly(event.eventDate)} · Time coming soon`
+            : event.startsAt
+              ? formatDate(event.startsAt, event.timeZone)
+              : "Save the date — details coming soon"}
         </p>
 
         <h3>{event.title}</h3>
@@ -119,7 +128,9 @@ export default async function EventsPage() {
 
   const years = [
     ...new Set(
-      past.flatMap((event) => event.startsAt ? [event.startsAt.getFullYear()] : []),
+      past.flatMap((event) => event.eventDate
+        ? [Number(event.eventDate.slice(0, 4))]
+        : event.startsAt ? [event.startsAt.getFullYear()] : []),
     ),
   ].sort((a, b) => b - a);
 
@@ -223,7 +234,7 @@ export default async function EventsPage() {
                   {past
                     .filter(
                       (event) =>
-                        event.startsAt?.getFullYear() === year,
+                        (event.eventDate ? Number(event.eventDate.slice(0, 4)) : event.startsAt?.getFullYear()) === year,
                     )
                     .map((event) => (
                       <EventCard
