@@ -5,10 +5,10 @@ export interface PublicEvent {
   slug: string;
   title: string;
   subtitle: string | null;
-  startsAt: Date;
+  startsAt: Date | null;
   endsAt: Date | null;
   timeZone: string;
-  locationName: string;
+  locationName: string | null;
   locationAddress: string | null;
   summary: string;
   description: string;

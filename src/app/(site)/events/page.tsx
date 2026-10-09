@@ -45,7 +45,7 @@ function EventCard({
         ) : null}
 
         <p className="eventArchiveDate">
-          {formatDate(event.startsAt, event.timeZone)}
+          {event.startsAt ? formatDate(event.startsAt, event.timeZone) : "Save the date — details coming soon"}
         </p>
 
         <h3>{event.title}</h3>
@@ -58,9 +58,11 @@ function EventCard({
 
         <p>{event.summary}</p>
 
-        <p className="eventArchiveVenue">
-          <strong>Where / Kote:</strong> {event.locationName}
-        </p>
+        {event.locationName ? (
+          <p className="eventArchiveVenue">
+            <strong>Where / Kote:</strong> {event.locationName}
+          </p>
+        ) : null}
 
         <Link
           className="button secondaryAction"
@@ -117,9 +119,7 @@ export default async function EventsPage() {
 
   const years = [
     ...new Set(
-      past.map((event) =>
-        event.startsAt.getFullYear(),
-      ),
+      past.flatMap((event) => event.startsAt ? [event.startsAt.getFullYear()] : []),
     ),
   ].sort((a, b) => b - a);
 
@@ -223,7 +223,7 @@ export default async function EventsPage() {
                   {past
                     .filter(
                       (event) =>
-                        event.startsAt.getFullYear() === year,
+                        event.startsAt?.getFullYear() === year,
                     )
                     .map((event) => (
                       <EventCard
