@@ -3,7 +3,7 @@ export const imagery = {
   immigration: "/images/community/mentor2-1800.webp",
   youth: "/images/community/marbles_playing-1800.webp",
   workforce: "/images/community/collaboration-multi-racial-1800.webp",
-  elder: "/images/community/l2m_5053-1-1800.webp",
+  haitiMap: "/images/brand/haiti-flag-map-solid-panel.svg",
   founding: "/images/community/big-group-photo-1800.webp",
   supporters: "/images/community/sponsors-1800.webp",
   programFeature: "/images/community/mentor-1800.webp",

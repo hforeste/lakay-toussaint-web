@@ -806,6 +806,36 @@ h3 {
   overflow: hidden;
 }
 
+.haitiMapFigure {
+  margin: 0;
+}
+
+.haitiMapFrame {
+  background: #fff;
+}
+
+.haitiMapFrame img {
+  padding: clamp(1rem, 3vw, 2rem);
+  object-fit: contain;
+}
+
+.haitiMapFrame:hover img {
+  transform: none;
+}
+
+.imageAttribution {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.imageAttribution a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .imageFrame.offset::before {
   content: "";
 

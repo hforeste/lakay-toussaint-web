@@ -108,12 +108,32 @@ export default function HomePage() {
               Read our story
             </Link>
           </div>
-          <div className="imageFrame">
-            <DesignImage
-              src={imagery.elder}
-              alt="Haitian elder portrait with a Seattle backdrop"
-            />
-          </div>
+          <figure className="haitiMapFigure">
+            <div className="imageFrame haitiMapFrame">
+              <DesignImage
+                src={imagery.haitiMap}
+                alt="Map of Haiti filled with the blue and red Haitian flag and national coat of arms"
+              />
+            </div>
+            <figcaption className="imageAttribution">
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Flag_map_of_Haiti.svg"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Flag map of Haiti
+              </a>{" "}
+              by Jackaranga and Fry1989, modified to adjust opacity, licensed
+              under{" "}
+              <a
+                href="https://creativecommons.org/licenses/by-sa/3.0/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                CC BY-SA 3.0
+              </a>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
