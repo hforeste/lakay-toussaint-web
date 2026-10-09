@@ -1,10 +1,13 @@
 export type EventStatus = "draft" | "published" | "cancelled" | "completed";
+export type EventScheduleStatus = "scheduled" | "date_only" | "tbd";
 
 export interface PublicEvent {
   id: string;
   slug: string;
   title: string;
   subtitle: string | null;
+  scheduleStatus: EventScheduleStatus;
+  eventDate: string | null;
   startsAt: Date | null;
   endsAt: Date | null;
   timeZone: string;

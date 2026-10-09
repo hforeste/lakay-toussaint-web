@@ -20,6 +20,11 @@ function formatTime(date: Date, timeZone: string) {
   }).format(date);
 }
 
+function formatDateOnly(date: string) {
+  return new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeZone: "UTC" })
+    .format(new Date(`${date}T00:00:00.000Z`));
+}
+
 export default async function EventDetailPage({
   params,
 }: {
@@ -66,7 +71,10 @@ export default async function EventDetailPage({
                 <Icon className="eventInfoIcon" name="calendar_month" />
                 <div>
                   <span>Dat ak lè / Date &amp; time</span>
-                  <strong>{event.startsAt ? formatDate(event.startsAt, event.timeZone) : "Save the date"}</strong>
+                  <strong>{event.scheduleStatus === "date_only" && event.eventDate
+                    ? formatDateOnly(event.eventDate)
+                    : event.startsAt ? formatDate(event.startsAt, event.timeZone) : "Save the date"}</strong>
+                  {event.scheduleStatus === "date_only" ? <small>Time coming soon</small> : null}
                   {event.startsAt && event.endsAt ? (
                     <small>
                       {formatTime(event.startsAt, event.timeZone)} – {formatTime(event.endsAt, event.timeZone)}

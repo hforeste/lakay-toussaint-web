@@ -7,13 +7,15 @@ import {
   normalizedEmail,
   personalDataLookupHash,
 } from "@/lib/privacy";
-import type { PublicEvent, RegistrationInput } from "./types";
+import type { EventScheduleStatus, PublicEvent, RegistrationInput } from "./types";
 
 interface EventRow {
   id: string;
   slug: string;
   title: string;
   subtitle: string | null;
+  schedule_status: EventScheduleStatus;
+  event_date: string | null;
   starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
@@ -52,13 +54,24 @@ function mapEvent(row: EventRow): PublicEvent {
   const closesAt = row.registration_closes_at?.getTime() ?? row.starts_at?.getTime() ?? Number.NEGATIVE_INFINITY;
   const hasCapacity =
     row.capacity === null || row.registered_attendees < row.capacity;
-  const hasEnded = row.starts_at !== null && (row.ends_at ?? row.starts_at).getTime() < now;
+  const currentDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: row.time_zone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date()).reduce((parts, part) => ({ ...parts, [part.type]: part.value }), {} as Record<string, string>);
+  const today = `${currentDate.year}-${currentDate.month}-${currentDate.day}`;
+  const hasEnded = row.schedule_status === "date_only"
+    ? Boolean(row.event_date && row.event_date < today)
+    : row.starts_at !== null && (row.ends_at ?? row.starts_at).getTime() < now;
 
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
     subtitle: row.subtitle,
+    scheduleStatus: row.schedule_status,
+    eventDate: row.event_date,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
     timeZone: row.time_zone,
@@ -73,13 +86,13 @@ function mapEvent(row: EventRow): PublicEvent {
     registrationClosesAt: row.registration_closes_at,
     maxPartySize: row.max_party_size,
     registrationAvailable:
-      row.status === "published" && row.starts_at !== null && !hasEnded && now >= opensAt && now <= closesAt && hasCapacity,
+      row.status === "published" && row.schedule_status === "scheduled" && row.starts_at !== null && !hasEnded && now >= opensAt && now <= closesAt && hasCapacity,
     hasEnded,
   };
 }
 
 const eventColumns = `
-  id, slug, title, subtitle, starts_at, ends_at, time_zone,
+  id, slug, title, subtitle, schedule_status, event_date, starts_at, ends_at, time_zone,
   location_name, location_address, summary, description, hero_image_url,
   capacity, registered_attendees, registration_opens_at,
   registration_closes_at, max_party_size, status
@@ -91,19 +104,18 @@ export async function getPublishedEvents() {
     SELECT ${eventColumns}
     FROM events
     WHERE status = 'published'
-    ORDER BY starts_at DESC, display_order ASC
+    ORDER BY COALESCE(starts_at, event_date::timestamp) DESC NULLS FIRST, display_order ASC
   `);
 
   const events = rows.map(mapEvent);
-  const now = Date.now();
+  const sortTime = (event: PublicEvent) => {
+    if (event.startsAt) return event.startsAt.getTime();
+    if (event.eventDate) return Date.parse(`${event.eventDate}T00:00:00.000Z`);
+    return Number.NEGATIVE_INFINITY;
+  };
   return {
-    upcoming: events.filter((event) => event.startsAt === null || (event.endsAt ?? event.startsAt).getTime() >= now)
-      .sort((a, b) => {
-        if (a.startsAt === null) return -1;
-        if (b.startsAt === null) return 1;
-        return a.startsAt.getTime() - b.startsAt.getTime();
-      }),
-    past: events.filter((event) => event.startsAt !== null && (event.endsAt ?? event.startsAt).getTime() < now),
+    upcoming: events.filter((event) => !event.hasEnded).sort((a, b) => sortTime(a) - sortTime(b)),
+    past: events.filter((event) => event.hasEnded).sort((a, b) => sortTime(b) - sortTime(a)),
   };
 }
 
@@ -176,7 +188,7 @@ export async function createEventRegistration({
 
   const result = await sql.begin(async (tx) => {
     const events = await tx<EventRow[]>`
-      SELECT id, slug, title, subtitle, starts_at, ends_at, time_zone,
+      SELECT id, slug, title, subtitle, schedule_status, event_date, starts_at, ends_at, time_zone,
         location_name, location_address, summary, description, hero_image_url,
         capacity, registered_attendees, registration_opens_at,
         registration_closes_at, max_party_size, status
