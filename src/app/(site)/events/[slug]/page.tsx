@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DesignImage } from "@/components/DesignImage";
 import { EventRegistrationForm } from "@/components/EventRegistrationForm";
 import { Icon } from "@/components/Icon";
 import { getPublishedEventBySlug } from "@/lib/events/repository";
@@ -102,7 +101,17 @@ export default async function EventDetailPage({
           {event.heroImageUrl ? (
             <figure className="eventMediaFrame">
               <div className="eventMediaImage">
-                <DesignImage className="eventDetailImage" src={event.heroImageUrl} alt={`${event.title} event`} priority />
+                {/* Event artwork can be portrait, square, or landscape. Let the
+                    browser use the uploaded file's intrinsic aspect ratio so
+                    posters are never cropped to a fixed hero-image shape. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="eventDetailImage"
+                  src={event.heroImageUrl}
+                  alt={`${event.title} event`}
+                  decoding="async"
+                  fetchPriority="high"
+                />
               </div>
             </figure>
           ) : null}
