@@ -81,7 +81,17 @@ npm run typecheck    # Run TypeScript checks
 npm run build        # Create a production build
 npm run build:admin  # Create an admin production build
 npm run validate     # Run typecheck and build
+npm run test:unit    # Run fast unit and component tests
+npm run test:coverage # Generate unit-test coverage under coverage/
+npm run test:integration # Start PostgreSQL and run isolated database tests
+npm run test:e2e     # Start both apps and run Chromium registration workflows
+npm run test:ci      # Run all registration test layers
 ```
+
+The integration and browser suites create and reset a dedicated
+`lakay_toussaint_test` database. They do not modify the local development database.
+Install the browser runtime once with `npx playwright install chromium` before running
+`test:e2e` locally.
 
 ## Architecture
 

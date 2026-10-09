@@ -1,0 +1,49 @@
+name: Registration tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  registration-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            admin/package-lock.json
+
+      - name: Install public dependencies
+        run: npm ci
+
+      - name: Install admin dependencies
+        run: npm ci --prefix admin
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Static validation
+        run: |
+          npm run lint
+          npm run typecheck
+          npm run typecheck:admin
+
+      - name: Unit and component tests
+        run: npm run test:unit
+
+      - name: PostgreSQL integration tests
+        run: npm run test:integration
+
+      - name: Browser workflows
+        run: npm run test:e2e
