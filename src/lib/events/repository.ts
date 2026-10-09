@@ -15,7 +15,7 @@ interface EventRow {
   title: string;
   subtitle: string | null;
   schedule_status: EventScheduleStatus;
-  event_date: string | null;
+  event_date: string | Date | null;
   starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
@@ -50,6 +50,9 @@ export class RegistrationRateLimitError extends Error {}
 
 function mapEvent(row: EventRow): PublicEvent {
   const now = Date.now();
+  const eventDate = row.event_date instanceof Date
+    ? row.event_date.toISOString().slice(0, 10)
+    : row.event_date;
   const opensAt = row.registration_opens_at?.getTime() ?? Number.NEGATIVE_INFINITY;
   const closesAt = row.registration_closes_at?.getTime() ?? row.starts_at?.getTime() ?? Number.NEGATIVE_INFINITY;
   const hasCapacity =
@@ -62,7 +65,7 @@ function mapEvent(row: EventRow): PublicEvent {
   }).formatToParts(new Date()).reduce((parts, part) => ({ ...parts, [part.type]: part.value }), {} as Record<string, string>);
   const today = `${currentDate.year}-${currentDate.month}-${currentDate.day}`;
   const hasEnded = row.schedule_status === "date_only"
-    ? Boolean(row.event_date && row.event_date < today)
+    ? Boolean(eventDate && eventDate < today)
     : row.starts_at !== null && (row.ends_at ?? row.starts_at).getTime() < now;
 
   return {
@@ -71,7 +74,7 @@ function mapEvent(row: EventRow): PublicEvent {
     title: row.title,
     subtitle: row.subtitle,
     scheduleStatus: row.schedule_status,
-    eventDate: row.event_date,
+    eventDate,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
     timeZone: row.time_zone,

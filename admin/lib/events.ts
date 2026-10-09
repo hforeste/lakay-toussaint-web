@@ -39,7 +39,7 @@ interface EventRow {
   title: string;
   subtitle: string | null;
   schedule_status: EventScheduleStatus;
-  event_date: string | null;
+  event_date: string | Date | null;
   starts_at: Date | null;
   ends_at: Date | null;
   time_zone: string;
@@ -63,13 +63,16 @@ const columns = `id, slug, title, subtitle, schedule_status, event_date, starts_
   registration_opens_at, registration_closes_at, max_party_size, status, is_featured, display_order`;
 
 function serialize(row: EventRow): AdminEvent {
+  const eventDate = row.event_date instanceof Date
+    ? row.event_date.toISOString().slice(0, 10)
+    : row.event_date || "";
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
     subtitle: row.subtitle || "",
     scheduleStatus: row.schedule_status,
-    eventDate: row.event_date || "",
+    eventDate,
     startsAt: row.starts_at?.toISOString() || "",
     endsAt: row.ends_at?.toISOString() || "",
     timeZone: row.time_zone,
