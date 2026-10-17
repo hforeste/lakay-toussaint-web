@@ -1878,11 +1878,55 @@ textarea:focus {
   border-top: 4px solid var(--green);
 }
 
+.feedbackHoneypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.eventSurveyLinks { display: grid; grid-template-columns: minmax(260px, .75fr) minmax(0, 1.25fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+.eventSurveyLinks h2 { margin-block: .7rem; }
+.surveyLinkList { display: grid; gap: .75rem; }
+.surveyLinkCard { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; background: #fff; border: 1px solid var(--outline-variant); border-left: 5px solid var(--heritage-gold); box-shadow: 0 8px 24px rgba(0,30,55,.08); }
+.surveyLinkCard:hover { border-left-color: var(--secondary); transform: translateY(-1px); }
+.surveyLinkCard > span { display: grid; gap: .35rem; }
+.surveyLinkCard strong { color: var(--primary); font-family: "League Spartan", sans-serif; font-size: 1.2rem; }
+.surveyLinkCard small { color: var(--on-surface-variant); line-height: 1.4; }
+
+.surveyPage { background: linear-gradient(135deg, var(--surface-low), #fff); }
+.surveyShell { width: min(860px, calc(100% - (var(--edge) * 2))); }
+.surveyHeader { padding: clamp(2rem, 5vw, 4rem); color: #fff; background: var(--primary); border-top: 6px solid var(--heritage-gold); }
+.surveyHeader h1 { margin-block: .6rem 1rem; color: #fff; font-size: clamp(2.5rem, 6vw, 4.5rem); }
+.surveyHeader .lead, .surveyEventName { color: rgba(255,255,255,.88); }
+.surveyEventName { margin: 1rem 0 0; font-weight: 800; }
+.surveyPrivacy { display: flex; gap: .5rem; align-items: center; margin: 2rem 0 0; padding-top: 1rem; color: var(--heritage-gold); border-top: 1px solid rgba(255,255,255,.2); font-size: .85rem; }
+.eventSurveyForm { display: grid; gap: 0; padding: clamp(1.5rem, 5vw, 4rem); background: #fff; border: 1px solid var(--outline-variant); border-top: 0; }
+.surveyRespondent { min-width: 0; margin: 0 0 2rem; padding: 0 0 2rem; border: 0; border-bottom: 2px solid var(--heritage-gold); }
+.surveyRespondent legend { display: flex; align-items: center; gap: .65rem; color: var(--primary); font: 800 1.35rem "League Spartan", sans-serif; }
+.surveyRespondent legend span { width: 1.8rem; height: 1.8rem; display: inline-grid; place-items: center; color: #fff; background: var(--primary); font-size: .85rem; }
+.surveyRespondent > p { margin-block: .65rem 1.25rem; color: var(--on-surface-variant); font-size: .9rem; }
+.surveyQuestion { min-width: 0; margin: 0; padding: 0 0 2rem; border: 0; }
+.surveyQuestion + .surveyQuestion { padding-top: 2rem; border-top: 1px solid var(--outline-variant); }
+.surveyQuestion legend { display: flex; align-items: flex-start; gap: .65rem; width: 100%; margin-bottom: 1rem; color: var(--primary); font: 800 1.2rem "League Spartan", sans-serif; }
+.surveyQuestion legend > span { width: 1.8rem; height: 1.8rem; display: inline-grid; flex: 0 0 auto; place-items: center; color: #fff; background: var(--secondary); font-size: .8rem; }
+.surveyChoices { display: grid; gap: .65rem; }
+.surveyChoices label { display: flex; gap: .7rem; align-items: center; padding: .85rem 1rem; cursor: pointer; background: var(--surface); border: 1px solid var(--outline-variant); }
+.surveyChoices input { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; }
+.surveyRating { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5rem; }
+.surveyRating label { cursor: pointer; }
+.surveyRating input { position: absolute; opacity: 0; pointer-events: none; }
+.surveyRating span { min-height: 70px; display: grid; place-items: center; align-content: center; color: var(--primary); background: var(--surface); border: 2px solid var(--outline-variant); font: 800 1.3rem "League Spartan", sans-serif; }
+.surveyRating small { min-height: 1em; font: 700 .65rem "Garet", sans-serif; }
+.surveyRating input:checked + span { color: #fff; background: var(--primary); border-color: var(--primary); }
+.surveyRating input:focus-visible + span { outline: 3px solid var(--heritage-gold); outline-offset: 2px; }
+.eventSurveyForm > .button { justify-self: start; }
+.surveyThanks { min-height: 380px; display: grid; place-items: center; align-content: center; padding: 3rem; background: #fff; border: 1px solid var(--outline-variant); text-align: center; }
+.surveyThanks > span { width: 4rem; height: 4rem; display: grid; place-items: center; color: #fff; background: var(--green); border-radius: 50%; font-size: 2rem; }
+.surveyThanks h2 { color: var(--green); }
+
 @media (max-width: 980px) {
   .eventEditorialHero,
   .eventRegistrationLayout {
     grid-template-columns: 1fr;
   }
+
+  .eventSurveyLinks { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 620px) {
@@ -1897,6 +1941,8 @@ textarea:focus {
     justify-content: center;
     padding-block: 0.75rem;
   }
+
+  .surveyRating { grid-template-columns: repeat(5, minmax(48px, 1fr)); overflow-x: auto; padding-bottom: .25rem; }
 
   .eventStatus {
     font-size: 0.7rem;

@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { EventRegistrationForm } from "@/components/EventRegistrationForm";
 import { Icon } from "@/components/Icon";
 import { getPublishedEventBySlug } from "@/lib/events/repository";
+import { getPublishedSurveyLinks } from "@/lib/events/surveys";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,7 @@ export default async function EventDetailPage({
   const event = await getPublishedEventBySlug(slug);
   if (!event) notFound();
   const eventHasEnded = event.hasEnded;
+  const surveys = await getPublishedSurveyLinks(event.id);
 
   const spacesRemaining =
     event.capacity === null ? null : Math.max(0, event.capacity - event.registeredAttendees);
@@ -190,6 +192,17 @@ export default async function EventDetailPage({
           )}
         </div>
       </section>
+
+      {surveys.length ? (
+        <section className="section white" id="feedback">
+          <div className="sectionInner eventSurveyLinks">
+            <div><span className="label">Opinyon w / Your feedback</span><h2>Nou vle tande w / We want to hear from you.</h2><p>Your responses help us make future community events more useful, welcoming, and accessible.</p></div>
+            <div className="surveyLinkList">
+              {surveys.map((survey) => <Link className="surveyLinkCard" href={`/events/${event.slug}/surveys/${survey.slug}`} key={survey.slug}><span><strong>{survey.title}</strong>{survey.description ? <small>{survey.description}</small> : null}</span><Icon name="arrow_forward" /></Link>)}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="section white">
         <div className="sectionInner">

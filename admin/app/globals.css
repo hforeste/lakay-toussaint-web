@@ -229,6 +229,56 @@ button:disabled { opacity: 0.55; cursor: wait; }
 .detailPlaceholder { padding: 1rem 0; color: var(--muted); line-height: 1.55; }
 .registrationForm .formGrid { margin-bottom: 1rem; }
 
+.feedbackManager { max-width: 1040px; margin: 0 auto; display: grid; gap: 1rem; }
+.feedbackSummary { display: grid; grid-template-columns: minmax(140px, .45fr) minmax(180px, .55fr) minmax(280px, 1fr); gap: .75rem; }
+.feedbackSummary > div { display: grid; gap: .3rem; align-content: center; min-height: 95px; padding: 1rem; background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--gold); }
+.feedbackSummary span { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.feedbackSummary strong { color: var(--navy); font: 800 1.8rem "League Spartan", sans-serif; }
+.feedbackSummary .ratingBreakdown p { margin: 0; color: var(--navy); font-size: .88rem; line-height: 1.5; }
+.feedbackList { display: grid; gap: .85rem; }
+.feedbackCard { padding: 1.25rem; background: #fff; border: 1px solid var(--line); }
+.feedbackCard header { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid var(--line); }
+.feedbackCard header > div:first-child { display: grid; gap: .2rem; }
+.feedbackCard header strong { color: var(--navy); }
+.feedbackCard header span, .feedbackCard time { color: var(--muted); font-size: .75rem; }
+.feedbackRating { color: #9b6500; font-size: 1.15rem; white-space: nowrap; }
+.feedbackCard dl { display: grid; grid-template-columns: minmax(120px, .35fr) minmax(0, 1fr); gap: .65rem 1rem; margin: 1rem 0; }
+.feedbackCard dt { color: var(--muted); font-size: .76rem; font-weight: 800; text-transform: uppercase; }
+.feedbackCard dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; }
+.feedbackEmpty { margin: 0; padding: 2rem; color: var(--muted); background: #fff; border: 1px solid var(--line); text-align: center; }
+
+.surveyManager { max-width: 1180px; margin: 0 auto; display: grid; gap: 1rem; }
+.surveyManagerHeader { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.surveyManagerHeader h2 { font-size: clamp(2rem, 4vw, 3rem); }
+.surveyWorkspace { display: grid; grid-template-columns: minmax(190px, .28fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.surveyList { display: grid; gap: .5rem; padding: .75rem; background: var(--navy); }
+.surveyList button { display: grid; gap: .3rem; width: 100%; padding: .85rem; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); text-align: left; cursor: pointer; }
+.surveyList button:hover, .surveyList button[data-active="true"] { background: rgba(255,255,255,.15); border-color: var(--gold); }
+.surveyList button span { color: rgba(255,255,255,.68); font-size: .7rem; text-transform: capitalize; }
+.surveyList p { padding: .5rem; color: rgba(255,255,255,.7); font-size: .8rem; }
+.surveyEditor, .surveyEditor > form { display: grid; gap: 1rem; min-width: 0; }
+.surveyModeTabs { display: flex; padding: .25rem; background: #fff; border: 1px solid var(--line); }
+.surveyModeTabs button { flex: 1; min-height: 40px; color: var(--navy); background: transparent; border: 0; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+.surveyModeTabs button[data-active="true"] { color: #fff; background: var(--navy); }
+.surveyUrl { display: block; margin-top: 1rem; color: var(--red); font-size: .8rem; font-weight: 700; overflow-wrap: anywhere; }
+.questionBuilder { display: grid; gap: .75rem; }
+.questionBuilderHeading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: .5rem 0; }
+.questionBuilderHeading h3 { margin: 0; color: var(--navy); font: 800 1.8rem "League Spartan", sans-serif; }
+.questionEditor { border-top-color: var(--navy); }
+.questionActions { display: flex; gap: .5rem; margin-top: 1rem; }
+.questionActions button { min-height: 34px; padding: 0 .7rem; color: var(--navy); background: #fff; border: 1px solid var(--navy); font-size: .72rem; font-weight: 800; text-transform: uppercase; }
+.questionActions .removeQuestion { margin-left: auto; color: var(--red); border-color: var(--red); }
+.surveyResponses { display: grid; gap: .75rem; }
+.surveyResponses article { padding: 1.25rem; background: #fff; border: 1px solid var(--line); border-left: 5px solid var(--gold); }
+.surveyResponses header { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .75rem; border-bottom: 1px solid var(--line); }
+.surveyResponses header > div { display: grid; gap: .25rem; }
+.surveyResponses header span { color: var(--muted); font-size: .75rem; }
+.surveyResponses time { color: var(--muted); font-size: .75rem; }
+.surveyResponses dl { display: grid; gap: 1rem; margin: 1rem 0 0; }
+.surveyResponses dl > div { display: grid; gap: .3rem; }
+.surveyResponses dt { color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; }
+.surveyResponses dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; }
+
 .loginPage { min-height: 100vh; display: grid; place-items: center; padding: 1.5rem; background: var(--navy); }
 .loginCard { width: min(100%, 480px); padding: clamp(2rem, 5vw, 3.5rem); background: #fff; border-top: 6px solid var(--gold); box-shadow: var(--shadow); }
 .loginCard .brandLockup { margin-bottom: 2.5rem; }
@@ -245,7 +295,11 @@ button:disabled { opacity: 0.55; cursor: wait; }
   .eventList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .editorPanel { padding: 1.5rem 1rem 3rem; }
   .registrationWorkspace { grid-template-columns: 1fr; }
+  .surveyWorkspace { grid-template-columns: 1fr; }
+  .surveyList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .registrationToolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feedbackSummary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feedbackSummary .ratingBreakdown { grid-column: 1 / -1; }
 }
 
 @media (max-width: 560px) {
@@ -263,6 +317,15 @@ button:disabled { opacity: 0.55; cursor: wait; }
   .registrationActions button { flex: 1; }
   .capacityGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .registrationToolbar { grid-template-columns: 1fr; }
+  .feedbackSummary { grid-template-columns: 1fr; }
+  .feedbackSummary .ratingBreakdown { grid-column: auto; }
+  .feedbackCard header { flex-direction: column; }
+  .feedbackCard dl { grid-template-columns: 1fr; }
   .rosterTableWrap { overflow-x: auto; }
   .rosterTable { min-width: 590px; }
+  .surveyManagerHeader, .questionBuilderHeading { align-items: stretch; flex-direction: column; }
+  .surveyList { grid-template-columns: 1fr; }
+  .questionActions { flex-wrap: wrap; }
+  .questionActions .removeQuestion { margin-left: 0; }
+  .surveyResponses header { flex-direction: column; }
 }
